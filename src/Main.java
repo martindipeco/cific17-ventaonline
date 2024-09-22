@@ -1,12 +1,30 @@
+import modelo.dominio.Carrito;
+import modelo.dominio.Pedido;
 import modelo.repositorio.ProductoRepositorio;
+import modelo.repositorio.UsuarioRepositorio;
+import modelo.servicio.CarritoServicio;
 
 public class Main {
     public static void main(String[] args) {
 
         System.out.println("Bienvenidos a la Venta On Line");
-        //al comenzar, debo crear el repositorio
-        //A REEMPLAZAR POR BASE DE DATOS
+
+        //repos simulados, A REEMPLAZAR POR BASE DE DATOS
         ProductoRepositorio productoRepositorio = new ProductoRepositorio();
+
+        UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
+
+        Carrito carrito1 = new Carrito(usuarioRepositorio.getListaDeUsuarios().get(0));
+
+        CarritoServicio servicioCarro = new CarritoServicio();
+
+        servicioCarro.agregarProducto(carrito1, productoRepositorio.getStockDeProductos().get(0));
+
+        //se confirma la compra
+        Pedido pedido1 = new Pedido(carrito1);
+
+        //se informa la compra
+        System.out.println("Pedido confirmado: " + pedido1);
 
     }
 }
