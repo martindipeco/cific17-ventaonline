@@ -18,7 +18,9 @@ public class Main {
 
         CarritoServicio servicioCarro = new CarritoServicio();
 
-        servicioCarro.agregarProducto(carrito1, productoRepositorio.getStockDeProductos().get(0), 1);
+        servicioCarro.agregarProducto(carrito1, productoRepositorio.getListaDeProductos().get(0), 1);
+
+        servicioCarro.agregarProducto(carrito1, productoRepositorio.getListaDeProductos().get(getListaDeProductos.size()-1), 2);
 
         //se confirma la compra
         Pedido pedido1 = new Pedido(carrito1);
