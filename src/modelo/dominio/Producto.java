@@ -1,25 +1,25 @@
 package modelo.dominio;
 
 public class Producto {
-    private int codigo;
+    private int codigoProducto;
     private String nombre;
     private float precio;
     private float descuento;
     private int stock;
 
-    public Producto(int codigo, String nombre, float precio) {
-        this.codigo = codigo;
+    public Producto(int codigoProducto, String nombre, float precio) {
+        this.codigoProducto = codigoProducto;
         this.nombre = nombre;
         this.precio = precio;
         this.stock = 1;
     }
 
-    public int getCodigo() {
-        return codigo;
+    public int getCodigoProducto() {
+        return codigoProducto;
     }
 
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
+    public void setCodigoProducto(int codigoProducto) {
+        this.codigoProducto = codigoProducto;
     }
 
     public String getNombre() {
@@ -57,7 +57,7 @@ public class Producto {
     @Override
     public String toString() {
         return "Producto{" +
-                "codigo=" + codigo +
+                "codigo=" + codigoProducto +
                 ", nombre='" + nombre + '\'' +
                 ", precio=" + precio +
                 ", descuento=" + descuento +

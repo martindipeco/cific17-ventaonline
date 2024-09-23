@@ -7,9 +7,9 @@ import java.util.List;
 
 public class CarritoServicio {
 
-    public void agregarProducto(Carrito carrito, Producto producto)
+    public void agregarProducto(Carrito carrito, Producto producto, Integer cantidad)
     {
-        carrito.getListaProductos().add(producto);
+        carrito.getListaProductos().put(producto, cantidad);
     }
 
     public void quitarProducto(Carrito carrito, Producto producto)

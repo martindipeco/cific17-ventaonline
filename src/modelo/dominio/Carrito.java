@@ -1,22 +1,24 @@
 package modelo.dominio;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Carrito {
     private Usuario usuario;
-    private List<Producto> listaProductos;
+    private Map<Producto, Integer> listaProductos; //Map<Key, Value>
 
     public Carrito(Usuario usuario) {
         this.usuario = usuario;
-        listaProductos = new ArrayList<>();
+        listaProductos = new HashMap<>();
     }
 
     public Usuario getUsuario() {
         return usuario;
     }
 
-    public List<Producto> getListaProductos() {
+    public Map<Producto, Integer> getListaProductos() {
         return listaProductos;
     }
 

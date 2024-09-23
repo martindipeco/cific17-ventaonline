@@ -18,7 +18,7 @@ public class ProductoServicio {
     {
         for(Producto p : productoRepositorio.getStockDeProductos())
         {
-            if(p.getCodigo() == codigo)
+            if(p.getCodigoProducto() == codigo)
             {
                 return p;
             }
