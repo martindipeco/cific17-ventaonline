@@ -1,13 +1,14 @@
 package modelo.repositorio;
 
 import modelo.dominio.Producto;
+import modelo.dominio.ProductoComputadora;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductoRepositorio {
 
-    private List<Producto> ListaDeProductos;
+    private List<Producto> listaDeProductos;
 
     public ProductoRepositorio() {
 
@@ -20,6 +21,7 @@ public class ProductoRepositorio {
         listado.add(producto1);
         listado.add(producto2);
         listado.add(producto3);
+        listado.add(producto4);
         this.listaDeProductos = listado;
     }
 

@@ -1,5 +1,6 @@
 import modelo.dominio.Carrito;
 import modelo.dominio.Pedido;
+import modelo.repositorio.PedidoRepositorio;
 import modelo.repositorio.ProductoRepositorio;
 import modelo.repositorio.UsuarioRepositorio;
 import modelo.servicio.CarritoServicio;
@@ -13,6 +14,7 @@ public class Main {
         //repos simulados, A REEMPLAZAR POR BASE DE DATOS
         ProductoRepositorio productoRepositorio = new ProductoRepositorio();
         UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
+        PedidoRepositorio pedidoRepositorio = new PedidoRepositorio();
 
         Carrito carrito1 = new Carrito(usuarioRepositorio.getListaDeUsuarios().get(0));
 
@@ -20,7 +22,8 @@ public class Main {
 
         servicioCarro.agregarProducto(carrito1, productoRepositorio.getListaDeProductos().get(0), 1);
 
-        servicioCarro.agregarProducto(carrito1, productoRepositorio.getListaDeProductos().get(getListaDeProductos.size()-1), 2);
+        servicioCarro.agregarProducto(carrito1, productoRepositorio.getListaDeProductos().get(
+                productoRepositorio.getListaDeProductos().size()-1), 2);
 
         //se confirma la compra
         Pedido pedido1 = new Pedido(carrito1);
@@ -29,7 +32,7 @@ public class Main {
         System.out.println("Pedido confirmado: " + pedido1);
 
         //se agrega el pedido al repo
-        PedidoServicio pedidoServicio = new PedidoServicio();
+        PedidoServicio pedidoServicio = new PedidoServicio(pedidoRepositorio);
         pedidoServicio.agregarPedido(pedido1);
 
         //historial de pedidos

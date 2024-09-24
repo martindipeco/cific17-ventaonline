@@ -1,3 +1,7 @@
+package modelo.dominio;
+
+import modelo.dominio.Producto;
+
 public class ProductoComputadora extends Producto {
 
     private String marca;

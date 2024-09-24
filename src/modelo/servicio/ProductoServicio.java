@@ -11,12 +11,12 @@ public class ProductoServicio {
 
     public List<Producto> listarProductos()
     {
-        return productoRepositorio.getStockDeProductos();
+        return productoRepositorio.getListaDeProductos();
     }
 
     public Producto buscarPorCodigo(int codigo)
     {
-        for(Producto p : productoRepositorio.getStockDeProductos())
+        for(Producto p : productoRepositorio.getListaDeProductos())
         {
             if(p.getCodigoProducto() == codigo)
             {
@@ -32,7 +32,7 @@ public class ProductoServicio {
         List<Producto> productos = new ArrayList<>();
         if(nombre.length()>2)
         {
-            for(Producto p : productoRepositorio.getStockDeProductos())
+            for(Producto p : productoRepositorio.getListaDeProductos())
             {
                 if (p.getNombre().toLowerCase().contains(nombre.toLowerCase()))
                 {
