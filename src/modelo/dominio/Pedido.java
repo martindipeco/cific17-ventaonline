@@ -7,15 +7,38 @@ public class Pedido {
     private static Long numeroAutoincremental = 1l; // Static field shared by all instances to keep track of the last assigned ID
     private Long numPedido;
     private Carrito carrito;
+    private float precioFinal;
+    private float costoEnvio;
+    private float descuento;
     private LocalDateTime fechaPedido;
     private boolean entregado;
     private LocalDateTime fechaEntregado;
 
+    //carrito sin descuento sin costo envio
     public Pedido(Carrito carrito) {
         this.numPedido = numeroAutoincremental++; //adjudica el valor de autoIncremental, y luego le suma 1
         this.carrito = carrito;
-        fechaPedido = LocalDateTime.now();
-        entregado = false;
+        this.fechaPedido = LocalDateTime.now();
+        this.entregado = false;
+        this.precioFinal = carrito.getMontoCarrito();
+    }
+
+    //carrito con descuento sin costo envio
+    public Pedido(Carrito carrito, float descuento) {
+        this.numPedido = numeroAutoincremental++; //adjudica el valor de autoIncremental, y luego le suma 1
+        this.carrito = carrito;
+        this.fechaPedido = LocalDateTime.now();
+        this.entregado = false;
+        this.precioFinal = carrito.getMontoCarrito() - descuento;
+    }
+
+    //carrito con descuento con costo de envio
+    public Pedido(Carrito carrito, float descuento, float costoEnvio) {
+        this.numPedido = numeroAutoincremental++; //adjudica el valor de autoIncremental, y luego le suma 1
+        this.carrito = carrito;
+        this.fechaPedido = LocalDateTime.now();
+        this.entregado = false;
+        this.precioFinal = carrito.getMontoCarrito() - descuento + costoEnvio;
     }
 
     public Carrito getCarrito() {
