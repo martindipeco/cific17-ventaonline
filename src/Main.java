@@ -27,8 +27,6 @@ public class Main {
         servicioCarro.agregarProducto(carrito1, productoRepositorio.getListaDeProductos().get(
                 productoRepositorio.getListaDeProductos().size()-1), 2);
 
-        //TODO: contemplar caso de uso eliminar producto de lista
-
         //se confirma la compra
         Pedido pedido1 = new Pedido(carrito1);
 

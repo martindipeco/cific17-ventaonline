@@ -140,11 +140,10 @@ public class CarritoServicio {
         }
     }
 
-
-
-    public void quitarProducto(Carrito carrito, Producto producto)
+    public void quitarProducto(Carrito carrito, ItemCompra itemCompra)
     {
-        //TODO
+        itemCompra.getProducto().setStock(itemCompra.getProducto().getStock() + itemCompra.getCantidad());
+        carrito.getListaItems().remove(itemCompra);
     }
 
 }
