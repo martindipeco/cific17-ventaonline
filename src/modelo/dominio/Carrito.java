@@ -1,20 +1,15 @@
 package modelo.dominio;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Carrito {
     private Usuario usuario;
-    private Map<Producto, Integer> listaProductos; //Map<Key, Value>
-    private ItemCompra itemCompra;
     private List<ItemCompra> listaItems;
     private float montoCarrito;
 
     public Carrito(Usuario usuario) {
         this.usuario = usuario;
-        listaProductos = new HashMap<>();
         listaItems = new ArrayList<>();
     }
 
@@ -22,7 +17,6 @@ public class Carrito {
     public Carrito()
     {
         this.usuario = null;
-        this.listaProductos = new HashMap<>();
         listaItems = new ArrayList<>();
     }
 
@@ -30,9 +24,6 @@ public class Carrito {
         return usuario;
     }
 
-    public Map<Producto, Integer> getListaProductos() {
-        return listaProductos;
-    }
     public List<ItemCompra> getListaItems() {return listaItems;}
 
     public float getMontoCarrito() {
@@ -47,7 +38,7 @@ public class Carrito {
     public String toString() {
         return "Carrito{" +
                 "usuario=" + usuario +
-                ", listaProductos=" + listaProductos +
+                ", lista de Items=" + listaItems +
                 ", monto=" + montoCarrito +
                 '}';
     }

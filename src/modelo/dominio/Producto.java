@@ -1,16 +1,20 @@
 package modelo.dominio;
 
+import java.util.Objects;
+
 public class Producto {
     private int codigoProducto;
     private String nombre;
     private float precio;
     private float descuento;
+    private float precioFinal;
     private int stock;
 
     public Producto(int codigoProducto, String nombre, float precio) {
         this.codigoProducto = codigoProducto;
         this.nombre = nombre;
         this.precio = precio;
+        this.precioFinal = precio - this.descuento;
         this.stock = 1;
     }
 
@@ -53,6 +57,24 @@ public class Producto {
     public void setStock(int stock) {
         this.stock = stock;
     }
+
+    public float getPrecioFinal() {
+        return precioFinal;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Producto producto = (Producto) o;
+        return Objects.equals(codigoProducto, producto.codigoProducto);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigoProducto);
+    }
+
 
     @Override
     public String toString() {
