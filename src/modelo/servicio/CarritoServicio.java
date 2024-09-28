@@ -146,4 +146,12 @@ public class CarritoServicio {
         carrito.getListaItems().remove(itemCompra);
     }
 
+    public void mostrarCarrito(Carrito carrito)
+    {
+        System.out.println("Items de compra: ");
+        for(ItemCompra item : carrito.getListaItems())
+        {
+            System.out.println(item);
+        }
+    }
 }

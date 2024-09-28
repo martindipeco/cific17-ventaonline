@@ -3,6 +3,7 @@ package modelo.servicio;
 import modelo.dominio.Pedido;
 import modelo.repositorio.PedidoRepositorio;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class PedidoServicio {
@@ -21,5 +22,14 @@ public class PedidoServicio {
     public List<Pedido> getListaPedidos()
     {
         return pedidoRepositorio.getListaPedidos();
+    }
+
+    //Emite factura
+    public void mostrarPedido(Pedido pedido)
+    {
+        System.out.println("Pedido num: " + pedido.getNumPedido() +
+                ". Fecha: " + pedido.getFechaPedido().format(DateTimeFormatter.ISO_DATE) +
+                ". Cliente: " + pedido.getCarrito().getUsuario());
+        pedido.getCarrito().mostrarCarrito();
     }
 }

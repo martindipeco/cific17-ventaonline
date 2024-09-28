@@ -17,39 +17,41 @@ public class Main {
         PedidoRepositorio pedidoRepositorio = new PedidoRepositorio();
 
         CarritoServicio servicioCarro = new CarritoServicio();
+        PedidoServicio pedidoServicio = new PedidoServicio(pedidoRepositorio);
 
         //CASO DE USO 1: instancio carrito con usuario logueado
         Carrito carrito1 = new Carrito(usuarioRepositorio.getListaDeUsuarios().get(0));
 
         //proceso de compra
         servicioCarro.agregarProducto(carrito1, productoRepositorio.getListaDeProductos().get(0), 1);
-
+        servicioCarro.mostrarCarrito(carrito1);
         servicioCarro.agregarProducto(carrito1, productoRepositorio.getListaDeProductos().get(
                 productoRepositorio.getListaDeProductos().size()-1), 2);
+        servicioCarro.mostrarCarrito(carrito1);
 
         //se confirma la compra
         Pedido pedido1 = new Pedido(carrito1);
 
         //se informa la compra
-        System.out.println("Pedido confirmado: " + pedido1);
+        System.out.println("Pedido confirmado: ");
+        pedidoServicio.mostrarPedido(pedido1);
 
         //se agrega el pedido al repo
-        PedidoServicio pedidoServicio = new PedidoServicio(pedidoRepositorio);
         pedidoServicio.agregarPedido(pedido1);
-
-        //historial de pedidos
-        System.out.println(pedidoServicio.getListaPedidos());
 
         //CASO DE USO 2: Compra sin usuario logueado
         Carrito carritoAnonimo = new Carrito();
 
         servicioCarro.agregarProducto(carritoAnonimo, productoRepositorio.getListaDeProductos().get(1), 3);
         servicioCarro.agregarProducto(carritoAnonimo, productoRepositorio.getListaDeProductos().get(2), 2);
+        servicioCarro.mostrarCarrito(carritoAnonimo);
 
         Pedido pedido2 = new Pedido(carritoAnonimo);
 
         pedidoServicio.agregarPedido(pedido2);
+        pedidoServicio.mostrarPedido(pedido2);
 
+        //historial de pedidos
         System.out.println(pedidoServicio.getListaPedidos());
 
     }

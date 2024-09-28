@@ -34,6 +34,14 @@ public class Carrito {
         this.montoCarrito = montoCarrito;
     }
 
+    public void mostrarCarrito()
+    {
+        System.out.println("Items de compra: ");
+        for(ItemCompra item : listaItems)
+        {
+            System.out.println(item);
+        }
+    }
     @Override
     public String toString() {
         return "Carrito{" +

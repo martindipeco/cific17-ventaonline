@@ -41,6 +41,7 @@ public class Pedido {
         this.precioFinal = carrito.getMontoCarrito() - descuento + costoEnvio;
     }
 
+    public Long getNumPedido() {return numPedido;}
     public Carrito getCarrito() {
         return carrito;
     }

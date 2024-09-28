@@ -15,7 +15,7 @@ public class Producto {
         this.nombre = nombre;
         this.precio = precio;
         this.precioFinal = precio - this.descuento;
-        this.stock = 1;
+        this.stock = 10;
     }
 
     public int getCodigoProducto() {
@@ -78,11 +78,9 @@ public class Producto {
 
     @Override
     public String toString() {
-        return "Producto{" +
-                "codigo=" + codigoProducto +
-                ", nombre='" + nombre + '\'' +
-                ", precio=" + precio +
-                ", descuento=" + descuento +
-                '}';
+        return "Código. " + codigoProducto +
+                ". " + nombre +
+                ". Precio: " + precio +
+                ". Desc.: " + descuento;
     }
 }
