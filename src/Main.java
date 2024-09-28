@@ -5,29 +5,36 @@ import modelo.repositorio.ProductoRepositorio;
 import modelo.repositorio.UsuarioRepositorio;
 import modelo.servicio.CarritoServicio;
 import modelo.servicio.PedidoServicio;
+import modelo.servicio.ProductoServicio;
+import vista.Menu;
 
 public class Main {
     public static void main(String[] args) {
 
         System.out.println("Bienvenidos a la Venta On Line");
 
+        Menu menu = new Menu();
+
         //repos simulados, A REEMPLAZAR POR BASE DE DATOS
         ProductoRepositorio productoRepositorio = new ProductoRepositorio();
         UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
         PedidoRepositorio pedidoRepositorio = new PedidoRepositorio();
 
-        CarritoServicio servicioCarro = new CarritoServicio();
-        PedidoServicio pedidoServicio = new PedidoServicio(pedidoRepositorio);
+        //inicializar servicios
+        ProductoServicio productoServicio = new ProductoServicio(productoRepositorio);
+        CarritoServicio carritoServicio = new CarritoServicio();
+        PedidoServicio pedidoServicio = new PedidoServicio();
+        pedidoServicio.setPedidoRepositorio(pedidoRepositorio);
 
         //CASO DE USO 1: instancio carrito con usuario logueado
         Carrito carrito1 = new Carrito(usuarioRepositorio.getListaDeUsuarios().get(0));
 
         //proceso de compra
-        servicioCarro.agregarProducto(carrito1, productoRepositorio.getListaDeProductos().get(0), 1);
-        servicioCarro.mostrarCarrito(carrito1);
-        servicioCarro.agregarProducto(carrito1, productoRepositorio.getListaDeProductos().get(
+        carritoServicio.agregarProducto(carrito1, productoRepositorio.getListaDeProductos().get(0), 1);
+        carritoServicio.mostrarCarrito(carrito1);
+        carritoServicio.agregarProducto(carrito1, productoRepositorio.getListaDeProductos().get(
                 productoRepositorio.getListaDeProductos().size()-1), 2);
-        servicioCarro.mostrarCarrito(carrito1);
+        carritoServicio.mostrarCarrito(carrito1);
 
         //se confirma la compra
         Pedido pedido1 = new Pedido(carrito1);
@@ -42,9 +49,9 @@ public class Main {
         //CASO DE USO 2: Compra sin usuario logueado
         Carrito carritoAnonimo = new Carrito();
 
-        servicioCarro.agregarProducto(carritoAnonimo, productoRepositorio.getListaDeProductos().get(1), 3);
-        servicioCarro.agregarProducto(carritoAnonimo, productoRepositorio.getListaDeProductos().get(2), 2);
-        servicioCarro.mostrarCarrito(carritoAnonimo);
+        carritoServicio.agregarProducto(carritoAnonimo, productoRepositorio.getListaDeProductos().get(1), 3);
+        carritoServicio.agregarProducto(carritoAnonimo, productoRepositorio.getListaDeProductos().get(2), 2);
+        carritoServicio.mostrarCarrito(carritoAnonimo);
 
         Pedido pedido2 = new Pedido(carritoAnonimo);
 
@@ -52,7 +59,9 @@ public class Main {
         pedidoServicio.mostrarPedido(pedido2);
 
         //historial de pedidos
-        System.out.println(pedidoServicio.getListaPedidos());
+        //System.out.println(pedidoServicio.getListaPedidos());
+
+        menu.muestraMenu();
 
     }
 }

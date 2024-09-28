@@ -5,14 +5,16 @@ import java.util.Objects;
 public class Producto {
     private int codigoProducto;
     private String nombre;
+    private ProductoCategoria categoria;
     private float precio;
     private float descuento;
     private float precioFinal;
     private int stock;
 
-    public Producto(int codigoProducto, String nombre, float precio) {
+    public Producto(int codigoProducto, String nombre, ProductoCategoria categoria, float precio) {
         this.codigoProducto = codigoProducto;
         this.nombre = nombre;
+        this.categoria = categoria;
         this.precio = precio;
         this.precioFinal = precio - this.descuento;
         this.stock = 10;

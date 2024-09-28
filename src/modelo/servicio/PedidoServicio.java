@@ -14,6 +14,15 @@ public class PedidoServicio {
         this.pedidoRepositorio = pedidoRepositorio;
     }
 
+    public PedidoServicio()
+    {
+
+    }
+
+    public void setPedidoRepositorio(PedidoRepositorio pedidoRepositorio)
+    {
+        this.pedidoRepositorio = pedidoRepositorio;
+    }
     public void agregarPedido(Pedido pedido)
     {
         pedidoRepositorio.getListaPedidos().add(pedido);
