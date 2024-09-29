@@ -41,4 +41,30 @@ public class PedidoServicio {
                 ". Cliente: " + pedido.getCarrito().getUsuario());
         pedido.getCarrito().mostrarCarrito();
     }
+
+    public void listarPedidos()
+    {
+        for(Pedido pedido : pedidoRepositorio.getListaPedidos())
+        {
+            System.out.println(pedido);
+        }
+    }
+
+    public void ordenarPorMonto()
+    {
+        pedidoRepositorio.getListaPedidos().sort((pedido1, pedido2) ->
+                pedido1.getPrecioFinal().compareTo(pedido2.getPrecioFinal()));
+    }
+
+    public void ordenarPorFecha()
+    {
+        pedidoRepositorio.getListaPedidos().sort((pedido1, pedido2) ->
+                pedido1.getFechaPedido().compareTo(pedido2.getFechaPedido()));
+    }
+
+    public void ordenarPorUsuario()
+    {
+        pedidoRepositorio.getListaPedidos().sort((pedido1, pedido2) ->
+                pedido1.getCarrito().getUsuario().getMail().compareTo(pedido2.getCarrito().getUsuario().getMail()));
+    }
 }

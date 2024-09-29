@@ -1,23 +1,31 @@
 package vista;
 
 import controlador.Controlador;
+import modelo.dominio.Carrito;
 import modelo.dominio.Producto;
+import modelo.dominio.Pedido;
+import modelo.dominio.Usuario;
 
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class Menu {
 
     private Controlador controlador = new Controlador();
+    private Usuario usuario;
 
     public void muestraMenu()
     {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Bienvenidos a Venta Online Cific17");
+        //TODO: preguntar por usuario registrado o crear usuario
+        //TODO: 1 soy usuario registrado -> ingresar mail y pass, chequear contra repo de usuarios
+        //TODO: 2 crear nuevo usuario -> instanciar usuario con mail y pass, agregandolo a la lista del repo
         String opcion;
         do {
             System.out.println("\n1: Nueva consulta/ operación");
-            System.out.println("2: Ver historial");
+            System.out.println("2: Ver historial de pedidos");
             System.out.println("3: Guardar/ Imprimir");
             System.out.println("x: Salir");
 
@@ -61,7 +69,20 @@ public class Menu {
                                 {
                                     Integer codigo = Integer.parseInt(codigoString);
                                     Producto producto = controlador.getProductoServicio().buscarPorCodigo(codigo);
-                                    System.out.println(producto);
+                                    String confirmaCompra;
+                                    do {
+                                        System.out.println("Presione cualquier tecla para confirmar la compra de: ");
+                                        System.out.println(producto);
+                                        System.out.println("O presione x para volver atrás");
+                                        confirmaCompra = scanner.nextLine().toLowerCase();
+                                        if(!confirmaCompra.equals("x"))
+                                        {
+                                            //agrego producto al carrito
+                                            controlador.getCarritoServicio().agregarProductoX1(new Carrito(), producto);
+                                        }
+                                    }
+                                    while (!"x".equalsIgnoreCase(confirmaCompra));
+                                    break;
                                 }
                                 catch (NumberFormatException e)
                                 {
@@ -83,11 +104,9 @@ public class Menu {
                     System.out.println("Vemos el historial");
                     String eleccionOrden;
                     do {
-                        System.out.println("1: Ordenar por Fecha más próxima");
-                        System.out.println("2: Ordenar por Fecha más antigua");
-                        System.out.println("3: Ordenar por Monto descendente");
-                        System.out.println("4: Ordenar por Monto ascendente");
-                        System.out.println("5: Ordenar por Nombre de usuario");
+                        System.out.println("1: Ordenar por Fecha");
+                        System.out.println("2: Ordenar por Monto");
+                        System.out.println("3: Ordenar por Usuario");
                         System.out.println("x: Volver atrás");
 
                         eleccionOrden = scanner.nextLine();
@@ -95,24 +114,21 @@ public class Menu {
                         switch (eleccionOrden)
                         {
                             case "1":
-                                System.out.println("Ordenada por Fecha próxima");
-                                //usuario.ordenaPorFechaProxima();
+                                System.out.println("Ordenado por Fecha");
+                                controlador.getPedidoServicio().getListaPedidos().stream()
+                                        .sorted(Comparator.comparing(Pedido::getFechaPedido))
+                                        .forEach(pedido -> controlador.getPedidoServicio().mostrarPedido(pedido));
                                 break;
                             case "2":
-                                System.out.println("Ordenada por Fecha más antigua");
-                                //usuario.ordenaPorFechaAntigua();
+                                System.out.println("Ordenado por Monto");
+                                controlador.getPedidoServicio().getListaPedidos().stream()
+                                        .sorted(Comparator.comparing(Pedido::getPrecioFinal))
+                                        .forEach(pedido -> controlador.getPedidoServicio().mostrarPedido(pedido));
                                 break;
                             case "3":
-                                System.out.println("Ordenada por Monto descendente");
-                                //usuario.ordenaPorMontoMonedaOrigen();
-                                break;
-                            case "4":
-                                System.out.println("Ordenada por Monto ascendente");
-                                //usuario.ordenaPorMontoMonedaDestino();
-                                break;
-                            case "5":
-                                System.out.println("Ordenada por Nombre de usuario");
-                                //usuario.ordenaPorNombreMonedaOrigen();
+                                System.out.println("Ordenado por Usuario");
+                                controlador.getPedidoServicio().ordenarPorUsuario();
+                                controlador.getPedidoServicio().listarPedidos();
                                 break;
                             case "x":
                                 System.out.println("Volviendo atrás");

@@ -12,6 +12,10 @@ public class Usuario {
         this.password = password;
     }
 
+    public String getMail() {
+        return mail;
+    }
+
     @Override
     public String toString() {
         return mail;

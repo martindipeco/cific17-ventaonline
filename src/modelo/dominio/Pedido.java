@@ -7,7 +7,7 @@ public class Pedido {
     private static Long numeroAutoincremental = 1l; // Static field shared by all instances to keep track of the last assigned ID
     private Long numPedido;
     private Carrito carrito;
-    private float precioFinal;
+    private Float precioFinal;
     private float costoEnvio;
     private float descuento;
     private LocalDateTime fechaPedido;
@@ -20,7 +20,7 @@ public class Pedido {
         this.carrito = carrito;
         this.fechaPedido = LocalDateTime.now();
         this.entregado = false;
-        this.precioFinal = carrito.getMontoCarrito();
+        this.precioFinal = carrito.getMontoCarrito() - this.descuento + this.costoEnvio;;
     }
 
     //carrito con descuento sin costo envio
@@ -29,7 +29,7 @@ public class Pedido {
         this.carrito = carrito;
         this.fechaPedido = LocalDateTime.now();
         this.entregado = false;
-        this.precioFinal = carrito.getMontoCarrito() - descuento;
+        this.precioFinal = carrito.getMontoCarrito() - descuento + this.costoEnvio;;
     }
 
     //carrito con descuento con costo de envio
@@ -66,13 +66,17 @@ public class Pedido {
         this.fechaEntregado = fechaEntregado;
     }
 
+    public Float getPrecioFinal() {
+        return precioFinal;
+    }
+
     @Override
     public String toString() {
-        return "Pedido{" +
-                "numPedido=" + numPedido +
-                ", carrito=" + carrito +
-                ", fechaPedido=" + fechaPedido.format(DateTimeFormatter.ISO_DATE) +
-                ", entregado=" + entregado +
-                '}';
+
+        return "Pedido num: " + numPedido +
+                "Cliente: " + carrito.getUsuario() +
+                "Fecha: " + fechaPedido.format(DateTimeFormatter.ISO_DATE) +
+                "Monto: " + precioFinal +
+                "Entregado: " + entregado;
     }
 }
