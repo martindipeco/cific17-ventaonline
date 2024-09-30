@@ -22,7 +22,6 @@ public class UsuarioServicio {
                 return user;
             }
         }
-        System.out.println("Mail o contraseña incorrectos");
         return null;
     }
 }

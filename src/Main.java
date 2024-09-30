@@ -11,8 +11,6 @@ import vista.Menu;
 public class Main {
     public static void main(String[] args) {
 
-        System.out.println("Bienvenidos a la Venta On Line");
-
         Menu menu = new Menu();
 
 //        //repos simulados, A REEMPLAZAR POR BASE DE DATOS
