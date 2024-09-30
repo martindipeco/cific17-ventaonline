@@ -74,9 +74,9 @@ public class Pedido {
     public String toString() {
 
         return "Pedido num: " + numPedido +
-                "Cliente: " + carrito.getUsuario() +
-                "Fecha: " + fechaPedido.format(DateTimeFormatter.ISO_DATE) +
-                "Monto: " + precioFinal +
-                "Entregado: " + entregado;
+                ". Cliente: " + carrito.getUsuario() +
+                ". Fecha: " + fechaPedido.format(DateTimeFormatter.ISO_DATE) +
+                ". Monto: " + precioFinal +
+                ". Entregado: " + entregado;
     }
 }

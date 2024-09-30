@@ -18,9 +18,6 @@ public class Menu {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Bienvenidos a Venta Online Cific17");
-        //TODO: preguntar por usuario registrado o crear usuario
-        //TODO: 1 soy usuario registrado -> ingresar mail y pass, chequear contra repo de usuarios
-        //TODO: 2 crear nuevo usuario -> instanciar usuario con mail y pass, agregandolo a la lista del repo
         String opcionUsuario;
         boolean usuarioListo = false;
         do {
@@ -99,6 +96,9 @@ public class Menu {
         }
         while (!usuarioListo); //!"x".equalsIgnoreCase(opcionUsuario)
 
+        //una vez conformada la opcion de usuario, instanciamos un carrito y se lo asignamos
+        controlador.setCarritoSesion(new Carrito(controlador.getUsuarioSesion()));
+
         String opcion;
         do {
             System.out.println("\n1: Nueva consulta -> compra");
@@ -140,7 +140,6 @@ public class Menu {
                                 System.out.println("Buscando por precio");
                                 break;
                             case "4":
-                                //TODO
                                 System.out.println("Buscando por código");
                                 System.out.println("Ingrese el código");
                                 String codigoString = scanner.nextLine();
@@ -162,7 +161,8 @@ public class Menu {
                                         if(!confirmaCompra.equals("x"))
                                         {
                                             //agrego producto al carrito
-                                            controlador.getCarritoServicio().agregarProductoX1(new Carrito(), producto);
+                                            controlador.getCarritoServicio().agregarProductoX1(
+                                                    controlador.getCarritoSesion(), producto);
                                             System.out.println("El producto se agregó exitosamente al carrito");
                                             break;
                                         }
@@ -177,11 +177,16 @@ public class Menu {
                                 break;
                             case "5":
                                 System.out.println("Mostrando Carrito");
-                                //TODO: mostrar carrito
+                                controlador.getCarritoSesion().mostrarCarrito();
+                                //TODO: opcion para eliminar items
                                 break;
                             case "6":
+                                //TODO: chequear si compra ya fue confirmada
                                 System.out.println("Confirmando compra");
-                                //TODO: realizar pedido
+                                controlador.getPedidoServicio().agregarPedido(new Pedido(controlador.getCarritoSesion()));
+                                //muestro el pedido, el último en la lista x q acaba de agregarse
+                                System.out.println(controlador.getPedidoServicio().getListaPedidos().get(
+                                        controlador.getPedidoServicio().getListaPedidos().size()-1));
                                 break;
                             case "x":
                                 System.out.println("Volviendo atrás");

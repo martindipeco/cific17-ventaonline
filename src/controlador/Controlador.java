@@ -1,5 +1,6 @@
 package controlador;
 
+import modelo.dominio.Carrito;
 import modelo.dominio.Usuario;
 import modelo.repositorio.ProductoRepositorio;
 import modelo.servicio.CarritoServicio;
@@ -14,6 +15,7 @@ public class Controlador {
     ProductoServicio productoServicio = new ProductoServicio(new ProductoRepositorio());
     UsuarioServicio usuarioServicio = new UsuarioServicio();
     Usuario usuarioSesion = new Usuario();
+    Carrito carritoSesion = new Carrito();
 
     public CarritoServicio getCarritoServicio() {
         return carritoServicio;
@@ -32,9 +34,16 @@ public class Controlador {
     public Usuario getUsuarioSesion() {
         return usuarioSesion;
     }
-
     public void setUsuarioSesion (Usuario usuario)
     {
         this.usuarioSesion = usuario;
+    }
+
+    public Carrito getCarritoSesion() {
+        return carritoSesion;
+    }
+
+    public void setCarritoSesion(Carrito carritoSesion) {
+        this.carritoSesion = carritoSesion;
     }
 }

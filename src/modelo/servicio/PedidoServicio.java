@@ -16,7 +16,7 @@ public class PedidoServicio {
 
     public PedidoServicio()
     {
-
+        this.pedidoRepositorio = new PedidoRepositorio();
     }
 
     public void setPedidoRepositorio(PedidoRepositorio pedidoRepositorio)

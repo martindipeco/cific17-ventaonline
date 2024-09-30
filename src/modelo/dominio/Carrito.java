@@ -34,6 +34,10 @@ public class Carrito {
         this.montoCarrito = montoCarrito;
     }
 
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     public void mostrarCarrito()
     {
         System.out.println("Items de compra: ");
