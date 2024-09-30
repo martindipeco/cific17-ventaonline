@@ -37,7 +37,6 @@ public class ProductoServicio {
                 return p;
             }
         }
-        System.out.println("No se encontró ningún producto con código " + codigo);
         return null;
     }
 

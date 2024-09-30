@@ -101,9 +101,9 @@ public class Menu {
 
         String opcion;
         do {
-            System.out.println("\n1: Nueva consulta/ operación");
+            System.out.println("\n1: Nueva consulta -> compra");
             System.out.println("2: Ver historial de pedidos");
-            System.out.println("3: Guardar/ Imprimir");
+            System.out.println("3: Imprimir comprobantes");
             System.out.println("x: Salir");
 
             opcion = scanner.nextLine().toLowerCase();
@@ -119,7 +119,9 @@ public class Menu {
                         System.out.println("2: Buscar por categoría");
                         System.out.println("3: Buscar por precio");
                         System.out.println("4: Buscar por código");
-                        System.out.println("x: atrás");
+                        System.out.println("5: Ver Carrito");
+                        System.out.println("6: Confirmar compra");
+                        System.out.println("x: Volver atrás");
 
                         eleccion = scanner.nextLine().toLowerCase();
                         boolean convertir = true;
@@ -146,6 +148,11 @@ public class Menu {
                                 {
                                     Integer codigo = Integer.parseInt(codigoString);
                                     Producto producto = controlador.getProductoServicio().buscarPorCodigo(codigo);
+                                    if(producto == null)
+                                    {
+                                        System.out.println("No hay producto con código " + codigo);
+                                        break;
+                                    }
                                     String confirmaCompra;
                                     do {
                                         System.out.println("Presione cualquier tecla para confirmar la compra de: ");
@@ -156,6 +163,8 @@ public class Menu {
                                         {
                                             //agrego producto al carrito
                                             controlador.getCarritoServicio().agregarProductoX1(new Carrito(), producto);
+                                            System.out.println("El producto se agregó exitosamente al carrito");
+                                            break;
                                         }
                                     }
                                     while (!"x".equalsIgnoreCase(confirmaCompra));
@@ -165,6 +174,14 @@ public class Menu {
                                 {
                                     System.out.println("Ingrese un número válido");
                                 }
+                                break;
+                            case "5":
+                                System.out.println("Mostrando Carrito");
+                                //TODO: mostrar carrito
+                                break;
+                            case "6":
+                                System.out.println("Confirmando compra");
+                                //TODO: realizar pedido
                                 break;
                             case "x":
                                 System.out.println("Volviendo atrás");
@@ -183,7 +200,7 @@ public class Menu {
                     do {
                         System.out.println("1: Ordenar por Fecha");
                         System.out.println("2: Ordenar por Monto");
-                        System.out.println("3: Ordenar por Usuario");
+                        //System.out.println("3: Ordenar por Usuario"); //antes no había log in
                         System.out.println("x: Volver atrás");
 
                         eleccionOrden = scanner.nextLine();
@@ -202,11 +219,11 @@ public class Menu {
                                         .sorted(Comparator.comparing(Pedido::getPrecioFinal))
                                         .forEach(pedido -> controlador.getPedidoServicio().mostrarPedido(pedido));
                                 break;
-                            case "3":
-                                System.out.println("Ordenado por Usuario");
-                                controlador.getPedidoServicio().ordenarPorUsuario();
-                                controlador.getPedidoServicio().listarPedidos();
-                                break;
+//                            case "3":
+//                                System.out.println("Ordenado por Usuario");
+//                                controlador.getPedidoServicio().ordenarPorUsuario();
+//                                controlador.getPedidoServicio().listarPedidos();
+//                                break;
                             case "x":
                                 System.out.println("Volviendo atrás");
                                 break;
@@ -219,7 +236,7 @@ public class Menu {
 
                 //Guardar
                 case "3":
-                    System.out.println("La funcionalidad de guardado e impresión está en desarrollo");
+                    System.out.println("La funcionalidad de impresión está en desarrollo");
                     //generadorDeArchivo.guardarListaTransaccionTxt(usuario.getListaTransacciones());
                     System.out.println("Presione cualquier tecla para continuar");
                     scanner.nextLine();
