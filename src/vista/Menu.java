@@ -1,10 +1,7 @@
 package vista;
 
 import controlador.Controlador;
-import modelo.dominio.Carrito;
-import modelo.dominio.Producto;
-import modelo.dominio.Pedido;
-import modelo.dominio.Usuario;
+import modelo.dominio.*;
 
 import java.util.Comparator;
 import java.util.List;
@@ -155,12 +152,49 @@ public class Menu {
                                 //TODO
                                 break;
                             case "3":
-                                System.out.println("Buscando por categoría");
-                                //TODO
+                                // Display the menu
+                                System.out.println("Seleccione una categoría:");
+                                ProductoCategoria[] categorias = ProductoCategoria.values();
+                                for (int i = 0; i < categorias.length; i++) {
+                                    System.out.println((i + 1) + ". " + categorias[i]);
+                                }
+
+                                // Get user input
+                                int opcionCategoria = -1;
+                                while (opcionCategoria < 1 || opcionCategoria > categorias.length) {
+                                    System.out.print("Ingrese el número de la categoría: ");
+                                    if (scanner.hasNextInt()) {
+                                        opcionCategoria = scanner.nextInt();
+                                        if (opcionCategoria < 1 || opcionCategoria > categorias.length) {
+                                            System.out.println("Por favor, ingrese un número válido.");
+                                        }
+                                    } else {
+                                        System.out.println("Entrada no válida. Por favor ingrese un número.");
+                                        scanner.next(); // Clear the invalid input
+                                    }
+                                }
+
+                                // Convert the input to the corresponding ProductoCategoria enum
+                                ProductoCategoria categoriaElegida = categorias[opcionCategoria - 1];
+                                System.out.println(controlador.getProductoServicio().buscarPorCategoria(categoriaElegida));
+                                //Clean Scanner
+                                scanner.nextLine();
                                 break;
                             case "4":
-                                //TODO
                                 System.out.println("Buscando por precio");
+                                try
+                                {
+                                    System.out.println("Ingrese precio mínimo");
+                                    Float precioMin = Float.parseFloat(scanner.nextLine());
+                                    System.out.println("Ingrese precio máximo");
+                                    Float precioMax = Float.parseFloat(scanner.nextLine());
+                                    System.out.println(controlador.getProductoServicio()
+                                            .buscarPorRangoPrecio(precioMin, precioMax));
+                                }
+                                catch (NumberFormatException e)
+                                {
+                                    System.out.println("Por favor ingrese un número válido");
+                                }
                                 break;
                             case "5":
                                 System.out.println("Buscando por código");

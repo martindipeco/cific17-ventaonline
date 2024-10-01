@@ -64,6 +64,10 @@ public class Producto {
         return precioFinal;
     }
 
+    public ProductoCategoria getCategoria() {
+        return categoria;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

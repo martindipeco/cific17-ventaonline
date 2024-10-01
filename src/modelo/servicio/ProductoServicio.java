@@ -1,11 +1,13 @@
 package modelo.servicio;
 
 import modelo.dominio.Producto;
+import modelo.dominio.ProductoCategoria;
 import modelo.repositorio.ProductoRepositorio;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProductoServicio {
     private ProductoRepositorio productoRepositorio;
@@ -79,6 +81,14 @@ public class ProductoServicio {
             System.out.println("Se devuelve una lista vacía");
         }
         return productos;
+    }
+
+    //BUSCAR POR CATEGORIA
+    public List<Producto> buscarPorCategoria(ProductoCategoria categoria)
+    {
+        return productoRepositorio.getListaDeProductos().stream()
+                .filter(producto -> producto.getCategoria() == categoria)
+                .collect(Collectors.toList());
     }
 
     //BUSCAR POR RANGO DE PRECIO
