@@ -7,6 +7,7 @@ import modelo.dominio.Pedido;
 import modelo.dominio.Usuario;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -114,13 +115,14 @@ public class Menu {
                 case "1":
                     String eleccion;
                     do {
-                        System.out.println("Opciones disponibles:");
-                        System.out.println("1: Buscar por nombre producto");
-                        System.out.println("2: Buscar por categoría");
-                        System.out.println("3: Buscar por precio");
-                        System.out.println("4: Buscar por código");
-                        System.out.println("5: Ver Carrito");
-                        System.out.println("6: Confirmar compra");
+                        System.out.println("Opciones disponibles:\n");
+                        System.out.println("1: Listar todos los productos");
+                        System.out.println("2: Buscar por nombre producto");
+                        System.out.println("3: Buscar por categoría");
+                        System.out.println("4: Buscar por precio");
+                        System.out.println("5: Buscar por código");
+                        System.out.println("6: Ver Carrito");
+                        System.out.println("7: Confirmar compra");
                         System.out.println("x: Volver atrás");
 
                         eleccion = scanner.nextLine().toLowerCase();
@@ -128,18 +130,39 @@ public class Menu {
                         switch (eleccion)
                         {
                             case "1":
+                                System.out.println("Listando todos los productos en tandas");
+                                int numPagina = 1;
+                                while (true) {
+
+                                    // Obtener la paginacion correspondiente
+                                    List<Producto> tanda = controlador.getProductoServicio()
+                                            .listar5productosPorPagina(numPagina);
+
+                                    // si la tanda está vacía, llegamos al final
+                                    if (tanda.isEmpty()) {
+                                        System.out.println("Fin de la lista");
+                                        break;
+                                    }
+
+                                    System.out.println("tanda " + numPagina + ": " + tanda);
+                                    System.out.println("Presione cualquier tecla para continuar...");
+                                    scanner.nextLine();
+                                    numPagina++;
+                                }
+                                break;
+                            case "2":
                                 System.out.println("Buscando por nombre de producto");
                                 //TODO
                                 break;
-                            case "2":
+                            case "3":
                                 System.out.println("Buscando por categoría");
                                 //TODO
                                 break;
-                            case "3":
+                            case "4":
                                 //TODO
                                 System.out.println("Buscando por precio");
                                 break;
-                            case "4":
+                            case "5":
                                 System.out.println("Buscando por código");
                                 System.out.println("Ingrese el código");
                                 String codigoString = scanner.nextLine();
@@ -175,12 +198,12 @@ public class Menu {
                                     System.out.println("Ingrese un número válido");
                                 }
                                 break;
-                            case "5":
+                            case "6":
                                 System.out.println("Mostrando Carrito");
                                 controlador.getCarritoSesion().mostrarCarrito();
                                 //TODO: opcion para eliminar items
                                 break;
-                            case "6":
+                            case "7":
                                 //TODO: chequear si compra ya fue confirmada
                                 System.out.println("Confirmando compra");
                                 controlador.getPedidoServicio().agregarPedido(new Pedido(controlador.getCarritoSesion()));

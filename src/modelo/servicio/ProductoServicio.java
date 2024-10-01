@@ -28,6 +28,26 @@ public class ProductoServicio {
         return productoRepositorio.getListaDeProductos();
     }
 
+    public List<Producto> listar5productosPorPagina(int numPagina)
+    {
+        if(numPagina<1)
+        {
+            System.out.println("Ingrese un número positivo");
+            System.out.println("Se devuelve una lista vacía");
+            return List.of();
+        }
+        int rango = 5;
+        int desde = (numPagina - 1) * rango;
+        int hasta = Math.min(desde + rango, productoRepositorio.getListaDeProductos().size());
+        if(desde >= productoRepositorio.getListaDeProductos().size())
+        {
+            System.out.println("Ya no hay más items");
+            return List.of();
+
+        }
+        return productoRepositorio.getListaDeProductos().subList(desde, hasta);
+    }
+
     public Producto buscarPorCodigo(int codigo)
     {
         for(Producto p : productoRepositorio.getListaDeProductos())

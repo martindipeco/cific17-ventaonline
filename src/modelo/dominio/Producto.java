@@ -80,7 +80,7 @@ public class Producto {
 
     @Override
     public String toString() {
-        return "Cód.: " + codigoProducto +
+        return "\nCód.: " + codigoProducto +
                 ": " + nombre +
                 ". Precio: " + precio +
                 ". Desc.: " + descuento;
