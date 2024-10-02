@@ -146,20 +146,24 @@ public class Menu {
                                     scanner.nextLine();
                                     numPagina++;
                                 }
+                                menuCompraPorCodigo(scanner);
                                 break;
                             case "2":
-                                System.out.println("Buscando por nombre de producto");
-                                //TODO
+                                System.out.println("Ingrese nombre de producto");
+                                String nombreProducto = scanner.nextLine();
+                                System.out.println(controlador.getProductoServicio().buscarPorNombre(nombreProducto));
+
+                                menuCompraPorCodigo(scanner);
+
                                 break;
                             case "3":
-                                // Display the menu
                                 System.out.println("Seleccione una categoría:");
                                 ProductoCategoria[] categorias = ProductoCategoria.values();
                                 for (int i = 0; i < categorias.length; i++) {
                                     System.out.println((i + 1) + ". " + categorias[i]);
                                 }
 
-                                // Get user input
+                                // Pedir ingreso de usuario
                                 int opcionCategoria = -1;
                                 while (opcionCategoria < 1 || opcionCategoria > categorias.length) {
                                     System.out.print("Ingrese el número de la categoría: ");
@@ -170,15 +174,18 @@ public class Menu {
                                         }
                                     } else {
                                         System.out.println("Entrada no válida. Por favor ingrese un número.");
-                                        scanner.next(); // Clear the invalid input
+                                        scanner.next(); // Limpiar opción no válida
                                     }
                                 }
 
-                                // Convert the input to the corresponding ProductoCategoria enum
+                                // Convertir input a correspondente ProductoCategoria enum
                                 ProductoCategoria categoriaElegida = categorias[opcionCategoria - 1];
                                 System.out.println(controlador.getProductoServicio().buscarPorCategoria(categoriaElegida));
-                                //Clean Scanner
+                                //limpiar scanner
                                 scanner.nextLine();
+
+                                menuCompraPorCodigo(scanner);
+
                                 break;
                             case "4":
                                 System.out.println("Buscando por precio");
@@ -190,6 +197,9 @@ public class Menu {
                                     Float precioMax = Float.parseFloat(scanner.nextLine());
                                     System.out.println(controlador.getProductoServicio()
                                             .buscarPorRangoPrecio(precioMin, precioMax));
+
+                                    menuCompraPorCodigo(scanner);
+
                                 }
                                 catch (NumberFormatException e)
                                 {
@@ -197,40 +207,7 @@ public class Menu {
                                 }
                                 break;
                             case "5":
-                                System.out.println("Buscando por código");
-                                System.out.println("Ingrese el código");
-                                String codigoString = scanner.nextLine();
-                                try
-                                {
-                                    Integer codigo = Integer.parseInt(codigoString);
-                                    Producto producto = controlador.getProductoServicio().buscarPorCodigo(codigo);
-                                    if(producto == null)
-                                    {
-                                        System.out.println("No hay producto con código " + codigo);
-                                        break;
-                                    }
-                                    String confirmaCompra;
-                                    do {
-                                        System.out.println("Presione cualquier tecla para confirmar la compra de: ");
-                                        System.out.println(producto);
-                                        System.out.println("O presione x para volver atrás");
-                                        confirmaCompra = scanner.nextLine().toLowerCase();
-                                        if(!confirmaCompra.equals("x"))
-                                        {
-                                            //agrego producto al carrito
-                                            controlador.getCarritoServicio().agregarProductoX1(
-                                                    controlador.getCarritoSesion(), producto);
-                                            System.out.println("El producto se agregó exitosamente al carrito");
-                                            break;
-                                        }
-                                    }
-                                    while (!"x".equalsIgnoreCase(confirmaCompra));
-                                    break;
-                                }
-                                catch (NumberFormatException e)
-                                {
-                                    System.out.println("Ingrese un número válido");
-                                }
+                                menuCompraPorCodigo(scanner);
                                 break;
                             case "6":
                                 System.out.println("Mostrando Carrito");
@@ -238,12 +215,14 @@ public class Menu {
                                 //TODO: opcion para eliminar items
                                 break;
                             case "7":
-                                //TODO: chequear si compra ya fue confirmada
                                 System.out.println("Confirmando compra");
+                                //instancio pedido a partir de carrito actual
                                 controlador.getPedidoServicio().agregarPedido(new Pedido(controlador.getCarritoSesion()));
                                 //muestro el pedido, el último en la lista x q acaba de agregarse
                                 System.out.println(controlador.getPedidoServicio().getListaPedidos().get(
                                         controlador.getPedidoServicio().getListaPedidos().size()-1));
+                                //reiniciamos el carrito
+                                controlador.setCarritoSesion(new Carrito(controlador.getUsuarioSesion()));
                                 break;
                             case "x":
                                 System.out.println("Volviendo atrás");
@@ -312,5 +291,45 @@ public class Menu {
         }
         while (!"x".equalsIgnoreCase(opcion));
         scanner.close();
+    }
+
+    public void menuCompraPorCodigo(Scanner scanner)
+    {
+        System.out.println("Ingrese código para comprar producto o x para volver atrás");
+        String codigoString = scanner.nextLine();
+        if(codigoString.equalsIgnoreCase("x"))
+        {
+            return;
+        }
+        try
+        {
+            int codigo = Integer.parseInt(codigoString);
+            Producto producto = controlador.getProductoServicio().buscarPorCodigo(codigo);
+            if(producto == null)
+            {
+                System.out.println("No hay producto con código " + codigo);
+                return;
+            }
+            String confirmaCompra;
+            do {
+                System.out.println("Presione cualquier tecla para confirmar la compra de: ");
+                System.out.println(producto);
+                System.out.println("O presione x para volver atrás");
+                confirmaCompra = scanner.nextLine().toLowerCase();
+                if(!confirmaCompra.equals("x"))
+                {
+                    //agrego producto al carrito
+                    controlador.getCarritoServicio().agregarProductoX1(
+                            controlador.getCarritoSesion(), producto);
+                    System.out.println("El producto se agregó exitosamente al carrito");
+                    break;
+                }
+            }
+            while (!"x".equalsIgnoreCase(confirmaCompra));
+        }
+        catch (NumberFormatException e)
+        {
+            System.out.println("Ingrese un número válido");
+        }
     }
 }

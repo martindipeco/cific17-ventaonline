@@ -76,6 +76,7 @@ public class Pedido {
         return "Pedido num: " + numPedido +
                 ". Cliente: " + carrito.getUsuario() +
                 ". Fecha: " + fechaPedido.format(DateTimeFormatter.ISO_DATE) +
+                ". Productos: " + carrito.getListaItems() +
                 ". Monto: " + precioFinal +
                 ". Entregado: " + entregado;
     }
