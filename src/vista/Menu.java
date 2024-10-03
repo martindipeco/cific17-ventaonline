@@ -212,7 +212,6 @@ public class Menu {
                             case "6":
                                 System.out.println("Mostrando Carrito");
                                 controlador.getCarritoSesion().mostrarCarrito();
-                                //TODO: opcion para eliminar items
                                 if(!controlador.getCarritoSesion().getListaItems().isEmpty())
                                 {
                                     String eleccionCarrito;
@@ -220,25 +219,25 @@ public class Menu {
                                         System.out.println("\n1: Agregar unidades");
                                         System.out.println("2: Quitar productos");
                                         System.out.println("3: Confirmar compra");
-                                        System.out.println("x: atrás");
+                                        System.out.println("x: Atrás");
                                         eleccionCarrito = scanner.nextLine();
 
                                         switch(eleccionCarrito){
                                             case "1":
                                                 //redirijo a menu anterior para seguir comprando
-                                                System.out.println("Funcionalidad en desarrollo");
-                                                eleccionCarrito = "x";
+                                                menuCompraPorCodigo();
                                                 break;
                                             case "2":
-                                                System.out.println("Quitamos producto");
                                                 //listar items en carrito
-                                                //
+                                                menuQuitarPorCodigo();
                                                 break;
                                             case "3":
                                                 menuConfirmarCompra();
                                                 break;
+                                            case "x":
+                                                break;
                                             default:
-                                                System.out.println("Por favor ingrese una opción válidaS");
+                                                System.out.println("Por favor ingrese una opción válida");
                                         }
                                     }
                                     while (!eleccionCarrito.equalsIgnoreCase("x"));
@@ -306,7 +305,7 @@ public class Menu {
                     scanner.nextLine();
                     break;
                 case "x":
-                    System.out.println("Vuelva pronto!");
+                    System.out.println("Gracias por su visita. Vuelva pronto al Cific17!");
                     break;
                 default:
                     System.out.println("Por favor ingrese una opción válida");
@@ -318,7 +317,7 @@ public class Menu {
 
     public void menuCompraPorCodigo()
     {
-        System.out.println("Ingrese código para comprar producto o x para volver atrás");
+        System.out.println("Ingrese código para agregar producto o x para volver atrás");
         String codigoString = scanner.nextLine();
         if(codigoString.equalsIgnoreCase("x"))
         {
@@ -335,7 +334,7 @@ public class Menu {
             }
             String confirmaCompra;
             do {
-                System.out.println("Presione cualquier tecla para confirmar la compra de: ");
+                System.out.println("Presione cualquier tecla para agregar: ");
                 System.out.println(producto);
                 System.out.println("O presione x para volver atrás");
                 confirmaCompra = scanner.nextLine().toLowerCase();
@@ -349,6 +348,46 @@ public class Menu {
                 }
             }
             while (!"x".equalsIgnoreCase(confirmaCompra));
+        }
+        catch (NumberFormatException e)
+        {
+            System.out.println("Ingrese un número válido");
+        }
+    }
+
+    public void menuQuitarPorCodigo()
+    {
+        System.out.println("Ingrese código de producto para quitarlo del carrito o x para volver atrás");
+        String codigoString = scanner.nextLine();
+        if(codigoString.equalsIgnoreCase("x"))
+        {
+            return;
+        }
+        try
+        {
+            int codigo = Integer.parseInt(codigoString);
+            Producto producto = controlador.getProductoServicio().buscarPorCodigo(codigo);
+            if(producto == null)
+            {
+                System.out.println("No hay producto con código " + codigo);
+                return;
+            }
+            String confirmaQuita;
+            do {
+                System.out.println("Presione cualquier tecla para quitar: ");
+                System.out.println(producto);
+                System.out.println("O presione x para volver atrás");
+                confirmaQuita = scanner.nextLine().toLowerCase();
+                if(!confirmaQuita.equals("x"))
+                {
+                    //Quito al producto del carrito
+                    controlador.getCarritoServicio().quitarProductoX1(
+                            controlador.getCarritoSesion(), producto);
+                    System.out.println("El producto se quitó exitosamente del carrito");
+                    break;
+                }
+            }
+            while (!"x".equalsIgnoreCase(confirmaQuita));
         }
         catch (NumberFormatException e)
         {
