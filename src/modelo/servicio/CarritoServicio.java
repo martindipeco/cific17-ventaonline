@@ -146,6 +146,12 @@ public class CarritoServicio {
         carrito.getListaItems().remove(itemCompra);
     }
 
+    public void quitarUnidadProducto(Carrito carrito, ItemCompra itemCompra)
+    {
+        //TODO
+        System.out.println("Funcionalidad en desarrollo");
+    }
+
     public void mostrarCarrito(Carrito carrito)
     {
         System.out.println("Items de compra: ");
