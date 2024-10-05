@@ -320,6 +320,7 @@ public class Menu {
         if(controlador.getUsuarioServicio().buscarUsuario(mailNuevoUsuario)!= null)
         {
             System.out.println("El usuario ya existe. Inicie sesión con sus credenciales.");
+            menuUsuarioRegistrado();
         }
         else
         {
@@ -370,13 +371,13 @@ public class Menu {
                 System.out.println("No hay producto con código " + codigo);
                 return;
             }
-            String confirmaCompra;
+            String confirma;
             do {
                 System.out.println("Presione cualquier tecla para agregar: ");
                 System.out.println(producto);
                 System.out.println("O presione x para volver atrás");
-                confirmaCompra = scanner.nextLine().toLowerCase();
-                if(!confirmaCompra.equals("x"))
+                confirma = scanner.nextLine().toLowerCase();
+                if(!confirma.equals("x"))
                 {
                     //agrego producto al carrito
                     controlador.getCarritoServicio().agregarProductoX1(
@@ -385,7 +386,7 @@ public class Menu {
                     break;
                 }
             }
-            while (!"x".equalsIgnoreCase(confirmaCompra));
+            while (!"x".equalsIgnoreCase(confirma));
         }
         catch (NumberFormatException e)
         {

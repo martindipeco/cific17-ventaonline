@@ -14,7 +14,7 @@ public class Controlador {
     PedidoServicio pedidoServicio = new PedidoServicio();
     ProductoServicio productoServicio = new ProductoServicio(new ProductoRepositorio());
     UsuarioServicio usuarioServicio = new UsuarioServicio();
-    Usuario usuarioSesion = new Usuario();
+    //Usuario usuarioSesion = new Usuario();
     Carrito carritoSesion = new Carrito();
 
     public CarritoServicio getCarritoServicio() {
@@ -32,11 +32,11 @@ public class Controlador {
     public UsuarioServicio getUsuarioServicio() {return usuarioServicio; }
 
     public Usuario getUsuarioSesion() {
-        return usuarioSesion;
+        return getCarritoSesion().getUsuario();
     }
     public void setUsuarioSesion (Usuario usuario)
     {
-        this.usuarioSesion = usuario;
+        this.carritoSesion.setUsuario(usuario);
     }
 
     public Carrito getCarritoSesion() {
