@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="venta-online:jar2">
+    <output-path>$PROJECT_DIR$/out/java11/artifacts/venta_online_jar2</output-path>
+    <root id="archive" name="venta-online.jar">
+      <element id="module-output" name="venta-online" />
+    </root>
+  </artifact>
+</component>

@@ -22,71 +22,28 @@ public class Menu {
             System.out.println("\n1: Soy usuario registrado");
             System.out.println("2: Quiero registrarme");
             System.out.println("3: Seguir como invitado");
-            //System.out.println("x: Salir");
+            System.out.println("x: Salir");
 
             opcionUsuario= scanner.nextLine().toLowerCase();
 
             switch (opcionUsuario)
             {
                 case "1":
-                    int contador = 3;
-                    while(contador > 0)
-                    {
-                        System.out.println("Ingrese su mail");
-                        String mailUsuario = scanner.nextLine();
-                        System.out.println("Ingrese su contraseña");
-                        String passUsuario = scanner.nextLine();
-                        //chequear contra repo si usuario existe. si existe, instanciarlo a través de controlador
-                        controlador.setUsuarioSesion(controlador.getUsuarioServicio().buscarUsuario(mailUsuario, passUsuario));
-                        if (controlador.getUsuarioSesion()==null)
-                        {
-                            //si no existe, informar , restar una posibilidad y preguntar si desea crear nuevo usuario
-                            System.out.println("Mail o contraseña incorrectos");
-                            contador--;
-                            if(contador == 0)
-                            {
-                                System.out.println("Ya no hay más posibilidades");
-                                System.out.println("Ingresando como invitado");
-                                controlador.setUsuarioSesion(null);
-                                usuarioListo = true;
-                                break;
-                            }
-                            System.out.println("Le quedan " + contador + " posibilidades");
-                            System.out.println("Presione x para volver atrás, o cualquier tecla para intentar de nuevo");
-                            String respuesta = scanner.nextLine().toLowerCase();
-                            if (respuesta.equals("x")) {
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            usuarioListo = true;
-                            System.out.println("Ingreso validado");
-                            break;
-                        }
-                    }
+                    menuUsuarioRegistrado();
+                    usuarioListo = true;
                     break;
                 case "2":
-                    System.out.println("Ingrese nuevo mail");
-                    String mailNuevoUsuario = scanner.nextLine();
-                    System.out.println("Ingrese una contraseña");
-                    String passNuevoUsuario = scanner.nextLine();
-                    //chequear contra repo si usuario existe.
-                    if(controlador.getUsuarioServicio().buscarUsuario(mailNuevoUsuario, passNuevoUsuario)!= null)
-                    {
-                        System.out.println("El usuario ya existe. Inicie sesión con sus credenciales.");
-                    }
-                    else
-                    {
-                        controlador.setUsuarioSesion(new Usuario(mailNuevoUsuario, passNuevoUsuario));
-                        usuarioListo = true;
-                        System.out.println("Nuevo usuario registrado con éxito");
-                    }
+                    menuNuevoUsuario();
+                    usuarioListo = true;
                     break;
                 case "3":
                     System.out.println("Ingresando como invitado");
                     controlador.setUsuarioSesion(null);
                     usuarioListo = true;
+                    break;
+                case "x":
+                    usuarioListo = true;
+                    System.out.println("Adiós!");
                     break;
                 default:
                     System.out.println("Por favor, ingrese una opción válida");
@@ -163,7 +120,7 @@ public class Menu {
                                     System.out.println((i + 1) + ". " + categorias[i]);
                                 }
 
-                                // Pedir ingreso de usuario
+                                // Pedir input de categoria
                                 int opcionCategoria = -1;
                                 while (opcionCategoria < 1 || opcionCategoria > categorias.length) {
                                     System.out.print("Ingrese el número de la categoría: ");
@@ -315,6 +272,87 @@ public class Menu {
         scanner.close();
     }
 
+    public void menuUsuarioRegistrado()
+    {
+        int contador = 3;
+        while(contador > 0)
+        {
+            System.out.println("Ingrese su mail");
+            String mailUsuario = scanner.nextLine();
+            System.out.println("Ingrese su contraseña");
+            String passUsuario = scanner.nextLine();
+            //chequear contra repo si usuario existe. si existe, instanciarlo a través de controlador
+            controlador.setUsuarioSesion(controlador.getUsuarioServicio().logUsuario(mailUsuario, passUsuario));
+            if (controlador.getUsuarioSesion()==null)
+            {
+                //si no existe, informar , restar una posibilidad y preguntar si desea crear nuevo usuario
+                System.out.println("Mail o contraseña incorrectos");
+                contador--;
+                if(contador == 0)
+                {
+                    System.out.println("Ya no hay más posibilidades");
+                    System.out.println("Ingresando como invitado");
+                    controlador.setUsuarioSesion(null);
+                    //usuarioListo = true;
+                    break;
+                }
+                System.out.println("Le quedan " + contador + " posibilidades");
+                System.out.println("Presione x para volver atrás, o cualquier tecla para intentar de nuevo");
+                String respuesta = scanner.nextLine().toLowerCase();
+                if (respuesta.equals("x")) {
+                    break;
+                }
+            }
+            else
+            {
+                //usuarioListo = true;
+                System.out.println("Ingreso validado");
+                break;
+            }
+        }
+    }
+
+    public void menuNuevoUsuario()
+    {
+        System.out.println("Ingrese nuevo mail");
+        String mailNuevoUsuario = scanner.nextLine();
+        //chequear contra repo si usuario existe.
+        if(controlador.getUsuarioServicio().buscarUsuario(mailNuevoUsuario)!= null)
+        {
+            System.out.println("El usuario ya existe. Inicie sesión con sus credenciales.");
+        }
+        else
+        {
+            //pedimos el resto de los datos
+            System.out.println("Ingrese una contraseña");
+            String passNuevoUsuario = scanner.nextLine();
+            System.out.println("Ingrese su nombre");
+            String nombreNuevoUsuario = scanner.nextLine();
+            System.out.println("Ingrese su dirección");
+            String direccionNuevoUsuario = scanner.nextLine();
+            boolean tarjetaOK = false;
+            Long numTarjetaNuevoUsuario = 0l;
+            do {
+                System.out.println("Ingrese el número de su tarjeta de crédito");
+                String numTarjetaString = scanner.nextLine();
+                try
+                {
+                    numTarjetaNuevoUsuario = Long.parseLong(numTarjetaString);
+                    tarjetaOK = true;
+                }
+                catch (NumberFormatException e)
+                {
+                    System.out.println("número no válido");
+                }
+            }
+            while (!tarjetaOK);
+            controlador.setUsuarioSesion(new Usuario(mailNuevoUsuario, passNuevoUsuario, nombreNuevoUsuario,
+                    direccionNuevoUsuario, numTarjetaNuevoUsuario));
+            //usuarioListo = true;
+            System.out.println("Nuevo usuario registrado con éxito");
+        }
+    }
+
     public void menuCompraPorCodigo()
     {
         System.out.println("Ingrese código para agregar producto o x para volver atrás");
@@ -404,6 +442,11 @@ public class Menu {
         }
         else
         {
+            if (controlador.getCarritoSesion().getUsuario()==null)
+            {
+                System.out.println("Es necesario crear usuario o loguearse");
+                menuNuevoUsuario();
+            }
             System.out.println("Confirmando compra");
             //instancio pedido a partir de carrito actual
             controlador.getPedidoServicio().agregarPedido(new Pedido(controlador.getCarritoSesion()));

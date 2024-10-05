@@ -13,7 +13,19 @@ public class UsuarioServicio {
         this.usuarioRepositorio = new UsuarioRepositorio();
     }
 
-    public Usuario buscarUsuario(String mail, String password)
+    public Usuario buscarUsuario(String mail)
+    {
+        for(Usuario user : usuarioRepositorio.getListaDeUsuarios())
+        {
+            if(user.getMail().equals(mail))
+            {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public Usuario logUsuario(String mail, String password)
     {
         for(Usuario user : usuarioRepositorio.getListaDeUsuarios())
         {

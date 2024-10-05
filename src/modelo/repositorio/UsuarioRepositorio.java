@@ -12,9 +12,12 @@ public class UsuarioRepositorio {
 
     public UsuarioRepositorio()
     {
-        Usuario usuario1 = new Usuario("juana@mail.com", "123juana");
-        Usuario usuario2 = new Usuario("pedro@mail.com", "456pedro");
-        Usuario usuario3 = new Usuario("ana@mail.com", "789ana");
+        Usuario usuario1 = new Usuario("juana@mail.com", "123juana", "Juana",
+                "SiempreViva 321", 1234123412341234L);
+        Usuario usuario2 = new Usuario("pedro@mail.com", "456pedro", "Pedro",
+                "Principal 456", 5678567856785678L);
+        Usuario usuario3 = new Usuario("ana@mail.com", "789ana", "Ana", "De Tierra 987",
+                1234567890123456L);
 
         List<Usuario> listaUsuarios = new ArrayList<>();
         listaUsuarios.add(usuario1);
