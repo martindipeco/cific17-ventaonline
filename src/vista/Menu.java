@@ -282,7 +282,9 @@ public class Menu {
             System.out.println("Ingrese su contraseña");
             String passUsuario = scanner.nextLine();
             //chequear contra repo si usuario existe. si existe, instanciarlo a través de controlador
-            controlador.setUsuarioSesion(controlador.getUsuarioServicio().logUsuario(mailUsuario, passUsuario));
+            //al método logUsuario debo pasarle la contraseña encriptada, ya que esa será la que compare en BD
+            String passEncriptado = controlador.getEncriptaServicio().encriptaHash(passUsuario);
+            controlador.setUsuarioSesion(controlador.getUsuarioServicio().logUsuario(mailUsuario, passEncriptado));
             if (controlador.getUsuarioSesion()==null)
             {
                 //si no existe, informar , restar una posibilidad y preguntar si desea crear nuevo usuario
@@ -305,7 +307,6 @@ public class Menu {
             }
             else
             {
-                //usuarioListo = true;
                 System.out.println("Ingreso validado");
                 break;
             }
@@ -332,10 +333,12 @@ public class Menu {
             System.out.println("Ingrese su dirección");
             String direccionNuevoUsuario = scanner.nextLine();
             boolean tarjetaOK = false;
+            String numTarjetaString = "";
             Long numTarjetaNuevoUsuario = 0l;
+
             do {
                 System.out.println("Ingrese el número de su tarjeta de crédito");
-                String numTarjetaString = scanner.nextLine();
+                numTarjetaString = scanner.nextLine();
                 try
                 {
                     numTarjetaNuevoUsuario = Long.parseLong(numTarjetaString);
@@ -347,9 +350,12 @@ public class Menu {
                 }
             }
             while (!tarjetaOK);
-            controlador.setUsuarioSesion(new Usuario(mailNuevoUsuario, passNuevoUsuario, nombreNuevoUsuario,
-                    direccionNuevoUsuario, numTarjetaNuevoUsuario));
-            //usuarioListo = true;
+            //la contraseña y el num de tarjeta los guardo encriptados
+            String passEncriptado = controlador.getEncriptaServicio().encriptaHash(passNuevoUsuario);
+            String tarjetaEncriptada = controlador.getEncriptaServicio().encriptaHash(numTarjetaString);
+
+            controlador.setUsuarioSesion(new Usuario(mailNuevoUsuario, passEncriptado, nombreNuevoUsuario,
+                    direccionNuevoUsuario, tarjetaEncriptada));
             System.out.println("Nuevo usuario registrado con éxito");
         }
     }

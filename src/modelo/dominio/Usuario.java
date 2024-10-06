@@ -7,12 +7,12 @@ public class Usuario {
 
     private String nombre;
     private String direccion;
-    private long numTarjeta;
+    private String numTarjeta;
 
     //constructor para visitantes
     public Usuario() {}
 
-    public Usuario(String mail, String password, String nombre, String direccion, long numTarjeta) {
+    public Usuario(String mail, String password, String nombre, String direccion, String numTarjeta) {
         this.mail = mail;
         this.password = password;
         this.nombre = nombre;
@@ -26,6 +26,10 @@ public class Usuario {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getNumTarjeta() {
+        return numTarjeta;
     }
 
     @Override

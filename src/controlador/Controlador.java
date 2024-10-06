@@ -3,10 +3,7 @@ package controlador;
 import modelo.dominio.Carrito;
 import modelo.dominio.Usuario;
 import modelo.repositorio.ProductoRepositorio;
-import modelo.servicio.CarritoServicio;
-import modelo.servicio.PedidoServicio;
-import modelo.servicio.ProductoServicio;
-import modelo.servicio.UsuarioServicio;
+import modelo.servicio.*;
 
 public class Controlador {
 
@@ -14,8 +11,8 @@ public class Controlador {
     PedidoServicio pedidoServicio = new PedidoServicio();
     ProductoServicio productoServicio = new ProductoServicio(new ProductoRepositorio());
     UsuarioServicio usuarioServicio = new UsuarioServicio();
-    //Usuario usuarioSesion = new Usuario();
     Carrito carritoSesion = new Carrito();
+    EncriptaServicio encriptaServicio = new EncriptaServicio();
 
     public CarritoServicio getCarritoServicio() {
         return carritoServicio;
@@ -45,5 +42,9 @@ public class Controlador {
 
     public void setCarritoSesion(Carrito carritoSesion) {
         this.carritoSesion = carritoSesion;
+    }
+
+    public EncriptaServicio getEncriptaServicio() {
+        return encriptaServicio;
     }
 }

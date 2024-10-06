@@ -10,8 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1049ba3f-a749-4e8e-af05-9e76a415735c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/modelo/servicio/EncriptaServicio.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/tests/EncriptaPasswordTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controlador/Controlador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controlador/Controlador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modelo/dominio/Usuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/dominio/Usuario.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modelo/repositorio/UsuarioRepositorio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/repositorio/UsuarioRepositorio.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/vista/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/vista/Menu.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,11 +50,31 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/W10-PC/Documents/CS/Oracle/ejercicios/apiCambio&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
 }</component>
+  <component name="RunManager">
+    <configuration name="EncriptaPasswordTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="tests.EncriptaPasswordTest" />
+      <module name="venta-online" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.EncriptaPasswordTest" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
