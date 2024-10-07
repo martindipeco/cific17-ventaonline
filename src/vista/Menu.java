@@ -106,11 +106,15 @@ public class Menu {
                                 menuCompraPorCodigo();
                                 break;
                             case "2":
-                                System.out.println("Ingrese nombre de producto");
-                                String nombreProducto = scanner.nextLine();
-                                System.out.println(controlador.getProductoServicio().buscarPorNombre(nombreProducto));
+                                String nombreProducto = "";
+                                do {
+                                    System.out.println("Ingrese al menos 3 letras del nombre de producto");
+                                    nombreProducto = scanner.nextLine();
+                                    System.out.println(controlador.getProductoServicio().buscarPorNombre(nombreProducto));
 
-                                menuCompraPorCodigo();
+                                    menuCompraPorCodigo();
+                                }
+                                while (nombreProducto.length()<3 || nombreProducto.trim().isEmpty());
 
                                 break;
                             case "3":
@@ -119,7 +123,6 @@ public class Menu {
                                 for (int i = 0; i < categorias.length; i++) {
                                     System.out.println((i + 1) + ". " + categorias[i]);
                                 }
-
                                 // Pedir input de categoria
                                 int opcionCategoria = -1;
                                 while (opcionCategoria < 1 || opcionCategoria > categorias.length) {
@@ -134,7 +137,6 @@ public class Menu {
                                         scanner.next(); // Limpiar opción no válida
                                     }
                                 }
-
                                 // Convertir input a correspondente ProductoCategoria enum
                                 ProductoCategoria categoriaElegida = categorias[opcionCategoria - 1];
                                 System.out.println(controlador.getProductoServicio().buscarPorCategoria(categoriaElegida));
@@ -254,7 +256,7 @@ public class Menu {
                     while (!eleccionOrden.equalsIgnoreCase("x"));
                     break;
 
-                //Guardar
+                //Imprimir comprobantes
                 case "3":
                     System.out.println("La funcionalidad de impresión está en desarrollo");
                     //generadorDeArchivo.guardarListaTransaccionTxt(usuario.getListaTransacciones());
@@ -277,10 +279,20 @@ public class Menu {
         int contador = 3;
         while(contador > 0)
         {
-            System.out.println("Ingrese su mail");
-            String mailUsuario = scanner.nextLine();
-            System.out.println("Ingrese su contraseña");
-            String passUsuario = scanner.nextLine();
+            String mailUsuario = "";
+            do{
+                System.out.println("Ingrese su mail");
+                mailUsuario = scanner.nextLine();
+            }
+            while (!controlador.getValidadorServicio().esValidoMail(mailUsuario));
+
+            String passUsuario = "";
+            do{
+                System.out.println("Ingrese su contraseña");
+                passUsuario = scanner.nextLine();
+            }
+            while (controlador.getValidadorServicio().esValidoPass(passUsuario));
+
             //chequear contra repo si usuario existe. si existe, instanciarlo a través de controlador
             //al método logUsuario debo pasarle la contraseña encriptada, ya que esa será la que compare en BD
             String passEncriptado = controlador.getEncriptaServicio().encriptaHash(passUsuario);
@@ -315,8 +327,12 @@ public class Menu {
 
     public void menuNuevoUsuario()
     {
-        System.out.println("Ingrese nuevo mail");
-        String mailNuevoUsuario = scanner.nextLine();
+        String mailNuevoUsuario = "";
+        do{
+            System.out.println("Ingrese nuevo mail");
+            mailNuevoUsuario = scanner.nextLine();
+        }
+        while (mailNuevoUsuario.trim().isEmpty() || !controlador.getValidadorServicio().esValidoMail(mailNuevoUsuario));
         //chequear contra repo si usuario existe.
         if(controlador.getUsuarioServicio().buscarUsuario(mailNuevoUsuario)!= null)
         {
@@ -326,12 +342,28 @@ public class Menu {
         else
         {
             //pedimos el resto de los datos
-            System.out.println("Ingrese una contraseña");
-            String passNuevoUsuario = scanner.nextLine();
-            System.out.println("Ingrese su nombre");
-            String nombreNuevoUsuario = scanner.nextLine();
-            System.out.println("Ingrese su dirección");
-            String direccionNuevoUsuario = scanner.nextLine();
+            String passNuevoUsuario ="";
+            do{
+                System.out.println("Ingrese una contraseña de al menos 6 caracteres.");
+                System.out.println("Debe contener al menos un número y al menos una letra");
+                passNuevoUsuario = scanner.nextLine();
+            }
+            while(controlador.getValidadorServicio().esValidoPass(passNuevoUsuario));
+
+            String nombreNuevoUsuario = "";
+            do{
+                System.out.println("Ingrese su nombre");
+                nombreNuevoUsuario = scanner.nextLine();
+            }
+            while(nombreNuevoUsuario.trim().isEmpty());
+
+            String direccionNuevoUsuario = "";
+            do{
+                System.out.println("Ingrese su dirección");
+                direccionNuevoUsuario = scanner.nextLine();
+            }
+            while(direccionNuevoUsuario.trim().isEmpty());
+
             boolean tarjetaOK = false;
             String numTarjetaString = "";
             Long numTarjetaNuevoUsuario = 0l;
@@ -342,7 +374,7 @@ public class Menu {
                 try
                 {
                     numTarjetaNuevoUsuario = Long.parseLong(numTarjetaString);
-                    tarjetaOK = true;
+                    tarjetaOK = controlador.getValidadorServicio().esValidaTarjeta(numTarjetaString);
                 }
                 catch (NumberFormatException e)
                 {
@@ -350,7 +382,7 @@ public class Menu {
                 }
             }
             while (!tarjetaOK);
-            //la contraseña y el num de tarjeta los guardo encriptados
+            //la contraseña y el num de tarjeta los guardo con una función "hash"
             String passEncriptado = controlador.getEncriptaServicio().encriptaHash(passNuevoUsuario);
             String tarjetaEncriptada = controlador.getEncriptaServicio().encriptaHash(numTarjetaString);
 
@@ -362,8 +394,13 @@ public class Menu {
 
     public void menuCompraPorCodigo()
     {
-        System.out.println("Ingrese código para agregar producto o x para volver atrás");
-        String codigoString = scanner.nextLine();
+        String codigoString = "";
+        do{
+            System.out.println("Ingrese código para agregar producto o x para volver atrás");
+            codigoString = scanner.nextLine();
+        }
+        while (codigoString.trim().isEmpty());
+
         if(codigoString.equalsIgnoreCase("x"))
         {
             return;
@@ -402,8 +439,12 @@ public class Menu {
 
     public void menuQuitarPorCodigo()
     {
-        System.out.println("Ingrese código de producto para quitarlo del carrito o x para volver atrás");
-        String codigoString = scanner.nextLine();
+        String codigoString = "";
+        do{
+            System.out.println("Ingrese código para agregar producto o x para volver atrás");
+            codigoString = scanner.nextLine();
+        }
+        while (codigoString.trim().isEmpty());
         if(codigoString.equalsIgnoreCase("x"))
         {
             return;

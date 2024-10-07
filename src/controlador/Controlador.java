@@ -14,6 +14,8 @@ public class Controlador {
     Carrito carritoSesion = new Carrito();
     EncriptaServicio encriptaServicio = new EncriptaServicio();
 
+    ValidadorServicio validadorServicio = new ValidadorServicio();
+
     public CarritoServicio getCarritoServicio() {
         return carritoServicio;
     }
@@ -46,5 +48,8 @@ public class Controlador {
 
     public EncriptaServicio getEncriptaServicio() {
         return encriptaServicio;
+    }
+    public ValidadorServicio getValidadorServicio() {
+        return validadorServicio;
     }
 }
