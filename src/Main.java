@@ -1,10 +1,12 @@
-import vista.Menu;
+import vista.MenuConsola;
+import vista.MenuPrincipal;
 
 public class Main {
     public static void main(String[] args) {
 
-        Menu menu = new Menu();
+        MenuPrincipal.main(args);
 
-        menu.muestraMenu();
+//        MenuConsola menuConsola = new MenuConsola();
+//        menuConsola.muestraMenu();
     }
 }
