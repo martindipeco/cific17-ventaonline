@@ -291,7 +291,7 @@ public class Menu {
                 System.out.println("Ingrese su contraseña");
                 passUsuario = scanner.nextLine();
             }
-            while (controlador.getValidadorServicio().esValidoPass(passUsuario));
+            while (!controlador.getValidadorServicio().esValidoPass(passUsuario));
 
             //chequear contra repo si usuario existe. si existe, instanciarlo a través de controlador
             //al método logUsuario debo pasarle la contraseña encriptada, ya que esa será la que compare en BD
