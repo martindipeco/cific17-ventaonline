@@ -6,12 +6,12 @@ import java.util.regex.Pattern;
 public class ValidadorServicio {
 
     //ver explicación abajo
-
     private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})?$";
 
     //minimo 6 caracteres, debe contener 1 letra y 1 numero
     private static final String PASSWORD_REGEX = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d@$!%*?&]{6,}$";
 
+    //entre 10 y 19 digitos
     private static final String CREDIT_CARD_REGEX = "^(\\d{10,19})$";
 
     public boolean esValidoMail(String email)
@@ -20,7 +20,10 @@ public class ValidadorServicio {
         Pattern pattern = Pattern.compile(EMAIL_REGEX);
         //crear un "matcher" para comparar expresiones
         Matcher matcher = pattern.matcher(email);
-
+        if(!matcher.matches())
+        {
+            System.out.println("Formato no válido");
+        }
         return matcher.matches();
     }
 
@@ -28,6 +31,10 @@ public class ValidadorServicio {
     {
         Pattern pattern = Pattern.compile(PASSWORD_REGEX);
         Matcher matcher = pattern.matcher(pass);
+        if(!matcher.matches())
+        {
+            System.out.println("Formato no válido");
+        }
         return matcher.matches();
     }
 
@@ -36,6 +43,10 @@ public class ValidadorServicio {
     {
         Pattern pattern = Pattern.compile(CREDIT_CARD_REGEX);
         Matcher matcher = pattern.matcher(tarjetaNum);
+        if(!matcher.matches())
+        {
+            System.out.println("Formato no válido");
+        }
         return matcher.matches();
     }
 

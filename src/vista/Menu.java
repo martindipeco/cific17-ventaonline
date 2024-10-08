@@ -332,7 +332,7 @@ public class Menu {
             System.out.println("Ingrese nuevo mail");
             mailNuevoUsuario = scanner.nextLine();
         }
-        while (mailNuevoUsuario.trim().isEmpty() || !controlador.getValidadorServicio().esValidoMail(mailNuevoUsuario));
+        while (!controlador.getValidadorServicio().esValidoMail(mailNuevoUsuario));
         //chequear contra repo si usuario existe.
         if(controlador.getUsuarioServicio().buscarUsuario(mailNuevoUsuario)!= null)
         {
@@ -348,7 +348,7 @@ public class Menu {
                 System.out.println("Debe contener al menos un número y al menos una letra");
                 passNuevoUsuario = scanner.nextLine();
             }
-            while(controlador.getValidadorServicio().esValidoPass(passNuevoUsuario));
+            while(!controlador.getValidadorServicio().esValidoPass(passNuevoUsuario));
 
             String nombreNuevoUsuario = "";
             do{
