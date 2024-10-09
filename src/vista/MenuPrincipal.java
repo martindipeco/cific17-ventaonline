@@ -14,8 +14,6 @@ public class MenuPrincipal extends JDialog {
     private JButton buttonIngresoInvitado;
 
     public MenuPrincipal() {
-        //instancio un controlador
-        Controlador controlador = new Controlador();
 
         setContentPane(contentPane);
         setModal(true);
@@ -83,6 +81,9 @@ public class MenuPrincipal extends JDialog {
     private void onUsuarioRegistrado()
     {
         //TODO: abrir menu usuario registrado
+        MenuUsuarioRegistrado menuUsuarioRegistrado = new MenuUsuarioRegistrado();
+        menuUsuarioRegistrado.setVisible(true);
+        this.setVisible(false);
     }
 
     private void onCrearUsuario()

@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class MenuConsola {
 
-    private Controlador controlador = new Controlador();
+    private Controlador controlador = Controlador.getInstanciaUnicaControlador();
 
     Scanner scanner = new Scanner(System.in);
 

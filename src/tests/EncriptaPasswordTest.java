@@ -19,10 +19,10 @@ public class EncriptaPasswordTest {
 
     public static void testeoDirecto()
     {
-        Controlador controladorTest = new Controlador();
+        Controlador controlador = Controlador.getInstanciaUnicaControlador();
         //given
         String passUsuario = "pe2";
-        String passEncriptado = controladorTest.getEncriptaServicio().encriptaHash(passUsuario);
+        String passEncriptado = controlador.getEncriptaServicio().encriptaHash(passUsuario);
         Usuario usuarioTest1 = new Usuario("Pe@mail.com", passEncriptado, "Pedro",
                 "Aca a la vuelta", "123");
 
@@ -37,7 +37,7 @@ public class EncriptaPasswordTest {
     public static void testeoSimulaConsola()
     {
         Scanner scanner = new Scanner(System.in);
-        Controlador controlador = new Controlador();
+        Controlador controlador = Controlador.getInstanciaUnicaControlador();
 
         System.out.println("Ingrese nuevo mail");
         String mailNuevoUsuario = scanner.nextLine();
