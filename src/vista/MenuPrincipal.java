@@ -17,6 +17,7 @@ public class MenuPrincipal extends JDialog {
 
         setContentPane(contentPane);
         setModal(true);
+        setLocationRelativeTo(null);
         getRootPane().setDefaultButton(buttonOK);
 
         buttonOK.addActionListener(new ActionListener() {

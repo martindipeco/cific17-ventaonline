@@ -36,7 +36,6 @@ public class Controlador {
     UsuarioServicio usuarioServicio = new UsuarioServicio();
     Carrito carritoSesion = new Carrito();
     EncriptaServicio encriptaServicio = new EncriptaServicio();
-
     ValidadorServicio validadorServicio = new ValidadorServicio();
 
     // Getters for services

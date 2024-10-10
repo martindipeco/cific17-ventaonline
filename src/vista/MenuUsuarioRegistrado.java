@@ -14,9 +14,13 @@ public class MenuUsuarioRegistrado extends JDialog {
     private JTextField textFieldMail;
     private JPasswordField passwordFieldRegistrado;
 
+    private int contador = 3;
+
     public MenuUsuarioRegistrado() {
         setContentPane(contentPane);
-        setModal(true);
+        setModal(true); //forces focus
+        setLocationRelativeTo(null);  // Centers the dialog on the screen
+        pack(); //adjusts size to content
         getRootPane().setDefaultButton(buttonOK);
 
         buttonOK.addActionListener(new ActionListener() {
@@ -48,26 +52,27 @@ public class MenuUsuarioRegistrado extends JDialog {
     }
 
     private void onOK() {
-        int contador = 3;
-        while(contador > 0)
+
+        Boolean datosValidados = true;
+
+        String mailUsuario = textFieldMail.getText();
+        if(!controlador.getValidadorServicio().esValidoMail(mailUsuario))
         {
-            String mailUsuario = "";
-            do{
-                //TODO: transformar bucle
-                mailUsuario = textFieldMail.getText();
-                JOptionPane.showMessageDialog(this, "Verificando Mail de usuario");
-            }
-            while (!controlador.getValidadorServicio().esValidoMail(mailUsuario));
+            JOptionPane.showMessageDialog(this, "Mail no es válido");
+            textFieldMail.setText("");
+            datosValidados = false;
+        }
 
-            String passUsuario = "";
-            do{
-                //TODO: transformar bucle
-                //System.out.println("Ingrese su contraseña");
-                passUsuario = Arrays.toString(passwordFieldRegistrado.getPassword());
-                JOptionPane.showMessageDialog(this, "Verificando Mail de usuario");
-            }
-            while (!controlador.getValidadorServicio().esValidoPass(passUsuario));
+        String passUsuario = new String(passwordFieldRegistrado.getPassword());
+        if(!controlador.getValidadorServicio().esValidoPass(passUsuario))
+        {
+            JOptionPane.showMessageDialog(this, "Contraseña " + passUsuario + "no es válida");
+            passwordFieldRegistrado.setText("");
+            datosValidados = false;
+        }
 
+        if(datosValidados)
+        {
             //chequear contra repo si usuario existe. si existe, instanciarlo a través de controlador
             //al método logUsuario debo pasarle la contraseña encriptada, ya que esa será la que compare en Base de Datos
             String passEncriptado = controlador.getEncriptaServicio().encriptaHash(passUsuario);
@@ -75,37 +80,28 @@ public class MenuUsuarioRegistrado extends JDialog {
             if (controlador.getUsuarioSesion()==null)
             {
                 //si no existe, informar , restar una posibilidad y preguntar si desea crear nuevo usuario
-                JOptionPane.showMessageDialog(this, "Mail o contraseña incorrectos");
-                //System.out.println("Mail o contraseña incorrectos");
                 contador--;
+                JOptionPane.showMessageDialog(this, "Mail o contraseña incorrectos, " +
+                        "le quedan " + contador + " posibilidades");
+                textFieldMail.setText("");
+                passwordFieldRegistrado.setText("");
                 if(contador == 0)
                 {
-                    JOptionPane.showMessageDialog(this, "Ya no hay más posibilidades, " +
-                            "Ingresando como invitado");
-
+                    JOptionPane.showMessageDialog(this, "Ingresando como invitado");
                     controlador.setUsuarioSesion(null);
                     //usuarioListo = true;
-                    break;
                 }
-//                System.out.println("Le quedan " + contador + " posibilidades");
-//                System.out.println("Presione x para volver atrás, o cualquier tecla para intentar de nuevo");
-//                String respuesta = scanner.nextLine().toLowerCase();
-//                if (respuesta.equals("x")) {
-//                    break;
-//                }
+
             }
             else
             {
                 JOptionPane.showMessageDialog(this, "Ingreso validado");
-                //System.out.println("Ingreso validado");
-                break;
+                //TODO muestra menu compras
             }
         }
-
     }
 
     private void onAtras() {
-        // add your code here if necessary
         this.setVisible(false);
     }
 }
