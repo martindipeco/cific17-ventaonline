@@ -95,8 +95,11 @@ public class MenuUsuarioRegistrado extends JDialog {
             }
             else
             {
-                JOptionPane.showMessageDialog(this, "Ingreso validado");
-                //TODO muestra menu compras
+                JOptionPane.showMessageDialog(this, "Ingresando como " +
+                        controlador.getUsuarioSesion().getNombre());
+                MenuCompra menuCompra = new MenuCompra();
+                menuCompra.setVisible(true);
+                this.setVisible(false);
             }
         }
     }

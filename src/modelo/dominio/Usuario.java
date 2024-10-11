@@ -32,6 +32,8 @@ public class Usuario {
         return numTarjeta;
     }
 
+    public String getNombre() { return nombre; }
+
     @Override
     public String toString() {
         return mail;

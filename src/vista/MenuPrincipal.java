@@ -81,7 +81,6 @@ public class MenuPrincipal extends JDialog {
 
     private void onUsuarioRegistrado()
     {
-        //TODO: abrir menu usuario registrado
         MenuUsuarioRegistrado menuUsuarioRegistrado = new MenuUsuarioRegistrado();
         menuUsuarioRegistrado.setVisible(true);
         this.setVisible(false);
@@ -94,7 +93,9 @@ public class MenuPrincipal extends JDialog {
 
     private void onIngresoInvitado()
     {
-        //TODO ir a menu iniciar compra
+        MenuCompra menuCompra = new MenuCompra();
+        menuCompra.setVisible(true);
+        this.setVisible(false);
     }
 
     public static void main(String[] args) {

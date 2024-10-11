@@ -1,4 +1,3 @@
-import vista.MenuConsola;
 import vista.MenuPrincipal;
 
 public class Main {
@@ -6,7 +5,7 @@ public class Main {
 
         MenuPrincipal.main(args);
 
-//        MenuConsola menuConsola = new MenuConsola();
+//        Consola menuConsola = new Consola();
 //        menuConsola.muestraMenu();
     }
 }

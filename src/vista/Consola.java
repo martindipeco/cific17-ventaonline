@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
-public class MenuConsola {
+public class Consola {
 
     private Controlador controlador = Controlador.getInstanciaUnicaControlador();
 
