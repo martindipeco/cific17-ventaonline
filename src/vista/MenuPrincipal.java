@@ -88,7 +88,9 @@ public class MenuPrincipal extends JDialog {
 
     private void onCrearUsuario()
     {
-        //TODO menu crear usuario
+        MenuUsuarioNuevo menuUsuarioNuevo = new MenuUsuarioNuevo();
+        menuUsuarioNuevo.setVisible(true);
+        this.setVisible(false);
     }
 
     private void onIngresoInvitado()

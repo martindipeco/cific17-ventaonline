@@ -58,7 +58,7 @@ public class MenuUsuarioRegistrado extends JDialog {
         String mailUsuario = textFieldMail.getText();
         if(!controlador.getValidadorServicio().esValidoMail(mailUsuario))
         {
-            JOptionPane.showMessageDialog(this, "Mail no es válido");
+            JOptionPane.showMessageDialog(this, "Formato de mail no es válido");
             textFieldMail.setText("");
             datosValidados = false;
         }
@@ -66,7 +66,9 @@ public class MenuUsuarioRegistrado extends JDialog {
         String passUsuario = new String(passwordFieldRegistrado.getPassword());
         if(!controlador.getValidadorServicio().esValidoPass(passUsuario))
         {
-            JOptionPane.showMessageDialog(this, "Contraseña " + passUsuario + "no es válida");
+            JOptionPane.showMessageDialog(this, "Formato de contraseña " + passUsuario +
+                    "no es válida. Debe tener al menos 6 caracteres, " +
+                    "de los cuales al menos uno debe ser un número y al menos uno debe ser una letra");
             passwordFieldRegistrado.setText("");
             datosValidados = false;
         }
