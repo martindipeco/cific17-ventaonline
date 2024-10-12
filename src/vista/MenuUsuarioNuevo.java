@@ -89,7 +89,7 @@ public class MenuUsuarioNuevo extends JDialog {
             String nombreNuevoUsuario = textFieldNombreNuevo.getText();
             if(nombreNuevoUsuario.trim().isEmpty())
             {
-                JOptionPane.showMessageDialog(this, "Ingrese al menos un caracter");
+                JOptionPane.showMessageDialog(this, "Ingrese al menos un caracter para el nombre");
                 textFieldNombreNuevo.setText("");
                 datosValidados = false;
             }
@@ -97,7 +97,7 @@ public class MenuUsuarioNuevo extends JDialog {
             String direccionNuevoUsuario = textFieldDireccionNuevo.getText();
             if(direccionNuevoUsuario.trim().isEmpty())
             {
-                JOptionPane.showMessageDialog(this, "Ingrese al menos un caracter");
+                JOptionPane.showMessageDialog(this, "Ingrese al menos un caracter para la dirección");
                 textFieldDireccionNuevo.setText("");
                 datosValidados = false;
             }
@@ -109,11 +109,17 @@ public class MenuUsuarioNuevo extends JDialog {
             {
                 numTarjetaNuevoUsuario = Long.parseLong(numTarjetaString);
                 tarjetaOK = controlador.getValidadorServicio().esValidaTarjeta(numTarjetaString);
+                if(!tarjetaOK)
+                {
+                    JOptionPane.showMessageDialog(this, "Formato no válido. " +
+                            "Ingrese al menos 10 dígitos");
+                    textFieldTarjCredNuevo.setText("");
+                    datosValidados = false;
+                }
             }
             catch (NumberFormatException e)
             {
-                JOptionPane.showMessageDialog(this, "Formato no válido" +
-                        "Ingrese al menos 10 dígitos");
+                JOptionPane.showMessageDialog(this, "Formato de tarjeta no válido");
                 textFieldTarjCredNuevo.setText("");
                 datosValidados = false;
             }
