@@ -146,6 +146,14 @@ public class CarritoServicio {
         carrito.getListaItems().remove(itemCompra);
     }
 
+    public void quitarProducto(Carrito carrito, List<ItemCompra> items)
+    {
+        for(ItemCompra itemCompra : items)
+        {
+            quitarProducto(carrito, itemCompra);
+        }
+    }
+
     public void quitarUnidadProducto(Carrito carrito, ItemCompra itemCompra)
     {
         //TODO
@@ -159,5 +167,15 @@ public class CarritoServicio {
         {
             System.out.println(item);
         }
+    }
+
+    public String obtenerCarrito(Carrito carrito)
+    {
+        String carritoString = "";
+        for (ItemCompra item : carrito.getListaItems())
+        {
+            carritoString = carritoString + "\n" + item;
+        }
+        return carritoString;
     }
 }

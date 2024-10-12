@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MenuCompra extends JDialog {
@@ -24,6 +25,9 @@ public class MenuCompra extends JDialog {
     private JButton buttonPrecio;
     private JTextField textFieldPrecioMax;
     private JComboBox<ProductoCategoria> comboBoxCategoria;
+    private JButton buttonAgregarACarrito;
+    private JButton buttonVerCarrito;
+    private JButton buttonBorrarSeleccion;
     private DefaultTableModel tableModel = new DefaultTableModel();
 
     public MenuCompra() {
@@ -81,6 +85,46 @@ public class MenuCompra extends JDialog {
                 cargarTablaPorCategoria(categoriaSeleccionada);
             }
         });
+
+        buttonAgregarACarrito.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onAgregarACarrito();
+            }
+        });
+
+        buttonBorrarSeleccion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onBorrarSeleccion();
+            }
+        });
+
+        buttonVerCarrito.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onVerCarrito();
+            }
+        });
+
+        ListSelectionModel selectionModel = tableProductos.getSelectionModel();
+        selectionModel.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+//        selectionModel.addListSelectionListener(e -> {
+//            // Ignora los eventos cuando la selección está ajustando
+//            if (!e.getValueIsAdjusting()) {
+//
+//                int[] selectedRows = tableProductos.getSelectedRows();
+//                List<Producto> productosSeleccionados = new ArrayList<>();
+//
+//                for(int selectedRow : selectedRows)
+//                {
+//                    String codigoString = tableProductos.getValueAt(selectedRow, 0).toString();
+//                    Integer codigo = Integer.parseInt(codigoString);
+//                    controlador.getCarritoServicio().agregarProductoX1(controlador.getCarritoSesion(),
+//                            controlador.getProductoServicio().buscarPorCodigo(codigo));
+//                }
+//            }
+//        });
     }
 
     private void cargarTablaPorCategoria(ProductoCategoria categoria)
@@ -298,6 +342,44 @@ public class MenuCompra extends JDialog {
             textFieldCodigoProducto.setText("");
             datosValidados = false;
         }
+    }
+
+    private void onAgregarACarrito()
+    {
+        // Capture selected items
+        int[] selectedRows = tableProductos.getSelectedRows();
+        List<Producto> productosSeleccionados = new ArrayList<>();
+
+        // Iterate through selected rows and add to the cart
+        for (int selectedRow : selectedRows) {
+            String codigoString = tableProductos.getValueAt(selectedRow, 0).toString();
+            Integer codigo = Integer.parseInt(codigoString);
+
+            // Retrieve the product using the code and add it to the cart
+            Producto producto = controlador.getProductoServicio().buscarPorCodigo(codigo);
+            if (producto != null) {
+                controlador.getCarritoServicio().agregarProductoX1(controlador.getCarritoSesion(), producto);
+                productosSeleccionados.add(producto); // Optional: keep track of added products
+            }
+        }
+
+        // Optional: Show a message or update UI after adding products to the cart
+        if (!productosSeleccionados.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Productos agregados al carrito: " + productosSeleccionados.size());
+        } else {
+            JOptionPane.showMessageDialog(this, "No se seleccionaron productos válidos para agregar al carrito.");
+        }
+    }
+
+    private void onBorrarSeleccion()
+    {
+        //TODO!
+    }
+
+    private void onVerCarrito()
+    {
+        String verCarrito = controlador.getCarritoServicio().obtenerCarrito(controlador.getCarritoSesion());
+        JOptionPane.showMessageDialog(this, verCarrito);
     }
 
     private void onOK() {
