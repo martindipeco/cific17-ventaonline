@@ -105,6 +105,39 @@ public class CarritoServicio {
         }
     }
 
+    public void quitarProducto(Carrito carrito, Producto producto)
+    {
+        //chequeo si el item efectivamente existe en el carrito
+        Optional<ItemCompra> itemExistente = carrito.getListaItems().stream()
+                .filter(item -> item.getProducto().equals(producto))
+                .findFirst();
+
+        if(itemExistente.isPresent())
+        {
+            ItemCompra itemCompra = itemExistente.get();
+
+            // Remove all instances of the product
+            int cantidadAEliminar = itemCompra.getCantidad();
+            carrito.getListaItems().remove(itemCompra);
+
+            // Adjust the stock of the product
+            producto.setStock(producto.getStock() + cantidadAEliminar);
+
+            // Adjust the total amount of the cart
+            carrito.setMontoCarrito(carrito.getMontoCarrito() - (cantidadAEliminar * producto.getPrecioFinal()));
+
+            // Ensure the total amount does not go negative
+            if (carrito.getMontoCarrito() < 0)
+            {
+                carrito.setMontoCarrito(0f);
+            }
+        }
+        else
+        {
+            System.out.println("El producto no está en el carrito");
+        }
+    }
+
     public void quitarProductoXcantidad(Carrito carrito, Producto producto, Integer cantidad)
     {
         //chequeo si el item efectivamente existe en el carrito
@@ -140,25 +173,19 @@ public class CarritoServicio {
         }
     }
 
-    public void quitarProducto(Carrito carrito, ItemCompra itemCompra)
-    {
-        itemCompra.getProducto().setStock(itemCompra.getProducto().getStock() + itemCompra.getCantidad());
-        carrito.getListaItems().remove(itemCompra);
-    }
-
-    public void quitarProducto(Carrito carrito, List<ItemCompra> items)
-    {
-        for(ItemCompra itemCompra : items)
-        {
-            quitarProducto(carrito, itemCompra);
-        }
-    }
-
-    public void quitarUnidadProducto(Carrito carrito, ItemCompra itemCompra)
-    {
-        //TODO
-        System.out.println("Funcionalidad en desarrollo");
-    }
+//    public void quitarProducto(Carrito carrito, ItemCompra itemCompra)
+//    {
+//        itemCompra.getProducto().setStock(itemCompra.getProducto().getStock() + itemCompra.getCantidad());
+//        carrito.getListaItems().remove(itemCompra);
+//    }
+//
+//    public void quitarProducto(Carrito carrito, List<ItemCompra> items)
+//    {
+//        for(ItemCompra itemCompra : items)
+//        {
+//            quitarProducto(carrito, itemCompra);
+//        }
+//    }
 
     public void mostrarCarrito(Carrito carrito)
     {

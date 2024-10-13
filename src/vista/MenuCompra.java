@@ -1,6 +1,8 @@
 package vista;
 
 import controlador.Controlador;
+import modelo.dominio.Carrito;
+import modelo.dominio.Pedido;
 import modelo.dominio.Producto;
 import modelo.dominio.ProductoCategoria;
 
@@ -26,9 +28,13 @@ public class MenuCompra extends JDialog {
     private JTextField textFieldPrecioMax;
     private JComboBox<ProductoCategoria> comboBoxCategoria;
     private JButton buttonAgregarACarrito;
-    private JButton buttonVerCarrito;
+    //private JButton buttonVerCarrito;
     private JButton buttonBorrarSeleccion;
+    private JButton buttonVerPedidos;
+    private JTable tableCarrito;
     private DefaultTableModel tableModel = new DefaultTableModel();
+
+    private DefaultTableModel tableModelCarrito = new DefaultTableModel();
 
     public MenuCompra() {
         setContentPane(contentPane);
@@ -41,9 +47,12 @@ public class MenuCompra extends JDialog {
             comboBoxCategoria.addItem(categoria); // Add each enum value to the combo box
         }
 
-        // Call method to initiate and populate the table
+        // Call method to initiate and populate the tables
         iniciarTablaProductos();
-        agregarTodosTabla();
+        agregarTodosTablaProductos();
+
+        iniciarTablaCarrito();
+
         pack(); //adjusts size to content
 
         buttonOK.addActionListener(new ActionListener() {
@@ -100,15 +109,26 @@ public class MenuCompra extends JDialog {
             }
         });
 
-        buttonVerCarrito.addActionListener(new ActionListener() {
+//        buttonVerCarrito.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                onVerCarrito();
+//            }
+//        });
+
+        buttonVerPedidos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                onVerCarrito();
+                onVerPedidos();
             }
         });
 
         ListSelectionModel selectionModel = tableProductos.getSelectionModel();
         selectionModel.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+
+        ListSelectionModel selectionModelCarrito = tableCarrito.getSelectionModel();
+        selectionModelCarrito.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+
 //        selectionModel.addListSelectionListener(e -> {
 //            // Ignora los eventos cuando la selección está ajustando
 //            if (!e.getValueIsAdjusting()) {
@@ -129,7 +149,7 @@ public class MenuCompra extends JDialog {
 
     private void cargarTablaPorCategoria(ProductoCategoria categoria)
     {
-        limpiarTabla();
+        limpiarTablaProductos();
         List<Producto> productos = controlador.getProductoServicio().buscarPorCategoria(categoria);
         for (Producto producto : productos) {
             if (producto.getCategoria().equals(categoria)) {
@@ -145,12 +165,21 @@ public class MenuCompra extends JDialog {
         }
     }
 
-    private void limpiarTabla() {
+    private void limpiarTablaProductos() {
 
         // Remove all rows except the header, the first one
         int rowCount = tableModel.getRowCount();
         for (int i = rowCount - 1; i > 0; i--) {  // Start from the last row and go upwards to the second row
             tableModel.removeRow(i);
+        }
+    }
+
+    private void limpiarTablaCarrito()
+    {
+        // Remove all rows except the header, the first one
+        int rowCount = tableModelCarrito.getRowCount();
+        for (int i = rowCount - 1; i > 0; i--) {  // Start from the last row and go upwards to the second row
+            tableModelCarrito.removeRow(i);
         }
     }
 
@@ -170,7 +199,22 @@ public class MenuCompra extends JDialog {
         tableProductos.setModel(tableModel);
     }
 
-    private void agregarATabla(Producto producto)
+    private void iniciarTablaCarrito()
+    {
+        // Create column names
+        tableModelCarrito.addColumn("Código");
+        tableModelCarrito.addColumn("Nombre");
+        tableModelCarrito.addColumn("Categoría");
+        tableModelCarrito.addColumn("Precio");
+        tableModelCarrito.addColumn("Cantidad");
+        Object[] headers = {"CODIGO", "NOMBRE", "CATEGORIA", "PRECIO", "CANT."};
+        tableModelCarrito.addRow(headers);
+
+        // Set the table model to the JTable
+        tableCarrito.setModel(tableModelCarrito);
+    }
+
+    private void agregarATablaProductos(Producto producto)
     {
         Object[] rowData = {
                 producto.getCodigoProducto(),
@@ -182,7 +226,7 @@ public class MenuCompra extends JDialog {
         tableModel.addRow(rowData);
     }
 
-    private void agregarATabla(List<Producto> productos)
+    private void agregarATablaProductos(List<Producto> productos)
     {
         int limit =  Math.min(productos.size(), 10);// Limit to 10 or fewer if there are less products
 
@@ -200,7 +244,7 @@ public class MenuCompra extends JDialog {
         }
     }
 
-    private void agregarTodosTabla()
+    private void agregarTodosTablaProductos()
     {
         // Create an instance of ProductoRepositorio to get the products
         List<Producto> productos = Controlador.getInstanciaUnicaControlador().getProductoServicio()
@@ -219,6 +263,67 @@ public class MenuCompra extends JDialog {
                     producto.getStock()
             };
             tableModel.addRow(rowData);
+        }
+    }
+
+    //AGREGA DE A 1 UNIDAD
+//    private void agregarATablaCarrito(Producto producto)
+//    {
+//        Object[] rowData = {
+//                producto.getCodigoProducto(),
+//                producto.getNombre(),
+//                producto.getCategoria(),
+//                producto.getPrecio(),
+//                1
+//        };
+//        tableModelCarrito.addRow(rowData);
+//    }
+
+    //AGREGA DE A 1 UNIDAD
+    private void agregarATablaCarrito(Producto producto) {
+        // Get the product code (first column in table)
+        String codigoProducto = String.valueOf(producto.getCodigoProducto());
+        boolean productoExisteEnTabla = false;
+
+        // Iterate over the rows to check if the product is already in the table
+        for (int i = 0; i < tableModelCarrito.getRowCount(); i++) {
+            String codigoEnTabla = tableModelCarrito.getValueAt(i, 0).toString(); // Column 0 = product code
+
+            // If the product is found, update the "Cant" (quantity) column
+            if (codigoProducto.equals(codigoEnTabla)) {
+                int cantidadActual = Integer.parseInt(tableModelCarrito.getValueAt(i, 4).toString()); // Col 4 = "Cant"
+                tableModelCarrito.setValueAt(cantidadActual + 1, i, 4); // Update "Cant" to Cant + 1
+                productoExisteEnTabla = true;
+                break;
+            }
+        }
+
+        // If the product was not found, add a new row with Cant = 1
+        if (!productoExisteEnTabla) {
+            Object[] rowData = {
+                    producto.getCodigoProducto(),
+                    producto.getNombre(),
+                    producto.getCategoria(),
+                    producto.getPrecio(),
+                    1 // Initial quantity = 1
+            };
+            tableModelCarrito.addRow(rowData);
+        }
+    }
+
+    //AGREGA DE A 1 UNIDAD
+    private void agregarATablaCarrito(List<Producto> productos)
+    {
+        for(Producto producto : productos)
+        {
+            Object[] rowData = {
+                    producto.getCodigoProducto(),
+                    producto.getNombre(),
+                    producto.getCategoria(),
+                    producto.getPrecio(),
+                    1
+            };
+            tableModelCarrito.addRow(rowData);
         }
     }
 
@@ -247,8 +352,8 @@ public class MenuCompra extends JDialog {
             {
                 if(datosValidados)
                 {
-                    limpiarTabla();
-                    agregarATabla(producto);
+                    limpiarTablaProductos();
+                    agregarATablaProductos(producto);
                     textFieldCodigoProducto.setText("");
                 }
             }
@@ -282,8 +387,8 @@ public class MenuCompra extends JDialog {
         {
             if(datosValidados)
             {
-                limpiarTabla();
-                agregarATabla(productos);
+                limpiarTablaProductos();
+                agregarATablaProductos(productos);
                 textFieldNombre.setText("");
             }
         }
@@ -329,8 +434,8 @@ public class MenuCompra extends JDialog {
             {
                 if(datosValidados)
                 {
-                    limpiarTabla();
-                    agregarATabla(productos);
+                    limpiarTablaProductos();
+                    agregarATablaProductos(productos);
                     textFieldPrecioMin.setText("");
                     textFieldPrecioMax.setText("");
                 }
@@ -353,44 +458,109 @@ public class MenuCompra extends JDialog {
         // Iterate through selected rows and add to the cart
         for (int selectedRow : selectedRows) {
             String codigoString = tableProductos.getValueAt(selectedRow, 0).toString();
-            Integer codigo = Integer.parseInt(codigoString);
+            try
+            {
+                int codigo = Integer.parseInt(codigoString);
 
-            // Retrieve the product using the code and add it to the cart
-            Producto producto = controlador.getProductoServicio().buscarPorCodigo(codigo);
-            if (producto != null) {
-                controlador.getCarritoServicio().agregarProductoX1(controlador.getCarritoSesion(), producto);
-                productosSeleccionados.add(producto); // Optional: keep track of added products
+                // Retrieve the product using the code and add it to the cart
+                Producto producto = controlador.getProductoServicio().buscarPorCodigo(codigo);
+                if (producto != null) {
+                    controlador.getCarritoServicio().agregarProductoX1(controlador.getCarritoSesion(), producto);
+                    productosSeleccionados.add(producto); // Optional: keep track of added products
+                    agregarATablaCarrito(producto); //mostrar en tabla
+                }
+            }
+            catch (NumberFormatException e)
+            {
+                JOptionPane.showMessageDialog(this, "Error de formato en código");
             }
         }
 
         // Optional: Show a message or update UI after adding products to the cart
-        if (!productosSeleccionados.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Productos agregados al carrito: " + productosSeleccionados.size());
-        } else {
+        if (productosSeleccionados.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No se seleccionaron productos válidos para agregar al carrito.");
         }
     }
 
     private void onBorrarSeleccion()
     {
-        //TODO!
+        // Capture selected items
+        int[] selectedRows = tableProductos.getSelectedRows();
+        List<Producto> productosSeleccionados = new ArrayList<>();
+
+        for(int i = selectedRows.length - 1; i >= 0; i--)  // Iterate in reverse to avoid shifting rows after removal
+        {
+            int selectedRow = selectedRows[i];
+            String codigoString = tableProductos.getValueAt(selectedRow, 0).toString();
+            try
+            {
+                int codigo = Integer.parseInt(codigoString);
+                Producto producto = controlador.getProductoServicio().buscarPorCodigo(codigo);
+                if(producto != null)
+                {
+                    controlador.getCarritoServicio().quitarProducto(controlador.getCarritoSesion(), producto);
+                    productosSeleccionados.add(producto);
+
+                    // Remove the row from the table model
+                    tableModelCarrito.removeRow(selectedRow);
+                }
+            }
+            catch (NumberFormatException e)
+            {
+                JOptionPane.showMessageDialog(this, "Error de formato en código");
+            }
+        }
+
+        if (!productosSeleccionados.isEmpty())
+        {
+            JOptionPane.showMessageDialog(this, "Productos eliminados del carrito: " + productosSeleccionados.size());
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "No se seleccionaron productos válidos para quitar del carrito.");
+        }
     }
 
-    private void onVerCarrito()
+//    private void onVerCarrito()
+//    {
+//        String verCarrito = controlador.getCarritoServicio().obtenerCarrito(controlador.getCarritoSesion());
+//        JOptionPane.showMessageDialog(this, verCarrito);
+//    }
+
+    private void onVerPedidos()
     {
-        String verCarrito = controlador.getCarritoServicio().obtenerCarrito(controlador.getCarritoSesion());
-        JOptionPane.showMessageDialog(this, verCarrito);
+        String verPedidos = controlador.getPedidoServicio().getListaPedidos().toString();
+        JOptionPane.showMessageDialog(this, verPedidos);
     }
 
     private void onOK() {
-        // este boton por ahora no hace nada
-        JOptionPane.showMessageDialog(this, "Agregando al carrito");
+        if(controlador.getCarritoSesion().getListaItems().isEmpty())
+        {
+            JOptionPane.showMessageDialog(this, "El carrito está vacío. " +
+                    "Agregue al menos un producto");
+        }
+        else
+        {
+            if (controlador.getCarritoSesion().getUsuario()==null)
+            {
+                JOptionPane.showMessageDialog(this, "Es necesario crear usuario o loguearse");
+                //TODO: chequear si es necesario instanciar nuevo menu principal
+                MenuPrincipal.getWindows();
+            }
+            JOptionPane.showMessageDialog(this, "Procesando su compra");
+            //instancio pedido a partir de carrito actual
+            controlador.getPedidoServicio().agregarPedido(new Pedido(controlador.getCarritoSesion()));
+            //muestro el pedido, el último en la lista x q acaba de agregarse
+            JOptionPane.showMessageDialog(this, controlador.getPedidoServicio().getListaPedidos().get(
+                    controlador.getPedidoServicio().getListaPedidos().size()-1));
+            //reiniciamos el carrito
+            controlador.setCarritoSesion(new Carrito(controlador.getUsuarioSesion()));
+            limpiarTablaCarrito();
+        }
+        JOptionPane.showMessageDialog(this, "Pedido realizado con éxito");
     }
 
     private void onCancel() {
-        // add your code here if necessary
-        this.setVisible(false);
-        MenuPrincipal menuPrincipal = new MenuPrincipal();
-        menuPrincipal.setVisible(true);
+        dispose();
     }
 }
