@@ -20,18 +20,18 @@ public class MenuCompra extends JDialog {
     private JButton buttonCancel;
     private JTable tableProductos;
     private JTextField textFieldCodigoProducto;
-    private JButton buttonCodigo;
+    private JButton buttonBuscar;
     private JTextField textFieldNombre;
     private JButton buttonNombre;
-    private JTextField textFieldPrecioMin;
     private JButton buttonPrecio;
-    private JTextField textFieldPrecioMax;
     private JComboBox<ProductoCategoria> comboBoxCategoria;
     private JButton buttonAgregarACarrito;
     //private JButton buttonVerCarrito;
     private JButton buttonBorrarSeleccion;
     private JButton buttonVerPedidos;
     private JTable tableCarrito;
+    private JSpinner spinnerMaximo;
+    private JSpinner spinnerMinimo;
     private DefaultTableModel tableModel = new DefaultTableModel();
 
     private DefaultTableModel tableModelCarrito = new DefaultTableModel();
@@ -67,10 +67,10 @@ public class MenuCompra extends JDialog {
             }
         });
 
-        buttonCodigo.addActionListener(new ActionListener() {
+        buttonBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                onCodigoProducto();
+                onBuscar();
             }
         });
 
@@ -129,22 +129,9 @@ public class MenuCompra extends JDialog {
         ListSelectionModel selectionModelCarrito = tableCarrito.getSelectionModel();
         selectionModelCarrito.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-//        selectionModel.addListSelectionListener(e -> {
-//            // Ignora los eventos cuando la selección está ajustando
-//            if (!e.getValueIsAdjusting()) {
-//
-//                int[] selectedRows = tableProductos.getSelectedRows();
-//                List<Producto> productosSeleccionados = new ArrayList<>();
-//
-//                for(int selectedRow : selectedRows)
-//                {
-//                    String codigoString = tableProductos.getValueAt(selectedRow, 0).toString();
-//                    Integer codigo = Integer.parseInt(codigoString);
-//                    controlador.getCarritoServicio().agregarProductoX1(controlador.getCarritoSesion(),
-//                            controlador.getProductoServicio().buscarPorCodigo(codigo));
-//                }
-//            }
-//        });
+        spinnerMinimo.setValue(0);
+        spinnerMaximo.setValue(Float.MAX_VALUE);
+
     }
 
     private void cargarTablaPorCategoria(ProductoCategoria categoria)
@@ -337,6 +324,39 @@ public class MenuCompra extends JDialog {
         }
     }
 
+    //Filtro con streams
+    private void onBuscar()
+    {
+        //capturar todos los valores, y pasarlos al metodo buscar general
+        int codigo = -1;
+        String nombre = "";
+        ProductoCategoria categoria = null;
+        float min = 0f;
+        float max = Float.MAX_VALUE;
+
+        //capturo valor de codigo, o dejo -1 x defecto
+        String codigoString = textFieldCodigoProducto.getText();
+        if (!codigoString.trim().isEmpty())
+        {
+            try
+            {
+                codigo = Integer.parseInt(codigoString);
+            }
+            catch (NumberFormatException e)
+            {
+                JOptionPane.showMessageDialog(this, "Formato de código no válido");
+                textFieldCodigoProducto.setText("");
+            }
+        }
+
+        //capturo valor de nombre
+
+        //capturo valor de categoria
+
+        //capturo valor de min y max
+        controlador.getProductoServicio().buscarCompleto(codigo, nombre, categoria, min, max);
+    }
+
     private void onCodigoProducto()
     {
         Boolean datosValidados = true;
@@ -407,56 +427,37 @@ public class MenuCompra extends JDialog {
     private void onPrecio()
     {
         Boolean datosValidados = true;
-        String precioMinString = textFieldPrecioMin.getText();
-        String precioMaxString = textFieldPrecioMax.getText();
+        float precioMin = (float) spinnerMinimo.getValue();
+        float precioMax = (float) spinnerMaximo.getValue();
 
-        if (precioMinString.trim().isEmpty())
+        if(precioMin >= precioMax)
         {
-            JOptionPane.showMessageDialog(this, "Se toma consulta sin precio mínimo");
-            textFieldPrecioMin.setText("0");
-        }
-        if(precioMaxString.trim().isEmpty())
-        {
-            JOptionPane.showMessageDialog(this, "Se toma consulta sin precio máximo");
-            textFieldPrecioMax.setText("" + Float.MAX_VALUE);
-        }
-        try
-        {
-            float precioMin = Float.parseFloat(precioMinString);
-            float precioMax = Float.parseFloat(precioMaxString);
-            if(precioMin >= precioMax)
-            {
-                JOptionPane.showMessageDialog(this, "Mínimo debe ser menor a máximo");
-                textFieldPrecioMin.setText("");
-                textFieldPrecioMax.setText("");
-                datosValidados = false;
-            }
-
-            List<Producto> productos = controlador.getProductoServicio().buscarPorRangoPrecio(precioMin, precioMax);
-            if(productos.isEmpty())
-            {
-                JOptionPane.showMessageDialog(this, "No se encontraron productos en ese rango");
-                textFieldPrecioMin.setText("");
-                textFieldPrecioMax.setText("");
-                datosValidados = false;
-            }
-            else
-            {
-                if(datosValidados)
-                {
-                    limpiarTablaProductos();
-                    agregarATablaProductos(productos);
-                    textFieldPrecioMin.setText("");
-                    textFieldPrecioMax.setText("");
-                }
-            }
-        }
-        catch (NumberFormatException e)
-        {
-            JOptionPane.showMessageDialog(this, "Formato de precio no válido");
-            textFieldCodigoProducto.setText("");
+            JOptionPane.showMessageDialog(this, "Mínimo debe ser menor a máximo");
+            spinnerMinimo.setValue(0);  // Reset to default
+            spinnerMaximo.setValue(Float.MAX_VALUE); // Reset to default
             datosValidados = false;
         }
+
+        List<Producto> productos = controlador.getProductoServicio().buscarPorRangoPrecio(precioMin, precioMax);
+        if(productos.isEmpty())
+        {
+            JOptionPane.showMessageDialog(this, "No se encontraron productos en ese rango");
+            spinnerMinimo.setValue(0);  // Reset to default
+            spinnerMaximo.setValue(Float.MAX_VALUE); // Reset to default
+            datosValidados = false;
+        }
+        else
+        {
+            if(datosValidados)
+            {
+                limpiarTablaProductos();
+                agregarATablaProductos(productos);
+                spinnerMinimo.setValue(0);  // Reset to default
+                spinnerMaximo.setValue(Float.MAX_VALUE); // Reset to default
+            }
+        }
+
+
     }
 
     private void onAgregarACarrito()

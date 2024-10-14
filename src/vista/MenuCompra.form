@@ -112,7 +112,7 @@
                   </component>
                 </children>
               </grid>
-              <component id="14d63" class="javax.swing.JButton" binding="buttonCodigo">
+              <component id="14d63" class="javax.swing.JButton" binding="buttonBuscar">
                 <constraints>
                   <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -167,14 +167,6 @@
                   <text value="Precio Minimo"/>
                 </properties>
               </component>
-              <component id="9395d" class="javax.swing.JTextField" binding="textFieldPrecioMin">
-                <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
-                </constraints>
-                <properties/>
-              </component>
               <component id="3c3e0" class="javax.swing.JButton" binding="buttonPrecio">
                 <constraints>
                   <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
@@ -191,11 +183,15 @@
                   <text value="Precio Maximo"/>
                 </properties>
               </component>
-              <component id="bb9af" class="javax.swing.JTextField" binding="textFieldPrecioMax">
+              <component id="a3e86" class="javax.swing.JSpinner" binding="spinnerMaximo">
                 <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="689e2" class="javax.swing.JSpinner" binding="spinnerMinimo">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
               </component>
@@ -315,7 +311,7 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Agregar al Carrito   "/>
+              <text value="Agregar al Carrito -&gt;   "/>
             </properties>
           </component>
           <component id="2886e" class="javax.swing.JButton" binding="buttonBorrarSeleccion">
@@ -323,7 +319,7 @@
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Quitar Seleccion"/>
+              <text value="&lt;- Quitar Seleccion"/>
             </properties>
           </component>
         </children>

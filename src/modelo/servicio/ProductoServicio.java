@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ProductoServicio {
     private ProductoRepositorio productoRepositorio;
@@ -112,5 +113,44 @@ public class ProductoServicio {
             //productos.sort(Comparator.comparing(Producto::getPrecio).reversed())
         }
         return productos;
+    }
+
+    //BUSCAR COMBINANDO TODOS LOS FILTROS
+    public List<Producto> buscarCompleto(int codigo, String nombre, ProductoCategoria categoria, float min, float max)
+    {
+        Stream<Producto> stream = productoRepositorio.getListaDeProductos().stream();
+
+        //si recibo dato de codigo, aplico unicamente ese filtro
+        if(codigo > 0)
+        {
+
+        }
+        else
+        {
+
+        }
+    }
+
+    public List<Producto> filtrarProductosConStreams(String categoria, Double precioMin, Double precioMax, boolean esNuevo) {
+        Stream<Producto> stream = productos.stream();
+
+        // Apply the category filter only if 'categoria' is not null or empty
+        if (categoria != null && !categoria.isEmpty()) {
+            stream = stream.filter(p -> p.getCategoria().equals(categoria));
+        }
+
+        // Apply price filter if 'precioMin' or 'precioMax' is provided
+        if (precioMin != null) {
+            stream = stream.filter(p -> p.getPrecio() >= precioMin);
+        }
+        if (precioMax != null) {
+            stream = stream.filter(p -> p.getPrecio() <= precioMax);
+        }
+
+        // Apply the 'esNuevo' filter
+        stream = stream.filter(p -> p.isNuevo() == esNuevo);
+
+        // Return the filtered list
+        return stream.collect(Collectors.toList());
     }
 }
