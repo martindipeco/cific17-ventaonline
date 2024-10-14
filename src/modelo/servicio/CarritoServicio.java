@@ -205,4 +205,20 @@ public class CarritoServicio {
         }
         return carritoString;
     }
+
+    public void vaciarCarrito(Carrito carrito)
+    {
+        // Iterar cada item en carrito
+        for (ItemCompra item : carrito.getListaItems()) {
+            Producto producto = item.getProducto();
+            int cantidadEnCarrito = item.getCantidad();
+
+            // Restaurar stock
+            producto.setStock(producto.getStock() + cantidadEnCarrito);
+        }
+
+        // Limpiar carrito
+        carrito.getListaItems().clear();
+        carrito.setMontoCarrito(0.0f); // Reset the total amount of the cart
+    }
 }

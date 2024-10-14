@@ -266,64 +266,74 @@ public class MenuCompra extends JDialog {
         }
     }
 
-    //AGREGA DE A 1 UNIDAD
-//    private void agregarATablaCarrito(Producto producto)
-//    {
-//        Object[] rowData = {
-//                producto.getCodigoProducto(),
-//                producto.getNombre(),
-//                producto.getCategoria(),
-//                producto.getPrecio(),
-//                1
-//        };
-//        tableModelCarrito.addRow(rowData);
-//    }
-
-    //AGREGA DE A 1 UNIDAD
+    //AGREGA 1 PRODUCTO DE A 1 UNIDAD
     private void agregarATablaCarrito(Producto producto) {
         // Get the product code (first column in table)
         String codigoProducto = String.valueOf(producto.getCodigoProducto());
-        boolean productoExisteEnTabla = false;
+        boolean productoExisteEnTablaCarrito = false;
+        int stockDisponible = -1;
 
-        // Iterate over the rows to check if the product is already in the table
-        for (int i = 0; i < tableModelCarrito.getRowCount(); i++) {
-            String codigoEnTabla = tableModelCarrito.getValueAt(i, 0).toString(); // Column 0 = product code
+        // Check the stock in the product table before adding to cart
+        for (int i = 0; i < tableModel.getRowCount(); i++) {
+            String codigoEnTablaProductos = tableModel.getValueAt(i, 0).toString(); // Col 0 = product cod
 
-            // If the product is found, update the "Cant" (quantity) column
-            if (codigoProducto.equals(codigoEnTabla)) {
-                int cantidadActual = Integer.parseInt(tableModelCarrito.getValueAt(i, 4).toString()); // Col 4 = "Cant"
-                tableModelCarrito.setValueAt(cantidadActual + 1, i, 4); // Update "Cant" to Cant + 1
-                productoExisteEnTabla = true;
+            // Find the matching product in the product table
+            if (codigoProducto.equals(codigoEnTablaProductos)) {
+                stockDisponible = Integer.parseInt(tableModel.getValueAt(i, 4).toString()); // Col 4 = stock
                 break;
             }
         }
 
-        // If the product was not found, add a new row with Cant = 1
-        if (!productoExisteEnTabla) {
-            Object[] rowData = {
-                    producto.getCodigoProducto(),
-                    producto.getNombre(),
-                    producto.getCategoria(),
-                    producto.getPrecio(),
-                    1 // Initial quantity = 1
-            };
-            tableModelCarrito.addRow(rowData);
+        // Only allow adding the product to the cart if stock is greater than 0
+        if (stockDisponible > 0) {
+            // Iterate over the rows of the shopping cart to check if the product is already in the cart
+            for (int i = 0; i < tableModelCarrito.getRowCount(); i++) {
+                String codigoEnTablaCarrito = tableModelCarrito.getValueAt(i, 0).toString(); // Col 0 = cod
+
+                // If the product is found, update the "Cant" (quantity) column, nº 4
+                if (codigoProducto.equals(codigoEnTablaCarrito)) {
+                    int cantidadActualCarrito = Integer.parseInt(tableModelCarrito.getValueAt(i, 4).toString());
+                    tableModelCarrito.setValueAt(cantidadActualCarrito + 1, i, 4); // Update Cant + 1
+                    productoExisteEnTablaCarrito = true;
+                    break;
+                }
+            }
+
+            // If the product was not found in the shopping cart, add a new row with Cant = 1
+            if (!productoExisteEnTablaCarrito) {
+                Object[] rowDataCarrito = {
+                        producto.getCodigoProducto(),
+                        producto.getNombre(),
+                        producto.getCategoria(),
+                        producto.getPrecio(),
+                        1
+                };
+                tableModelCarrito.addRow(rowDataCarrito);
+            }
+
+            // Subtract one unit from the stock in the product table
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                String codigoEnTablaProductos = tableModel.getValueAt(i, 0).toString(); // Col 0 = cod
+
+                // Find the matching product in the product table
+                if (codigoProducto.equals(codigoEnTablaProductos)) {
+                    int stockActual = Integer.parseInt(tableModel.getValueAt(i, 4).toString()); // Col 4 = stock
+                    tableModel.setValueAt(stockActual - 1, i, 4); // Subtract 1 from stock
+                    break;
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay stock de " + producto.getNombre());
         }
     }
 
-    //AGREGA DE A 1 UNIDAD
+
+    //AGREGA VARIOS PRODUCTOS DE A 1 UNIDAD
     private void agregarATablaCarrito(List<Producto> productos)
     {
         for(Producto producto : productos)
         {
-            Object[] rowData = {
-                    producto.getCodigoProducto(),
-                    producto.getNombre(),
-                    producto.getCategoria(),
-                    producto.getPrecio(),
-                    1
-            };
-            tableModelCarrito.addRow(rowData);
+            agregarATablaCarrito(producto);
         }
     }
 
@@ -561,6 +571,11 @@ public class MenuCompra extends JDialog {
     }
 
     private void onCancel() {
+        //antes de cerrar me aseguro que no queden items adentro del carrito
+        if(!controlador.getCarritoSesion().getListaItems().isEmpty())
+        {
+            controlador.getCarritoServicio().vaciarCarrito(controlador.getCarritoSesion());
+        }
         dispose();
     }
 }
