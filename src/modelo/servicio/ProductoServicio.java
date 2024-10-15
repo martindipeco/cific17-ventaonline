@@ -118,39 +118,37 @@ public class ProductoServicio {
     //BUSCAR COMBINANDO TODOS LOS FILTROS
     public List<Producto> buscarCompleto(int codigo, String nombre, ProductoCategoria categoria, float min, float max)
     {
-        Stream<Producto> stream = productoRepositorio.getListaDeProductos().stream();
+        List<Producto> listaProductos = productoRepositorio.getListaDeProductos();
+        Stream<Producto> stream = listaProductos.stream();
 
         //si recibo dato de codigo, aplico unicamente ese filtro
         if(codigo > 0)
         {
-
+            stream = stream.filter(p -> p.getCodigoProducto() == codigo);
         }
         else
         {
-
+            //Si nombre viene vacio, NO aplico el filtro
+            if(!nombre.isEmpty())
+            {
+                stream = stream.filter(p -> p.getNombre().contains(nombre));
+            }
+            //Si categoria viene null, NO aplico el filtro
+            if(categoria != null)
+            {
+                stream = stream.filter(p -> p.getCategoria().equals(categoria));
+            }
+            //Si min es menor o igual a 0, No aplico ese filtro
+            if(min > 0)
+            {
+                stream = stream.filter(p -> p.getPrecio() >= min);
+            }
+            //Si max es Float.Max, NO aplico ese filtro
+            if(max != Float.MAX_VALUE)
+            {
+                stream = stream.filter(p -> p.getPrecio() <= max);
+            }
         }
-    }
-
-    public List<Producto> filtrarProductosConStreams(String categoria, Double precioMin, Double precioMax, boolean esNuevo) {
-        Stream<Producto> stream = productos.stream();
-
-        // Apply the category filter only if 'categoria' is not null or empty
-        if (categoria != null && !categoria.isEmpty()) {
-            stream = stream.filter(p -> p.getCategoria().equals(categoria));
-        }
-
-        // Apply price filter if 'precioMin' or 'precioMax' is provided
-        if (precioMin != null) {
-            stream = stream.filter(p -> p.getPrecio() >= precioMin);
-        }
-        if (precioMax != null) {
-            stream = stream.filter(p -> p.getPrecio() <= precioMax);
-        }
-
-        // Apply the 'esNuevo' filter
-        stream = stream.filter(p -> p.isNuevo() == esNuevo);
-
-        // Return the filtered list
         return stream.collect(Collectors.toList());
     }
 }
