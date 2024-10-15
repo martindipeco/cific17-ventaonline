@@ -27,12 +27,12 @@ public class MenuCompra extends JDialog {
     private JComboBox<ProductoCategoria> comboBoxCategoria;
     private JButton buttonAgregarACarrito;
     //private JButton buttonVerCarrito;
-    private JButton buttonBorrarSeleccion;
+    private JButton buttonQuitarSeleccion;
     private JButton buttonVerPedidos;
     private JTable tableCarrito;
     private JSpinner spinnerMaximo;
     private JSpinner spinnerMinimo;
-    private DefaultTableModel tableModel = new DefaultTableModel();
+    private DefaultTableModel tableModelProductos = new DefaultTableModel();
 
     private DefaultTableModel tableModelCarrito = new DefaultTableModel();
 
@@ -102,10 +102,10 @@ public class MenuCompra extends JDialog {
             }
         });
 
-        buttonBorrarSeleccion.addActionListener(new ActionListener() {
+        buttonQuitarSeleccion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                onBorrarSeleccion();
+                onQuitarSeleccionDeCarrito();
             }
         });
 
@@ -147,7 +147,7 @@ public class MenuCompra extends JDialog {
                         producto.getPrecio(),
                         producto.getStock()
                 };
-                tableModel.addRow(rowData);
+                tableModelProductos.addRow(rowData);
             }
         }
     }
@@ -155,9 +155,9 @@ public class MenuCompra extends JDialog {
     private void limpiarTablaProductos() {
 
         // Remove all rows except the header, the first one
-        int rowCount = tableModel.getRowCount();
+        int rowCount = tableModelProductos.getRowCount();
         for (int i = rowCount - 1; i > 0; i--) {  // Start from the last row and go upwards to the second row
-            tableModel.removeRow(i);
+            tableModelProductos.removeRow(i);
         }
     }
 
@@ -174,16 +174,16 @@ public class MenuCompra extends JDialog {
     private void iniciarTablaProductos() {
 
         // Create column names
-        tableModel.addColumn("Código");
-        tableModel.addColumn("Nombre");
-        tableModel.addColumn("Categoría");
-        tableModel.addColumn("Precio");
-        tableModel.addColumn("Stock");
+        tableModelProductos.addColumn("Código");
+        tableModelProductos.addColumn("Nombre");
+        tableModelProductos.addColumn("Categoría");
+        tableModelProductos.addColumn("Precio");
+        tableModelProductos.addColumn("Stock");
         Object[] headers = {"CODIGO", "NOMBRE", "CATEGORIA", "PRECIO", "STOCK"};
-        tableModel.addRow(headers);
+        tableModelProductos.addRow(headers);
 
         // Set the table model to the JTable
-        tableProductos.setModel(tableModel);
+        tableProductos.setModel(tableModelProductos);
     }
 
     private void iniciarTablaCarrito()
@@ -210,7 +210,7 @@ public class MenuCompra extends JDialog {
                 producto.getPrecio(),
                 producto.getStock()
         };
-        tableModel.addRow(rowData);
+        tableModelProductos.addRow(rowData);
     }
 
     private void agregarATablaProductos(List<Producto> productos)
@@ -227,7 +227,7 @@ public class MenuCompra extends JDialog {
                     producto.getPrecio(),
                     producto.getStock()
             };
-            tableModel.addRow(rowData);
+            tableModelProductos.addRow(rowData);
         }
     }
 
@@ -249,29 +249,28 @@ public class MenuCompra extends JDialog {
                     producto.getPrecio(),
                     producto.getStock()
             };
-            tableModel.addRow(rowData);
+            tableModelProductos.addRow(rowData);
         }
     }
 
     //AGREGA 1 PRODUCTO DE A 1 UNIDAD
     private void agregarATablaCarrito(Producto producto) {
-        // Get the product code (first column in table)
+        // capturar codigo de producto , q esta en la primer columna
         String codigoProducto = String.valueOf(producto.getCodigoProducto());
         boolean productoExisteEnTablaCarrito = false;
         int stockDisponible = -1;
 
-        // Check the stock in the product table before adding to cart
-        for (int i = 0; i < tableModel.getRowCount(); i++) {
-            String codigoEnTablaProductos = tableModel.getValueAt(i, 0).toString(); // Col 0 = product cod
+        // Check de stock
+        for (int i = 0; i < tableModelProductos.getRowCount(); i++) {
+            String codigoEnTablaProductos = tableModelProductos.getValueAt(i, 0).toString(); // Col 0 = product cod
 
             // Find the matching product in the product table
             if (codigoProducto.equals(codigoEnTablaProductos)) {
-                stockDisponible = Integer.parseInt(tableModel.getValueAt(i, 4).toString()); // Col 4 = stock
+                stockDisponible = Integer.parseInt(tableModelProductos.getValueAt(i, 4).toString()); // Col 4 = stock
                 break;
             }
         }
 
-        // Only allow adding the product to the cart if stock is greater than 0
         if (stockDisponible > 0) {
             // Iterate over the rows of the shopping cart to check if the product is already in the cart
             for (int i = 0; i < tableModelCarrito.getRowCount(); i++) {
@@ -299,19 +298,21 @@ public class MenuCompra extends JDialog {
             }
 
             // Subtract one unit from the stock in the product table
-            for (int i = 0; i < tableModel.getRowCount(); i++) {
-                String codigoEnTablaProductos = tableModel.getValueAt(i, 0).toString(); // Col 0 = cod
+            for (int i = 0; i < tableModelProductos.getRowCount(); i++) {
+                String codigoEnTablaProductos = tableModelProductos.getValueAt(i, 0).toString(); // Col 0 = cod
 
                 // Find the matching product in the product table
                 if (codigoProducto.equals(codigoEnTablaProductos)) {
-                    int stockActual = Integer.parseInt(tableModel.getValueAt(i, 4).toString()); // Col 4 = stock
-                    tableModel.setValueAt(stockActual - 1, i, 4); // Subtract 1 from stock
+                    int stockActual = Integer.parseInt(tableModelProductos.getValueAt(i, 4).toString()); // Col 4 = stock
+                    tableModelProductos.setValueAt(stockActual - 1, i, 4); // Subtract 1 from stock
                     break;
                 }
             }
         } else {
             JOptionPane.showMessageDialog(this, "No hay stock de " + producto.getNombre());
         }
+        //deselecciono los elementos
+        tableProductos.clearSelection();
     }
 
 
@@ -322,6 +323,50 @@ public class MenuCompra extends JDialog {
         {
             agregarATablaCarrito(producto);
         }
+    }
+
+    private void actualizarStockTablaProductos(Producto producto)
+    {
+        for (int row = 0; row < tableModelProductos.getRowCount(); row++)
+        {
+            //codigo es columna 0
+            String codigoEnTabla = tableModelProductos.getValueAt(row, 0).toString();
+            if (codigoEnTabla.equals(String.valueOf(producto.getCodigoProducto())))
+            {
+                // stock es col 4
+                tableModelProductos.setValueAt(producto.getStock(), row, 4);
+                break;
+            }
+        }
+    }
+
+    private void pedirDatosUsuario()
+    {
+        // opciones para OptionPane
+        Object[] options = {"Log In", "Crear Usuario", "OK"};
+
+        // mostrar el option dialgog Pane
+        int choice = JOptionPane.showOptionDialog(
+                null,
+                "Es necesario loguearse o crear usuario",
+                "Opciones de usuario",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                options,
+                options[2] // Default button is "OK"
+        );
+
+        // Handle the user's choice
+        if (choice == 0) {
+            // Log In button pressed
+            MenuUsuarioRegistrado menuUsuarioRegistrado = new MenuUsuarioRegistrado();
+            menuUsuarioRegistrado.setVisible(true);
+        } else if (choice == 1) {
+            // Create User button pressed
+            MenuUsuarioNuevo menuUsuarioNuevo = new MenuUsuarioNuevo();
+            menuUsuarioNuevo.setVisible(true);
+        }  // OK button pressed or dialog closed. Simply return to the previous menu (dialog closes)
     }
 
     //Filtro con streams
@@ -362,116 +407,15 @@ public class MenuCompra extends JDialog {
             min = Float.parseFloat(spinnerMinimo.getValue().toString()) ;
             max = Float.parseFloat(spinnerMaximo.getValue().toString()) ;
         }
-        //paso valores por parámetro
-
-        //TODO: debo capturar esa lista en alguna variable, y mandarla a tabla
+        //paso valores por parámetro y capturo resultado en lista
         List<Producto> productosFiltrados = controlador.getProductoServicio()
                 .buscarCompleto(codigo, nombre, categoria, min, max);
 
+        //impacto en tabla
+        limpiarTablaProductos();
+        agregarATablaProductos(productosFiltrados);
+
     }
-//
-//    private void onCodigoProducto()
-//    {
-//        Boolean datosValidados = true;
-//        //capturar texto
-//        String codigoString = textFieldCodigoProducto.getText();
-//        if (codigoString.trim().isEmpty())
-//        {
-//            JOptionPane.showMessageDialog(this, "Ingrese al menos un caracter para el código");
-//            textFieldCodigoProducto.setText("");
-//            datosValidados = false;
-//        }
-//        try
-//        {
-//            int codigoProd = Integer.parseInt(codigoString);
-//            Producto producto = controlador.getProductoServicio().buscarPorCodigo(codigoProd);
-//            if(producto == null)
-//            {
-//                JOptionPane.showMessageDialog(this, "No se encontraron productos con ese código");
-//                textFieldCodigoProducto.setText("");
-//                datosValidados = false;
-//            }
-//            else
-//            {
-//                if(datosValidados)
-//                {
-//                    limpiarTablaProductos();
-//                    agregarATablaProductos(producto);
-//                    textFieldCodigoProducto.setText("");
-//                }
-//            }
-//        }
-//        catch (NumberFormatException e)
-//        {
-//            JOptionPane.showMessageDialog(this, "Formato de código no válido");
-//            textFieldCodigoProducto.setText("");
-//            datosValidados = false;
-//        }
-//    }
-//
-//    private void onNombre()
-//    {
-//        Boolean datosValidados = true;
-//        String nombre = textFieldNombre.getText();
-//        if (nombre.trim().isEmpty() || nombre.length() < 3)
-//        {
-//            JOptionPane.showMessageDialog(this, "Ingrese al menos tres caracteres para el nombre");
-//            textFieldNombre.setText("");
-//            datosValidados = false;
-//        }
-//        List<Producto> productos = controlador.getProductoServicio().buscarPorNombre(nombre);
-//        if(productos.isEmpty())
-//        {
-//            JOptionPane.showMessageDialog(this, "No se encontraron productos con ese nombre");
-//            textFieldNombre.setText("");
-//            datosValidados = false;
-//        }
-//        else
-//        {
-//            if(datosValidados)
-//            {
-//                limpiarTablaProductos();
-//                agregarATablaProductos(productos);
-//                textFieldNombre.setText("");
-//            }
-//        }
-//    }
-//
-//    private void onPrecio()
-//    {
-//        Boolean datosValidados = true;
-//        float precioMin = (float) spinnerMinimo.getValue();
-//        float precioMax = (float) spinnerMaximo.getValue();
-//
-//        if(precioMin >= precioMax)
-//        {
-//            JOptionPane.showMessageDialog(this, "Mínimo debe ser menor a máximo");
-//            spinnerMinimo.setValue(0);  // Reset to default
-//            spinnerMaximo.setValue(Float.MAX_VALUE); // Reset to default
-//            datosValidados = false;
-//        }
-//
-//        List<Producto> productos = controlador.getProductoServicio().buscarPorRangoPrecio(precioMin, precioMax);
-//        if(productos.isEmpty())
-//        {
-//            JOptionPane.showMessageDialog(this, "No se encontraron productos en ese rango");
-//            spinnerMinimo.setValue(0);  // Reset to default
-//            spinnerMaximo.setValue(Float.MAX_VALUE); // Reset to default
-//            datosValidados = false;
-//        }
-//        else
-//        {
-//            if(datosValidados)
-//            {
-//                limpiarTablaProductos();
-//                agregarATablaProductos(productos);
-//                spinnerMinimo.setValue(0);  // Reset to default
-//                spinnerMaximo.setValue(Float.MAX_VALUE); // Reset to default
-//            }
-//        }
-//
-//
-//    }
 
     private void onAgregarACarrito()
     {
@@ -506,10 +450,10 @@ public class MenuCompra extends JDialog {
         }
     }
 
-    private void onBorrarSeleccion()
+    private void onQuitarSeleccionDeCarrito()
     {
         // Capture selected items
-        int[] selectedRows = tableProductos.getSelectedRows();
+        int[] selectedRows = tableCarrito.getSelectedRows();
         List<Producto> productosSeleccionados = new ArrayList<>();
 
         for(int i = selectedRows.length - 1; i >= 0; i--)  // Iterate in reverse to avoid shifting rows after removal
@@ -522,7 +466,14 @@ public class MenuCompra extends JDialog {
                 Producto producto = controlador.getProductoServicio().buscarPorCodigo(codigo);
                 if(producto != null)
                 {
+                    //capturar cantidad (columna 4) en carrito
+                    int cantidadEnCarrito = Integer.parseInt(tableCarrito.getValueAt(selectedRow, 4).toString());
+
+                    //quitar el producto del carrito. el método se encarga también de actualizar stock en repo
                     controlador.getCarritoServicio().quitarProducto(controlador.getCarritoSesion(), producto);
+
+                    actualizarStockTablaProductos(producto);
+
                     productosSeleccionados.add(producto);
 
                     // Remove the row from the table model
@@ -535,21 +486,13 @@ public class MenuCompra extends JDialog {
             }
         }
 
-        if (!productosSeleccionados.isEmpty())
-        {
-            JOptionPane.showMessageDialog(this, "Productos eliminados del carrito: " + productosSeleccionados.size());
-        }
-        else
+        if (productosSeleccionados.isEmpty())
         {
             JOptionPane.showMessageDialog(this, "No se seleccionaron productos válidos para quitar del carrito.");
         }
+        tableCarrito.clearSelection();
     }
 
-//    private void onVerCarrito()
-//    {
-//        String verCarrito = controlador.getCarritoServicio().obtenerCarrito(controlador.getCarritoSesion());
-//        JOptionPane.showMessageDialog(this, verCarrito);
-//    }
 
     private void onVerPedidos()
     {
@@ -567,21 +510,22 @@ public class MenuCompra extends JDialog {
         {
             if (controlador.getCarritoSesion().getUsuario()==null)
             {
-                JOptionPane.showMessageDialog(this, "Es necesario crear usuario o loguearse");
-                //TODO: chequear si es necesario instanciar nuevo menu principal
-                MenuPrincipal.getWindows();
+                pedirDatosUsuario();
             }
-            JOptionPane.showMessageDialog(this, "Procesando su compra");
-            //instancio pedido a partir de carrito actual
-            controlador.getPedidoServicio().agregarPedido(new Pedido(controlador.getCarritoSesion()));
-            //muestro el pedido, el último en la lista x q acaba de agregarse
-            JOptionPane.showMessageDialog(this, controlador.getPedidoServicio().getListaPedidos().get(
-                    controlador.getPedidoServicio().getListaPedidos().size()-1));
-            //reiniciamos el carrito
-            controlador.setCarritoSesion(new Carrito(controlador.getUsuarioSesion()));
-            limpiarTablaCarrito();
+            else
+            {
+                JOptionPane.showMessageDialog(this, "Procesando su compra");
+                //instancio pedido a partir de carrito actual
+                controlador.getPedidoServicio().agregarPedido(new Pedido(controlador.getCarritoSesion()));
+                //muestro el pedido, el último en la lista x q acaba de agregarse
+                JOptionPane.showMessageDialog(this, controlador.getPedidoServicio().getListaPedidos().get(
+                        controlador.getPedidoServicio().getListaPedidos().size()-1));
+                //reiniciamos el carrito
+                controlador.setCarritoSesion(new Carrito(controlador.getUsuarioSesion()));
+                limpiarTablaCarrito();
+                JOptionPane.showMessageDialog(this, "Pedido realizado con éxito");
+            }
         }
-        JOptionPane.showMessageDialog(this, "Pedido realizado con éxito");
     }
 
     private void onCancel() {

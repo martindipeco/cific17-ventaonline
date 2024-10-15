@@ -99,8 +99,12 @@ public class MenuUsuarioRegistrado extends JDialog {
             {
                 JOptionPane.showMessageDialog(this, "Ingresando como " +
                         controlador.getUsuarioSesion().getNombre());
-                MenuCompra menuCompra = new MenuCompra();
-                menuCompra.setVisible(true);
+                //chequeo si el usuario ya tiene carrito
+                if(controlador.getCarritoSesion().getListaItems().isEmpty())
+                {
+                    MenuCompra menuCompra = new MenuCompra();
+                    menuCompra.setVisible(true);
+                }
                 this.setVisible(false);
             }
         }

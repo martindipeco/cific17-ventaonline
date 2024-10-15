@@ -295,15 +295,15 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Agregar al Carrito -&gt;   "/>
+              <text value="Agregar al Carrito &gt;&gt;   "/>
             </properties>
           </component>
-          <component id="2886e" class="javax.swing.JButton" binding="buttonBorrarSeleccion">
+          <component id="2886e" class="javax.swing.JButton" binding="buttonQuitarSeleccion">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="&lt;- Quitar Seleccion"/>
+              <text value="&lt;&lt; Quitar Seleccion"/>
             </properties>
           </component>
         </children>

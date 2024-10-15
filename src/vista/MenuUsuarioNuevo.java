@@ -131,8 +131,13 @@ public class MenuUsuarioNuevo extends JDialog {
                 controlador.setUsuarioSesion(new Usuario(mailNuevoUsuario, passEncriptado, nombreNuevoUsuario,
                         direccionNuevoUsuario, tarjetaEncriptada));
                 JOptionPane.showMessageDialog(this, "Nuevo usuario registrado con éxito");
-                MenuCompra menuCompra = new MenuCompra();
-                menuCompra.setVisible(true);
+
+                //chequeo si el usuario ya tiene carrito
+                if(controlador.getCarritoSesion().getListaItems().isEmpty())
+                {
+                    MenuCompra menuCompra = new MenuCompra();
+                    menuCompra.setVisible(true);
+                }
                 this.setVisible(false);
             }
         }
