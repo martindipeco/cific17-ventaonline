@@ -459,7 +459,7 @@ public class MenuCompra extends JDialog {
         for(int i = selectedRows.length - 1; i >= 0; i--)  // Iterate in reverse to avoid shifting rows after removal
         {
             int selectedRow = selectedRows[i];
-            String codigoString = tableProductos.getValueAt(selectedRow, 0).toString();
+            String codigoString = tableCarrito.getValueAt(selectedRow, 0).toString();
             try
             {
                 int codigo = Integer.parseInt(codigoString);
