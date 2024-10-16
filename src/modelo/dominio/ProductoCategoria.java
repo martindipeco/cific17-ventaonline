@@ -9,5 +9,5 @@ public enum ProductoCategoria {
     HOGAR,
     MUEBLES,
     ELECTRODOMESTICOS,
-    INFORMATICA;
+    INFORMATICA; //Hacer que informática sea una sub-categoría de tecnología
 }

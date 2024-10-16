@@ -1,12 +1,14 @@
 package modelo.dominio;
 
-public class ProductoComputadora extends Producto {
+public class ProductoInformatica extends Producto {
 
     private String marca;
     private String modelo;
 
-    public ProductoComputadora(int codigoProducto, String nombre, ProductoCategoria categoria, float precio,String marca, String modelo) {
-        super(codigoProducto, nombre, categoria, precio); // Llamada al constructor de la clase padre
+    public ProductoInformatica(int codigoProducto, String nombre, ProductoCategoria categoria, float precio,
+                               String marca, String modelo)
+    {
+        super(codigoProducto, nombre, categoria, precio); // Llamada al constructor de la clase madre
         this.marca = marca;
         this.modelo = modelo;
     }
