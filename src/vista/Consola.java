@@ -119,7 +119,7 @@ public class Consola {
                                 break;
                             case "3":
                                 System.out.println("Seleccione una categoría:");
-                                ProductoCategoria[] categorias = ProductoCategoria.values();
+                                EnumCategoria[] categorias = EnumCategoria.values();
                                 for (int i = 0; i < categorias.length; i++) {
                                     System.out.println((i + 1) + ". " + categorias[i]);
                                 }
@@ -137,8 +137,8 @@ public class Consola {
                                         scanner.next(); // Limpiar opción no válida
                                     }
                                 }
-                                // Convertir input a correspondente ProductoCategoria enum
-                                ProductoCategoria categoriaElegida = categorias[opcionCategoria - 1];
+                                // Convertir input a correspondente EnumCategoria enum
+                                EnumCategoria categoriaElegida = categorias[opcionCategoria - 1];
                                 System.out.println(controlador.getProductoServicio().buscarPorCategoria(categoriaElegida));
                                 //limpiar scanner
                                 scanner.nextLine();

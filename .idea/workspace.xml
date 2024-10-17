@@ -10,10 +10,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1049ba3f-a749-4e8e-af05-9e76a415735c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/modelo/dominio/EnumCategoriaTecnologia.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelo/dominio/ProductoCategoria.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/dominio/ProductoCategoria.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelo/dominio/ProductoComputadora.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/dominio/ProductoInformatica.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modelo/dominio/Producto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/dominio/Producto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modelo/dominio/ProductoCategoria.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/dominio/EnumCategoria.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modelo/dominio/ProductoInformatica.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/dominio/ProductoTecnologia.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modelo/repositorio/ProductoRepositorio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/repositorio/ProductoRepositorio.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modelo/servicio/ProductoServicio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/servicio/ProductoServicio.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vista/Consola.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/vista/Consola.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vista/MenuCompra.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/vista/MenuCompra.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,8 +28,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>

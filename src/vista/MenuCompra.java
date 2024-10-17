@@ -2,9 +2,9 @@ package vista;
 
 import controlador.Controlador;
 import modelo.dominio.Carrito;
+import modelo.dominio.EnumCategoria;
 import modelo.dominio.Pedido;
 import modelo.dominio.Producto;
-import modelo.dominio.ProductoCategoria;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -24,7 +24,7 @@ public class MenuCompra extends JDialog {
     private JTextField textFieldNombre;
     //private JButton buttonNombre;
     //private JButton buttonPrecio;
-    private JComboBox<ProductoCategoria> comboBoxCategoria;
+    private JComboBox<EnumCategoria> comboBoxCategoria;
     private JButton buttonAgregarACarrito;
     //private JButton buttonVerCarrito;
     private JButton buttonQuitarSeleccion;
@@ -42,8 +42,8 @@ public class MenuCompra extends JDialog {
         getRootPane().setDefaultButton(buttonOK);
         setLocationRelativeTo(null);  // Centers the dialog on the screen
 
-        // Populate the comboBoxCategoria with ProductoCategoria enum values
-        for (ProductoCategoria categoria : ProductoCategoria.values()) {
+        // Populate the comboBoxCategoria with EnumCategoria enum values
+        for (EnumCategoria categoria : EnumCategoria.values()) {
             comboBoxCategoria.addItem(categoria); // Add each enum value to the combo box
         }
 
@@ -89,7 +89,7 @@ public class MenuCompra extends JDialog {
 //        });
 
         comboBoxCategoria.addActionListener(e -> {
-            ProductoCategoria categoriaSeleccionada = (ProductoCategoria) comboBoxCategoria.getSelectedItem();
+            EnumCategoria categoriaSeleccionada = (EnumCategoria) comboBoxCategoria.getSelectedItem();
             if (categoriaSeleccionada != null) {
                 cargarTablaPorCategoria(categoriaSeleccionada);
             }
@@ -134,7 +134,7 @@ public class MenuCompra extends JDialog {
 
     }
 
-    private void cargarTablaPorCategoria(ProductoCategoria categoria)
+    private void cargarTablaPorCategoria(EnumCategoria categoria)
     {
         limpiarTablaProductos();
         List<Producto> productos = controlador.getProductoServicio().buscarPorCategoria(categoria);
@@ -375,7 +375,7 @@ public class MenuCompra extends JDialog {
         //capturar todos los valores, y pasarlos al metodo buscar general
         int codigo = -1;
         String nombre = "";
-        ProductoCategoria categoria = null;
+        EnumCategoria categoria = null;
         float min = 0f;
         float max = Float.MAX_VALUE;
 
@@ -396,7 +396,7 @@ public class MenuCompra extends JDialog {
         //capturo valor de nombre
         nombre = textFieldNombre.getText();
         //capturo valor de categoria
-        categoria = (ProductoCategoria) comboBoxCategoria.getSelectedItem();
+        categoria = (EnumCategoria) comboBoxCategoria.getSelectedItem();
         //capturo valor de min y max
         if(min >= max)
         {
@@ -534,6 +534,7 @@ public class MenuCompra extends JDialog {
         {
             controlador.getCarritoServicio().vaciarCarrito(controlador.getCarritoSesion());
         }
+        JOptionPane.showMessageDialog(this, "Gracias por su visita. Vuelva pronto!");
         dispose();
     }
 }

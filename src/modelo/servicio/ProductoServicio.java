@@ -1,7 +1,7 @@
 package modelo.servicio;
 
+import modelo.dominio.EnumCategoria;
 import modelo.dominio.Producto;
-import modelo.dominio.ProductoCategoria;
 import modelo.repositorio.ProductoRepositorio;
 
 import java.util.ArrayList;
@@ -85,7 +85,7 @@ public class ProductoServicio {
     }
 
     //BUSCAR POR CATEGORIA
-    public List<Producto> buscarPorCategoria(ProductoCategoria categoria)
+    public List<Producto> buscarPorCategoria(EnumCategoria categoria)
     {
         return productoRepositorio.getListaDeProductos().stream()
                 .filter(producto -> producto.getCategoria() == categoria)
@@ -116,7 +116,7 @@ public class ProductoServicio {
     }
 
     //BUSCAR COMBINANDO TODOS LOS FILTROS
-    public List<Producto> buscarCompleto(int codigo, String nombre, ProductoCategoria categoria, float min, float max)
+    public List<Producto> buscarCompleto(int codigo, String nombre, EnumCategoria categoria, float min, float max)
     {
         List<Producto> listaProductos = productoRepositorio.getListaDeProductos();
         Stream<Producto> stream = listaProductos.stream();

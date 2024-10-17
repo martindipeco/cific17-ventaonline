@@ -5,16 +5,28 @@ import java.util.Objects;
 public class Producto {
     private int codigoProducto;
     private String nombre;
-    private ProductoCategoria categoria;
+    private EnumCategoria categoria;
+    private Enum<?> subcategoria;
     private float precio;
     private float descuento;
     private float precioFinal;
     private int stock;
 
-    public Producto(int codigoProducto, String nombre, ProductoCategoria categoria, float precio) {
+    public Producto(int codigoProducto, String nombre, EnumCategoria categoria, float precio) {
         this.codigoProducto = codigoProducto;
         this.nombre = nombre;
         this.categoria = categoria;
+        this.subcategoria = null;
+        this.precio = precio;
+        this.precioFinal = precio - this.descuento;
+        this.stock = 10;
+    }
+
+    public Producto(int codigoProducto, String nombre, EnumCategoria categoria, Enum<?> subcategoria, float precio) {
+        this.codigoProducto = codigoProducto;
+        this.nombre = nombre;
+        this.categoria = categoria;
+        this.subcategoria = subcategoria;
         this.precio = precio;
         this.precioFinal = precio - this.descuento;
         this.stock = 10;
@@ -64,7 +76,7 @@ public class Producto {
         return precioFinal;
     }
 
-    public ProductoCategoria getCategoria() {
+    public EnumCategoria getCategoria() {
         return categoria;
     }
 
