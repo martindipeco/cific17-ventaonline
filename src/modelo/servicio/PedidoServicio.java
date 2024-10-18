@@ -1,6 +1,7 @@
 package modelo.servicio;
 
 import modelo.dominio.Pedido;
+import modelo.repositorio.IPedidoRepositorio;
 import modelo.repositorio.PedidoRepositorio;
 
 import java.time.format.DateTimeFormatter;
@@ -8,24 +9,19 @@ import java.util.List;
 
 public class PedidoServicio {
 
-    private PedidoRepositorio pedidoRepositorio;
+    private IPedidoRepositorio pedidoRepositorio;
 
-    public PedidoServicio(PedidoRepositorio pedidoRepositorio) {
+    public PedidoServicio(IPedidoRepositorio pedidoRepositorio) {
         this.pedidoRepositorio = pedidoRepositorio;
     }
 
-    public PedidoServicio()
-    {
-        this.pedidoRepositorio = new PedidoRepositorio();
-    }
-
-    public void setPedidoRepositorio(PedidoRepositorio pedidoRepositorio)
+    public void setPedidoRepositorio(IPedidoRepositorio pedidoRepositorio)
     {
         this.pedidoRepositorio = pedidoRepositorio;
     }
     public void agregarPedido(Pedido pedido)
     {
-        pedidoRepositorio.getListaPedidos().add(pedido);
+        pedidoRepositorio.agregarPedido(pedido);
     }
 
     public List<Pedido> getListaPedidos()
