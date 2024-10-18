@@ -6,9 +6,11 @@ import modelo.dominio.Producto;
 import modelo.dominio.ProductoTecnologia;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class ProductoRepositorio {
+public class ProductoRepositorio implements IProductoRepositorio {
 
     private List<Producto> listaDeProductos;
 
@@ -43,9 +45,56 @@ public class ProductoRepositorio {
         agregarProducto(1010, "Campera", EnumCategoria.INDUMENTARIA, 120f);
     }
 
-    private void agregarProducto(int codigo, String nombre, EnumCategoria categoria, float precio) {
+    @Override
+    public List<Producto> getListaDeProductos() {
+        return listaDeProductos;
+    }
+
+    @Override
+    public void agregarProducto(int codigo, String nombre, EnumCategoria categoria, float precio) {
         Producto producto = new Producto(codigo, nombre, categoria, precio);
         listaDeProductos.add(producto);
+    }
+
+    @Override
+    public Producto buscarPorCodigo(int codigo) {
+        for (Producto p : listaDeProductos) {
+            if (p.getCodigoProducto() == codigo) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<Producto> buscarPorNombre(String nombre) {
+        if (nombre.length() <= 2) {
+            System.out.println("Por favor ingrese al menos 3 caracteres");
+            return new ArrayList<>();
+        }
+        return listaDeProductos.stream()
+                .filter(p -> p.getNombre().toLowerCase().contains(nombre.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Producto> buscarPorCategoria(EnumCategoria categoria) {
+        return listaDeProductos.stream()
+                .filter(producto -> producto.getCategoria() == categoria)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Producto> buscarPorRangoPrecio(float min, float max) {
+        List<Producto> productos = listaDeProductos.stream()
+                .filter(p -> p.getPrecio() >= min && p.getPrecio() <= max)
+                .sorted(Comparator.comparing(Producto::getPrecio))
+                .collect(Collectors.toList());
+
+        if (productos.isEmpty()) {
+            System.out.println("No hay productos en ese rango de precio");
+        }
+        return productos;
     }
 
     private void agregarProducto(int codigo, String nombre, EnumCategoria categoria, Enum<?> subcategoria, float precio)
@@ -59,11 +108,6 @@ public class ProductoRepositorio {
     {
         Producto producto = new ProductoTecnologia(codigo, nombre, EnumCategoria.TECNOLOGIA, subcategoria, precio, marca, modelo);
         listaDeProductos.add(producto);
-    }
-
-
-    public List<Producto> getListaDeProductos() {
-        return listaDeProductos;
     }
 
     public void setListaDeProductos(List<Producto> listaDeProductos) {

@@ -4,6 +4,7 @@ import modelo.dominio.Carrito;
 import modelo.dominio.Usuario;
 import modelo.repositorio.PedidoRepositorio;
 import modelo.repositorio.ProductoRepositorio;
+import modelo.repositorio.UsuarioRepositorio;
 import modelo.servicio.*;
 
 public class Controlador {
@@ -16,7 +17,7 @@ public class Controlador {
         carritoServicio = new CarritoServicio();
         pedidoServicio = new PedidoServicio(new PedidoRepositorio());
         productoServicio = new ProductoServicio(new ProductoRepositorio());
-        usuarioServicio = new UsuarioServicio();
+        usuarioServicio = new UsuarioServicio(new UsuarioRepositorio());
         carritoSesion = new Carrito();
         encriptaServicio = new EncriptaServicio();
         validadorServicio = new ValidadorServicio();
@@ -34,7 +35,7 @@ public class Controlador {
     CarritoServicio carritoServicio = new CarritoServicio();
     PedidoServicio pedidoServicio = new PedidoServicio(new PedidoRepositorio());
     ProductoServicio productoServicio = new ProductoServicio(new ProductoRepositorio());
-    UsuarioServicio usuarioServicio = new UsuarioServicio();
+    UsuarioServicio usuarioServicio = new UsuarioServicio(new UsuarioRepositorio());
     Carrito carritoSesion = new Carrito();
     EncriptaServicio encriptaServicio = new EncriptaServicio();
     ValidadorServicio validadorServicio = new ValidadorServicio();

@@ -2,6 +2,7 @@ package modelo.servicio;
 
 import modelo.dominio.EnumCategoria;
 import modelo.dominio.Producto;
+import modelo.repositorio.IProductoRepositorio;
 import modelo.repositorio.ProductoRepositorio;
 
 import java.util.ArrayList;
@@ -11,21 +12,15 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ProductoServicio {
-    private ProductoRepositorio productoRepositorio;
+    private IProductoRepositorio productoRepositorio;
 
     // Constructor para inicializar ProductoRepositorio
-    public ProductoServicio(ProductoRepositorio productoRepositorio) {
+    public ProductoServicio(IProductoRepositorio productoRepositorio) {
         this.productoRepositorio = productoRepositorio;
     }
 
-    // Constructor vacio
-    public ProductoServicio() {
-    }
 
-    public void setProductoRepositorio(ProductoRepositorio productoRepositorio)
-    {
-        this.productoRepositorio = productoRepositorio;
-    }
+
     public List<Producto> listarProductos()
     {
         return productoRepositorio.getListaDeProductos();
@@ -53,66 +48,24 @@ public class ProductoServicio {
 
     public Producto buscarPorCodigo(int codigo)
     {
-        for(Producto p : productoRepositorio.getListaDeProductos())
-        {
-            if(p.getCodigoProducto() == codigo)
-            {
-                return p;
-            }
-        }
-        return null;
+        return productoRepositorio.buscarPorCodigo(codigo);
     }
 
     public List<Producto> buscarPorNombre(String nombre)
     {
-        List<Producto> productos = new ArrayList<>();
-        if(nombre.length()>2)
-        {
-            for(Producto p : productoRepositorio.getListaDeProductos())
-            {
-                if (p.getNombre().toLowerCase().contains(nombre.toLowerCase()))
-                {
-                    productos.add(p);
-                }
-            }
-        }
-        else
-        {
-            System.out.println("Por favor ingrese al menos 3 caracteres");
-            System.out.println("Se devuelve una lista vacía");
-        }
-        return productos;
+        return productoRepositorio.buscarPorNombre(nombre);
     }
 
     //BUSCAR POR CATEGORIA
     public List<Producto> buscarPorCategoria(EnumCategoria categoria)
     {
-        return productoRepositorio.getListaDeProductos().stream()
-                .filter(producto -> producto.getCategoria() == categoria)
-                .collect(Collectors.toList());
+        return productoRepositorio.buscarPorCategoria(categoria);
     }
 
     //BUSCAR POR RANGO DE PRECIO
     public List<Producto> buscarPorRangoPrecio(float min, float max)
     {
-        List<Producto> productos = new ArrayList<>();
-        for(Producto p : productoRepositorio.getListaDeProductos())
-        {
-            if(p.getPrecio() >= min || p.getPrecio() <= max)
-            {
-                productos.add(p);
-            }
-        }
-        if(productos.isEmpty())
-        {
-            System.out.println("No hay productos en ese rango de precio");
-        }
-        else
-        {
-            productos.sort(Comparator.comparing(Producto::getPrecio)); //orden ascendente
-            //productos.sort(Comparator.comparing(Producto::getPrecio).reversed())
-        }
-        return productos;
+        return productoRepositorio.buscarPorRangoPrecio(min, max);
     }
 
     //BUSCAR COMBINANDO TODOS LOS FILTROS
