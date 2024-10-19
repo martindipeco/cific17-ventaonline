@@ -36,6 +36,10 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return mail;
+        if (nombre.isEmpty())
+        {
+            return "Invitado";
+        }
+        return nombre;
     }
 }

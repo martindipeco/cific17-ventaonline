@@ -10,6 +10,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,16 +24,13 @@ public class MenuCompra extends JDialog {
     private JTextField textFieldCodigoProducto;
     private JButton buttonBuscar;
     private JTextField textFieldNombre;
-    //private JButton buttonNombre;
-    //private JButton buttonPrecio;
     private JComboBox<EnumCategoria> comboBoxCategoria;
     private JButton buttonAgregarACarrito;
-    //private JButton buttonVerCarrito;
     private JButton buttonQuitarSeleccion;
     private JButton buttonVerPedidos;
     private JTable tableCarrito;
-    private JSpinner spinnerMaximo;
     private JSpinner spinnerMinimo;
+    private JSpinner spinnerMaximo;
     private DefaultTableModel tableModelProductos = new DefaultTableModel();
 
     private DefaultTableModel tableModelCarrito = new DefaultTableModel();
@@ -43,6 +42,7 @@ public class MenuCompra extends JDialog {
         setLocationRelativeTo(null);  // Centers the dialog on the screen
 
         // Populate the comboBoxCategoria with EnumCategoria enum values
+        comboBoxCategoria.addItem(null);
         for (EnumCategoria categoria : EnumCategoria.values()) {
             comboBoxCategoria.addItem(categoria); // Add each enum value to the combo box
         }
@@ -55,6 +55,25 @@ public class MenuCompra extends JDialog {
 
         pack(); //adjusts size to content
 
+        this.addWindowFocusListener(new WindowFocusListener() {
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+                String quienEsta = "";
+                if(controlador.getCarritoSesion().getUsuario()==null)
+                {
+                    quienEsta = "Invitado";
+                }
+                else
+                {
+                    quienEsta = controlador.getCarritoSesion().getUsuario().getNombre();
+                }
+                setTitle("Sesión de: " + quienEsta);
+            }
+            @Override
+            public void windowLostFocus(WindowEvent e) {
+                // Action to perform when dialog loses focus
+            }
+        });
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
@@ -73,20 +92,6 @@ public class MenuCompra extends JDialog {
                 onBuscar();
             }
         });
-
-//        buttonNombre.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                onNombre();
-//            }
-//        });
-//
-//        buttonPrecio.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                onPrecio();
-//            }
-//        });
 
         comboBoxCategoria.addActionListener(e -> {
             EnumCategoria categoriaSeleccionada = (EnumCategoria) comboBoxCategoria.getSelectedItem();
@@ -109,13 +114,6 @@ public class MenuCompra extends JDialog {
             }
         });
 
-//        buttonVerCarrito.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                onVerCarrito();
-//            }
-//        });
-
         buttonVerPedidos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -129,8 +127,8 @@ public class MenuCompra extends JDialog {
         ListSelectionModel selectionModelCarrito = tableCarrito.getSelectionModel();
         selectionModelCarrito.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-        spinnerMinimo.setValue(0);
-        spinnerMaximo.setValue(Float.MAX_VALUE);
+        spinnerMinimo.setModel(new SpinnerNumberModel(0, 0, Float.MAX_VALUE, 1));
+        spinnerMaximo.setModel(new SpinnerNumberModel(10000, 0, Float.MAX_VALUE, 1));
 
     }
 
