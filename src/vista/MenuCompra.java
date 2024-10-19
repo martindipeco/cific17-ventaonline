@@ -32,7 +32,6 @@ public class MenuCompra extends JDialog {
     private JSpinner spinnerMinimo;
     private JSpinner spinnerMaximo;
     private DefaultTableModel tableModelProductos = new DefaultTableModel();
-
     private DefaultTableModel tableModelCarrito = new DefaultTableModel();
 
     public MenuCompra() {
@@ -127,8 +126,8 @@ public class MenuCompra extends JDialog {
         ListSelectionModel selectionModelCarrito = tableCarrito.getSelectionModel();
         selectionModelCarrito.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-        spinnerMinimo.setModel(new SpinnerNumberModel(0, 0, Float.MAX_VALUE, 1));
-        spinnerMaximo.setModel(new SpinnerNumberModel(10000, 0, Float.MAX_VALUE, 1));
+        spinnerMinimo.setModel(new SpinnerNumberModel(0f, 0f, Float.MAX_VALUE, 1));
+        spinnerMaximo.setModel(new SpinnerNumberModel(Float.MAX_VALUE, 0f, Float.MAX_VALUE, 1));
 
     }
 
