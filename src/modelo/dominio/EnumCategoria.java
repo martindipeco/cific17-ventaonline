@@ -9,7 +9,6 @@ public enum EnumCategoria {
     HOGAR(null),
     MUEBLES(null),
     ELECTRODOMESTICOS(null);
-    //INFORMATICA; //Hacer que informática sea una sub-categoría de tecnología
 
     private Class <? extends Enum<?>> subcategoria;
 
