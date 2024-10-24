@@ -18,13 +18,6 @@ public class MenuPrincipal extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         setLocationRelativeTo(null);
-        //getRootPane().setDefaultButton(buttonOK);
-
-//        buttonOK.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                onOK();
-//            }
-//        });
 
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -68,11 +61,6 @@ public class MenuPrincipal extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
-
-//    private void onOK() {
-//        // este botón no hace nada
-//        //dispose();
-//    }
 
     private void onCancel() {
         // add your code here if necessary
