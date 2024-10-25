@@ -3,7 +3,7 @@ import vista.MenuPrincipal;
 
 public class Main {
     public static void main(String[] args) {
-        DatabaseUtil.testConnection();
+        //DatabaseUtil.testConnection();
 
         MenuPrincipal.main(args);
 

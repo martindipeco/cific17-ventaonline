@@ -5,7 +5,7 @@ import modelo.dominio.Pedido;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PedidoRepositorio implements IPedidoRepositorio{
+public class PedidoRepositorioMock implements IPedidoRepositorio{
 
     private List<Pedido> listaPedidos = new ArrayList<>();
 

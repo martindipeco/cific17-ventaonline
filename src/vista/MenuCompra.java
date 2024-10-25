@@ -230,7 +230,7 @@ public class MenuCompra extends JDialog {
 
     private void agregarTodosTablaProductos()
     {
-        // Create an instance of ProductoRepositorio to get the products
+        // Create an instance of ProductoRepositorioMock to get the products
         List<Producto> productos = Controlador.getInstanciaUnicaControlador().getProductoServicio()
                 .listarProductos();
 

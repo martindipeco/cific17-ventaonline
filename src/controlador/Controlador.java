@@ -2,9 +2,9 @@ package controlador;
 
 import modelo.dominio.Carrito;
 import modelo.dominio.Usuario;
-import modelo.repositorio.PedidoRepositorio;
-import modelo.repositorio.ProductoRepositorio;
-import modelo.repositorio.UsuarioRepositorio;
+import modelo.repositorio.PedidoRepositorioMock;
+import modelo.repositorio.ProductoRepositorioMock;
+import modelo.repositorio.UsuarioRepositorioMock;
 import modelo.servicio.*;
 
 public class Controlador {
@@ -15,9 +15,9 @@ public class Controlador {
     // Private constructor to prevent external instantiation
     private Controlador() {
         carritoServicio = new CarritoServicio();
-        pedidoServicio = new PedidoServicio(new PedidoRepositorio());
-        productoServicio = new ProductoServicio(new ProductoRepositorio());
-        usuarioServicio = new UsuarioServicio(new UsuarioRepositorio());
+        pedidoServicio = new PedidoServicio(new PedidoRepositorioMock());
+        productoServicio = new ProductoServicio(new ProductoRepositorioMock());
+        usuarioServicio = new UsuarioServicio(new UsuarioRepositorioMock());
         carritoSesion = new Carrito();
         encriptaServicio = new EncriptaServicio();
         validadorServicio = new ValidadorServicio();
@@ -33,9 +33,9 @@ public class Controlador {
 
     // Services and session-related objects
     CarritoServicio carritoServicio = new CarritoServicio();
-    PedidoServicio pedidoServicio = new PedidoServicio(new PedidoRepositorio());
-    ProductoServicio productoServicio = new ProductoServicio(new ProductoRepositorio());
-    UsuarioServicio usuarioServicio = new UsuarioServicio(new UsuarioRepositorio());
+    PedidoServicio pedidoServicio = new PedidoServicio(new PedidoRepositorioMock());
+    ProductoServicio productoServicio = new ProductoServicio(new ProductoRepositorioMock());
+    UsuarioServicio usuarioServicio = new UsuarioServicio(new UsuarioRepositorioMock());
     Carrito carritoSesion = new Carrito();
     EncriptaServicio encriptaServicio = new EncriptaServicio();
     ValidadorServicio validadorServicio = new ValidadorServicio();

@@ -10,11 +10,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ProductoRepositorio implements IProductoRepositorio {
+public class ProductoRepositorioMock implements IProductoRepositorio {
 
     private List<Producto> listaDeProductos;
 
-    public ProductoRepositorio() {
+    public ProductoRepositorioMock() {
         listaDeProductos = new ArrayList<>();
         agregarProductos();
     }

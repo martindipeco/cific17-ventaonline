@@ -1,42 +1,81 @@
 package modelo.repositorio;
 
 import modelo.dominio.Usuario;
+import modelo.utils.DatabaseUtil;
 
-import java.awt.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsuarioRepositorio implements IUsuarioRepositorio {
-
-    private List<Usuario> listaDeUsuarios;
-
-    public UsuarioRepositorio() {
-        listaDeUsuarios = new ArrayList<>();
-        agregarUsuariosIniciales();
-    }
-
-    private void agregarUsuariosIniciales() {
-        listaDeUsuarios.add(new Usuario("juana@mail.com",
-                "94289908a16a748e4ff0d375ddd8789de354f8e597e58a2c5852c7434e58374b",
-                "Juana", "SiempreViva 321", "1234123412341234L"));  // pass is 123juana
-        listaDeUsuarios.add(new Usuario("pedro@mail.com", "456pedro", "Pedro",
-                "Principal 456", "5678567856785678L"));
-        listaDeUsuarios.add(new Usuario("ana@mail.com", "789ana", "Ana",
-                "De Tierra 987", "1234567890123456L"));
-    }
+public class UsuarioRepositorio implements IUsuarioRepositorio{
 
     @Override
     public List<Usuario> getListaDeUsuarios() {
-        return listaDeUsuarios;
+        List<Usuario> usuarios = new ArrayList<>();
+        String query = "SELECT * FROM usuarios";
+
+        try (Connection conn = DatabaseUtil.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                Usuario usuario = new Usuario(
+                        rs.getString("mail"),
+                        rs.getString("password"),
+                        rs.getString("nombre"),
+                        rs.getString("direccion"),
+                        rs.getString("num_tarjeta")
+                );
+                usuarios.add(usuario);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return usuarios;
     }
 
     @Override
     public Usuario buscarPorEmail(String mail) {
-        for (Usuario usuario : listaDeUsuarios) {
-            if (usuario.getMail().equals(mail)) {
-                return usuario;
+        Usuario usuario = null;
+        String query = "SELECT * FROM usuarios WHERE mail = ?";
+
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, mail);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    usuario = new Usuario(
+                            rs.getString("mail"),
+                            rs.getString("password"),
+                            rs.getString("nombre"),
+                            rs.getString("direccion"),
+                            rs.getString("num_tarjeta")
+                    );
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return null;
+        return usuario;
     }
+
+    public void agregarUsuario(Usuario usuario) {
+        String query = "INSERT INTO usuarios (mail, password, nombre, direccion, num_tarjeta) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, usuario.getMail());
+            pstmt.setString(2, usuario.getPassword());
+            pstmt.setString(3, usuario.getNombre());
+            pstmt.setString(4, usuario.getDireccion());
+            pstmt.setString(5, usuario.getNumTarjeta());
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

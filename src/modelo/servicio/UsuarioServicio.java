@@ -27,4 +27,9 @@ public class UsuarioServicio {
         }
         return null;
     }
+
+    public void agregarUsuario (Usuario usuario)
+    {
+        usuarioRepositorio.agregarUsuario(usuario);
+    }
 }

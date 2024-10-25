@@ -28,6 +28,8 @@ public class Usuario {
         return password;
     }
 
+    public String getDireccion() { return direccion;}
+
     public String getNumTarjeta() {
         return numTarjeta;
     }

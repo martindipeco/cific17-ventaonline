@@ -128,8 +128,10 @@ public class MenuUsuarioNuevo extends JDialog {
                 String tarjetaEncriptada = controlador.getEncriptaServicio().encriptaHash(numTarjetaString);
                 String passEncriptado = controlador.getEncriptaServicio().encriptaHash(passNuevoUsuario);
 
-                controlador.setUsuarioSesion(new Usuario(mailNuevoUsuario, passEncriptado, nombreNuevoUsuario,
-                        direccionNuevoUsuario, tarjetaEncriptada));
+                Usuario usuarioNuevo = new Usuario(mailNuevoUsuario, passEncriptado, nombreNuevoUsuario,
+                        direccionNuevoUsuario, tarjetaEncriptada);
+                controlador.setUsuarioSesion(usuarioNuevo);
+                controlador.getUsuarioServicio().agregarUsuario(usuarioNuevo);
                 JOptionPane.showMessageDialog(this, "Nuevo usuario registrado con éxito");
 
                 //chequeo si el usuario ya tiene carrito

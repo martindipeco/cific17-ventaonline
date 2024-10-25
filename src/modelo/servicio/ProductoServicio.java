@@ -3,10 +3,7 @@ package modelo.servicio;
 import modelo.dominio.EnumCategoria;
 import modelo.dominio.Producto;
 import modelo.repositorio.IProductoRepositorio;
-import modelo.repositorio.ProductoRepositorio;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -14,7 +11,7 @@ import java.util.stream.Stream;
 public class ProductoServicio {
     private IProductoRepositorio productoRepositorio;
 
-    // Constructor para inicializar ProductoRepositorio
+    // Constructor para inicializar ProductoRepositorioMock
     public ProductoServicio(IProductoRepositorio productoRepositorio) {
         this.productoRepositorio = productoRepositorio;
     }
