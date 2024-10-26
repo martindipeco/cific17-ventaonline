@@ -23,6 +23,18 @@ public class Pedido {
         this.precioFinal = carrito.getMontoCarrito() - this.descuento + this.costoEnvio;;
     }
 
+    //num pedido desde base de datos
+    public Pedido(long numPedido, Carrito carrito, Float precioFinal, LocalDateTime fechaPedido, boolean entregado,
+                  LocalDateTime fechaEntregado) {
+        this.numPedido = numPedido;
+        this.carrito = carrito;
+        this.precioFinal = precioFinal;
+        this.fechaPedido = fechaPedido;
+        this.entregado = entregado;
+        this.fechaEntregado = fechaEntregado;
+        this.precioFinal = carrito.getMontoCarrito() - this.descuento + this.costoEnvio;;
+    }
+
     //carrito con descuento sin costo envio
     public Pedido(Carrito carrito, float descuento) {
         this.numPedido = numeroAutoincremental++; //adjudica el valor de autoIncremental, y luego le suma 1
@@ -39,6 +51,16 @@ public class Pedido {
         this.fechaPedido = LocalDateTime.now();
         this.entregado = false;
         this.precioFinal = carrito.getMontoCarrito() - descuento + costoEnvio;
+    }
+
+    //constructor que recibe de base de datos
+    public Pedido(Long numPedido, String usuarioMail, float precioFinal, float costoEnvio, float descuento,
+                  LocalDateTime fechaPedido, boolean entregado, LocalDateTime fechaEntregado)
+    {
+        this.numPedido = numPedido;
+        this.carrito = new Carrito();
+        this.fechaPedido = fechaPedido;
+        this.entregado = entregado;
     }
 
     public Long getNumPedido() {return numPedido;}

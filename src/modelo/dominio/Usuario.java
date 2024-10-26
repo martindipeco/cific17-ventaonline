@@ -20,6 +20,11 @@ public class Usuario {
         this.numTarjeta = numTarjeta;
     }
 
+    public Usuario(String mail)
+    {
+        this.mail = mail;
+    }
+
     public String getMail() {
         return mail;
     }

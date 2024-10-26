@@ -20,6 +20,13 @@ public class Carrito {
         listaItems = new ArrayList<>();
     }
 
+    //crear carrito con usuario e items
+    public Carrito(Usuario usuario, List<ItemCompra> listaItems)
+    {
+        this.usuario = usuario;
+        this.listaItems = listaItems;
+    }
+
     public Usuario getUsuario() {
         return usuario;
     }
