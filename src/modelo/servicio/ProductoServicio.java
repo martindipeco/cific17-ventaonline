@@ -4,6 +4,7 @@ import modelo.dominio.EnumCategoria;
 import modelo.dominio.Producto;
 import modelo.repositorio.IProductoRepositorio;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -97,6 +98,6 @@ public class ProductoServicio {
                 stream = stream.filter(p -> p.getPrecio() <= max);
             }
         }
-        return stream.collect(Collectors.toList());
+        return stream.sorted(Comparator.comparing(Producto::getPrecio)).collect(Collectors.toList());
     }
 }

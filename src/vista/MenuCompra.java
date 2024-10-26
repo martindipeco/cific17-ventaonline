@@ -293,7 +293,7 @@ public class MenuCompra extends JDialog {
                 tableModelCarrito.addRow(rowDataCarrito);
             }
 
-            // Subtract one unit from the stock in the product table
+            // Subtract one unit from the stock in the product table TODO AND the data base
             for (int i = 0; i < tableModelProductos.getRowCount(); i++) {
                 String codigoEnTablaProductos = tableModelProductos.getValueAt(i, 0).toString(); // Col 0 = cod
 

@@ -25,7 +25,8 @@ public class ProductoRepositorio implements IProductoRepositorio {
                         rs.getString("nombre"),
                         rs.getString("categoria"),
                         rs.getString("subcategoria"),
-                        rs.getFloat("precio")
+                        rs.getFloat("precio"),
+                        rs.getInt("stock")
                 );
                 listaDeProductos.add(producto);
             }
@@ -52,7 +53,8 @@ public class ProductoRepositorio implements IProductoRepositorio {
                             rs.getString("nombre"),
                             rs.getString("categoria"),
                             rs.getString("subcategoria"),
-                            rs.getFloat("precio")
+                            rs.getFloat("precio"),
+                            rs.getInt("stock")
                     );
                 }
             }
@@ -82,7 +84,8 @@ public class ProductoRepositorio implements IProductoRepositorio {
                             rs.getString("nombre"),
                             rs.getString("categoria"),
                             rs.getString("subcategoria"),
-                            rs.getFloat("precio")
+                            rs.getFloat("precio"),
+                            rs.getInt("stock")
                     );
                     listaDeProductos.add(producto);
                 }
@@ -113,7 +116,8 @@ public class ProductoRepositorio implements IProductoRepositorio {
                              rs.getString("nombre"),
                              rs.getString("categoria"),
                              rs.getString("subcategoria"),
-                             rs.getFloat("precio")
+                             rs.getFloat("precio"),
+                             rs.getInt("stock")
                      );
                      listaDeProductos.add(producto);
                  }
@@ -144,7 +148,8 @@ public class ProductoRepositorio implements IProductoRepositorio {
                             rs.getString("nombre"),
                             rs.getString("categoria"),
                             rs.getString("subcategoria"),
-                            rs.getFloat("precio")
+                            rs.getFloat("precio"),
+                            rs.getInt("stock")
                     );
                     listaDeProductos.add(producto);
                 }

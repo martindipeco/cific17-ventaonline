@@ -80,7 +80,7 @@ public class MenuUsuarioNuevo extends JDialog {
             if(!controlador.getValidadorServicio().esValidoPass(passNuevoUsuario))
             {
                 JOptionPane.showMessageDialog(this, "Formato de contraseña " + passNuevoUsuario +
-                        "no es válida. Debe tener al menos 6 caracteres, " +
+                        " no es válida. Debe tener al menos 6 caracteres, " +
                         "de los cuales al menos uno debe ser un número y al menos uno debe ser una letra");
                 passwordFieldPassNuevo.setText("");
                 datosValidados = false;
@@ -111,7 +111,7 @@ public class MenuUsuarioNuevo extends JDialog {
                 tarjetaOK = controlador.getValidadorServicio().esValidaTarjeta(numTarjetaString);
                 if(!tarjetaOK)
                 {
-                    JOptionPane.showMessageDialog(this, "Formato no válido. " +
+                    JOptionPane.showMessageDialog(this, "Formato de tarjeta no válido. " +
                             "Ingrese al menos 10 dígitos");
                     textFieldTarjCredNuevo.setText("");
                     datosValidados = false;

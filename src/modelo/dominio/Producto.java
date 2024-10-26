@@ -2,8 +2,6 @@ package modelo.dominio;
 
 import java.util.Objects;
 
-import static modelo.dominio.EnumCategoria.TECNOLOGIA;
-
 public class Producto {
     private int codigoProducto;
     private String nombre;
@@ -37,14 +35,14 @@ public class Producto {
     }
 
     //constructor con categorias como String
-    public Producto(int codigoProducto, String nombre, String categoria, String subcategoria, float precio) {
+    public Producto(int codigoProducto, String nombre, String categoria, String subcategoria, float precio, int stock) {
         this.codigoProducto = codigoProducto;
         this.nombre = nombre;
         this.categoria = convierteStrCategoria(categoria);
         this.subcategoria = convierteStrASubcategoria(subcategoria);
         this.precio = precio;
         this.precioFinal = precio - this.descuento;
-        this.stock = 10;
+        this.stock = stock;
     }
 
     public int getCodigoProducto() {
