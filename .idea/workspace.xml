@@ -10,20 +10,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1049ba3f-a749-4e8e-af05-9e76a415735c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/modelo/repositorio/UsuarioRepositorioMock.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modelo/dominio/IEnumSubcategoria.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modelo/repositorio/PedidoRepositorio.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/modelo/repositorio/ProductoRepositorio.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controlador/Controlador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controlador/Controlador.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelo/dominio/Usuario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/dominio/Usuario.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelo/repositorio/IUsuarioRepositorio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/repositorio/IUsuarioRepositorio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelo/repositorio/PedidoRepositorio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/repositorio/PedidoRepositorioMock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelo/repositorio/ProductoRepositorio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/repositorio/ProductoRepositorioMock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelo/repositorio/UsuarioRepositorio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/repositorio/UsuarioRepositorio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelo/servicio/PedidoServicio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/servicio/PedidoServicio.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modelo/dominio/EnumCategoria.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/dominio/EnumCategoria.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modelo/dominio/EnumCategoriaTecnologia.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/dominio/EnumSubcategoria.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modelo/dominio/Producto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/dominio/Producto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modelo/dominio/ProductoTecnologia.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modelo/repositorio/ProductoRepositorioMock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/repositorio/ProductoRepositorioMock.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/modelo/servicio/ProductoServicio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/servicio/ProductoServicio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelo/servicio/UsuarioServicio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/servicio/UsuarioServicio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/vista/MenuCompra.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/vista/MenuCompra.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/vista/MenuUsuarioNuevo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/vista/MenuUsuarioNuevo.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,8 +31,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>

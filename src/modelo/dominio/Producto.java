@@ -2,16 +2,19 @@ package modelo.dominio;
 
 import java.util.Objects;
 
+import static modelo.dominio.EnumCategoria.TECNOLOGIA;
+
 public class Producto {
     private int codigoProducto;
     private String nombre;
     private EnumCategoria categoria;
-    private Enum<?> subcategoria;
+    private IEnumSubcategoria subcategoria;
     private float precio;
     private float descuento;
     private float precioFinal;
     private int stock;
 
+    //constructor SIN subcategoria
     public Producto(int codigoProducto, String nombre, EnumCategoria categoria, float precio) {
         this.codigoProducto = codigoProducto;
         this.nombre = nombre;
@@ -22,11 +25,22 @@ public class Producto {
         this.stock = 10;
     }
 
-    public Producto(int codigoProducto, String nombre, EnumCategoria categoria, Enum<?> subcategoria, float precio) {
+    public Producto(int codigoProducto, String nombre, EnumCategoria categoria, IEnumSubcategoria subcategoria, float precio) {
         this.codigoProducto = codigoProducto;
         this.nombre = nombre;
         this.categoria = categoria;
-        this.subcategoria = subcategoria;
+        this.subcategoria = null;
+        this.precio = precio;
+        this.precioFinal = precio - this.descuento;
+        this.stock = 10;
+    }
+
+    //constructor con categorias como String
+    public Producto(int codigoProducto, String nombre, String categoria, String subcategoria, float precio) {
+        this.codigoProducto = codigoProducto;
+        this.nombre = nombre;
+        this.categoria = convierteStrCategoria(categoria);
+        this.subcategoria = convierteStrASubcategoria(subcategoria);
         this.precio = precio;
         this.precioFinal = precio - this.descuento;
         this.stock = 10;
@@ -78,6 +92,27 @@ public class Producto {
 
     public EnumCategoria getCategoria() {
         return categoria;
+    }
+
+    private static EnumCategoria convierteStrCategoria(String categoriaStr)
+    {
+        for (EnumCategoria categoria : EnumCategoria.values()) {
+            if (categoria.name().equalsIgnoreCase(categoriaStr)) {
+                return categoria;
+            }
+        }
+        // Return null if no match is found
+        return null;
+    }
+
+    private static EnumSubcategoria convierteStrASubcategoria(String subcategoriaStr)
+    {
+        for (EnumSubcategoria subcategoria : EnumSubcategoria.values()) {
+            if(subcategoria.name().equalsIgnoreCase(subcategoriaStr)) {
+                return subcategoria;
+            }
+        }
+        return null;
     }
 
     @Override

@@ -1,9 +1,6 @@
 package modelo.repositorio;
 
-import modelo.dominio.EnumCategoria;
-import modelo.dominio.EnumCategoriaTecnologia;
-import modelo.dominio.Producto;
-import modelo.dominio.ProductoTecnologia;
+import modelo.dominio.*;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -23,15 +20,15 @@ public class ProductoRepositorioMock implements IProductoRepositorio {
         agregarProducto(1234, "Zapatillas", EnumCategoria.CALZADO, 50f);
         agregarProducto(5678, "Televisor", EnumCategoria.ELECTRODOMESTICOS, 800f);
         agregarProducto(9012, "Mesa", EnumCategoria.HOGAR, 120f);
-        agregarProductoTecnologia(1470, "Computadora", EnumCategoriaTecnologia.INFORMATICA,1200f,
-                "HP", "Pavilion");
-        agregarProductoTecnologia(5885, "Mouse", EnumCategoriaTecnologia.INFORMATICA, 35.3f,
-                "Genius", "inalámbrico");
-        agregarProductoTecnologia(9632, "Teclado", EnumCategoriaTecnologia.INFORMATICA, 21.1f,
-                "Nola", "Español");
+//        agregarProductoTecnologia(1470, "Computadora", EnumSubcategoria.INFORMATICA,1200f,
+//                "HP", "Pavilion");
+//        agregarProductoTecnologia(5885, "Mouse", EnumSubcategoria.INFORMATICA, 35.3f,
+//                "Genius", "inalámbrico");
+//        agregarProductoTecnologia(9632, "Teclado", EnumSubcategoria.INFORMATICA, 21.1f,
+//                "Nola", "Español");
 
         // productos extra
-        agregarProducto(1111, "Smartphone", EnumCategoria.TECNOLOGIA, EnumCategoriaTecnologia.CELULARES,
+        agregarProducto(1111, "Smartphone", EnumCategoria.TECNOLOGIA, EnumSubcategoria.CELULARES,
                 600f);
         agregarProducto(2222, "Remera", EnumCategoria.INDUMENTARIA, 30f);
         agregarProducto(3333, "Pantalones", EnumCategoria.INDUMENTARIA, 45f);
@@ -40,7 +37,7 @@ public class ProductoRepositorioMock implements IProductoRepositorio {
         agregarProducto(6666, "Silla", EnumCategoria.MUEBLES, 450f);
         agregarProducto(7777, "Estante", EnumCategoria.HOGAR, 20f);
         agregarProducto(8888, "Aspiradora", EnumCategoria.ELECTRODOMESTICOS, 180f);
-        agregarProducto(9999, "Tablet", EnumCategoria.TECNOLOGIA, EnumCategoriaTecnologia.TABLETS,
+        agregarProducto(9999, "Tablet", EnumCategoria.TECNOLOGIA, EnumSubcategoria.TABLETS,
                 250f);
         agregarProducto(1010, "Campera", EnumCategoria.INDUMENTARIA, 120f);
     }
@@ -97,18 +94,18 @@ public class ProductoRepositorioMock implements IProductoRepositorio {
         return productos;
     }
 
-    private void agregarProducto(int codigo, String nombre, EnumCategoria categoria, Enum<?> subcategoria, float precio)
+    private void agregarProducto(int codigo, String nombre, EnumCategoria categoria, IEnumSubcategoria subcategoria, float precio)
     {
         Producto producto = new Producto(codigo, nombre, categoria, subcategoria, precio);
         listaDeProductos.add(producto);
     }
 
-    private void agregarProductoTecnologia(int codigo, String nombre, EnumCategoriaTecnologia subcategoria,
-                                           float precio, String marca, String modelo)
-    {
-        Producto producto = new ProductoTecnologia(codigo, nombre, EnumCategoria.TECNOLOGIA, subcategoria, precio, marca, modelo);
-        listaDeProductos.add(producto);
-    }
+//    private void agregarProductoTecnologia(int codigo, String nombre, IEnumSubcategoria subcategoria,
+//                                           float precio, String marca, String modelo)
+//    {
+//        Producto producto = new ProductoTecnologia(codigo, nombre, EnumCategoria.TECNOLOGIA, subcategoria, precio, marca, modelo);
+//        listaDeProductos.add(producto);
+//    }
 
     public void setListaDeProductos(List<Producto> listaDeProductos) {
         this.listaDeProductos = listaDeProductos;

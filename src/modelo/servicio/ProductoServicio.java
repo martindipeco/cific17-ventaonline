@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 public class ProductoServicio {
     private IProductoRepositorio productoRepositorio;
 
-    // Constructor para inicializar ProductoRepositorioMock
+    // Constructor para inicializar ProductoRepositorio
     public ProductoServicio(IProductoRepositorio productoRepositorio) {
         this.productoRepositorio = productoRepositorio;
     }

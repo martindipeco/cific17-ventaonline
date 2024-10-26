@@ -1,6 +1,6 @@
 package modelo.dominio;
 
-public enum EnumCategoriaTecnologia {
+public enum EnumSubcategoria implements IEnumSubcategoria {
     CELULARES,
     TABLETS,
     INFORMATICA,

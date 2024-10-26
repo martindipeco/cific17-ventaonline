@@ -2,7 +2,7 @@ package modelo.dominio;
 
 public enum EnumCategoria {
 
-    TECNOLOGIA(EnumCategoriaTecnologia.class),
+    TECNOLOGIA(EnumSubcategoria.class),
     INDUMENTARIA(null),
     CALZADO(null),
     DEPORTE(null),

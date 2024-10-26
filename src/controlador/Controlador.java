@@ -2,9 +2,7 @@ package controlador;
 
 import modelo.dominio.Carrito;
 import modelo.dominio.Usuario;
-import modelo.repositorio.PedidoRepositorioMock;
-import modelo.repositorio.ProductoRepositorioMock;
-import modelo.repositorio.UsuarioRepositorioMock;
+import modelo.repositorio.*;
 import modelo.servicio.*;
 
 public class Controlador {
@@ -15,9 +13,9 @@ public class Controlador {
     // Private constructor to prevent external instantiation
     private Controlador() {
         carritoServicio = new CarritoServicio();
-        pedidoServicio = new PedidoServicio(new PedidoRepositorioMock());
-        productoServicio = new ProductoServicio(new ProductoRepositorioMock());
-        usuarioServicio = new UsuarioServicio(new UsuarioRepositorioMock());
+        pedidoServicio = new PedidoServicio(new PedidoRepositorio());
+        productoServicio = new ProductoServicio(new ProductoRepositorio());
+        usuarioServicio = new UsuarioServicio(new UsuarioRepositorio());
         carritoSesion = new Carrito();
         encriptaServicio = new EncriptaServicio();
         validadorServicio = new ValidadorServicio();
