@@ -230,9 +230,8 @@ public class MenuCompra extends JDialog {
 
     private void agregarTodosTablaProductos()
     {
-        // Create an instance of ProductoRepositorioMock to get the products
-        List<Producto> productos = Controlador.getInstanciaUnicaControlador().getProductoServicio()
-                .listarProductos();
+        // Create an instance of ProductoRepositorio to get the products
+        List<Producto> productos = controlador.getProductoServicio().listarProductos();
 
         int limit = Math.min(productos.size(), 10); // Limit to 10 or fewer if there are less products
 
@@ -411,7 +410,12 @@ public class MenuCompra extends JDialog {
         //impacto en tabla
         limpiarTablaProductos();
         agregarATablaProductos(productosFiltrados);
-
+        //volver a default todos valores casilleros
+        textFieldCodigoProducto.setText("");
+        textFieldNombre.setText("");
+        spinnerMinimo.setValue(0);
+        spinnerMaximo.setValue(Float.MAX_VALUE);
+        comboBoxCategoria.setSelectedIndex(0);
     }
 
     private void onAgregarACarrito()

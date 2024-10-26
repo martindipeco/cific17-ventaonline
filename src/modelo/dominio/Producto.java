@@ -25,6 +25,7 @@ public class Producto {
         this.stock = 10;
     }
 
+    //constructor CON subcategoria
     public Producto(int codigoProducto, String nombre, EnumCategoria categoria, IEnumSubcategoria subcategoria, float precio) {
         this.codigoProducto = codigoProducto;
         this.nombre = nombre;

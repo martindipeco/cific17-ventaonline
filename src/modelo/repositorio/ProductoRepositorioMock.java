@@ -17,9 +17,9 @@ public class ProductoRepositorioMock implements IProductoRepositorio {
     }
 
     private void agregarProductos() {
-        agregarProducto(1234, "Zapatillas", EnumCategoria.CALZADO, 50f);
-        agregarProducto(5678, "Televisor", EnumCategoria.ELECTRODOMESTICOS, 800f);
-        agregarProducto(9012, "Mesa", EnumCategoria.HOGAR, 120f);
+        agregarProducto(1234, "Zapatillas", EnumCategoria.CALZADO, null, 50f);
+        agregarProducto(5678, "Televisor", EnumCategoria.ELECTRODOMESTICOS, null,800f);
+        agregarProducto(9012, "Mesa", EnumCategoria.HOGAR, null,120f);
 //        agregarProductoTecnologia(1470, "Computadora", EnumSubcategoria.INFORMATICA,1200f,
 //                "HP", "Pavilion");
 //        agregarProductoTecnologia(5885, "Mouse", EnumSubcategoria.INFORMATICA, 35.3f,
@@ -30,16 +30,16 @@ public class ProductoRepositorioMock implements IProductoRepositorio {
         // productos extra
         agregarProducto(1111, "Smartphone", EnumCategoria.TECNOLOGIA, EnumSubcategoria.CELULARES,
                 600f);
-        agregarProducto(2222, "Remera", EnumCategoria.INDUMENTARIA, 30f);
-        agregarProducto(3333, "Pantalones", EnumCategoria.INDUMENTARIA, 45f);
-        agregarProducto(4444, "Raqueta", EnumCategoria.DEPORTE, 150f);
-        agregarProducto(5555, "Bicicleta", EnumCategoria.DEPORTE, 800f);
-        agregarProducto(6666, "Silla", EnumCategoria.MUEBLES, 450f);
-        agregarProducto(7777, "Estante", EnumCategoria.HOGAR, 20f);
-        agregarProducto(8888, "Aspiradora", EnumCategoria.ELECTRODOMESTICOS, 180f);
+        agregarProducto(2222, "Remera", EnumCategoria.INDUMENTARIA, null,30f);
+        agregarProducto(3333, "Pantalones", EnumCategoria.INDUMENTARIA, null,45f);
+        agregarProducto(4444, "Raqueta", EnumCategoria.DEPORTE, null,150f);
+        agregarProducto(5555, "Bicicleta", EnumCategoria.DEPORTE, null,800f);
+        agregarProducto(6666, "Silla", EnumCategoria.MUEBLES, null,450f);
+        agregarProducto(7777, "Estante", EnumCategoria.HOGAR, null,20f);
+        agregarProducto(8888, "Aspiradora", EnumCategoria.ELECTRODOMESTICOS, null,180f);
         agregarProducto(9999, "Tablet", EnumCategoria.TECNOLOGIA, EnumSubcategoria.TABLETS,
                 250f);
-        agregarProducto(1010, "Campera", EnumCategoria.INDUMENTARIA, 120f);
+        agregarProducto(1010, "Campera", EnumCategoria.INDUMENTARIA, null,120f);
     }
 
     @Override
@@ -47,11 +47,8 @@ public class ProductoRepositorioMock implements IProductoRepositorio {
         return listaDeProductos;
     }
 
-    @Override
-    public void agregarProducto(int codigo, String nombre, EnumCategoria categoria, float precio) {
-        Producto producto = new Producto(codigo, nombre, categoria, precio);
-        listaDeProductos.add(producto);
-    }
+
+
 
     @Override
     public Producto buscarPorCodigo(int codigo) {
@@ -99,6 +96,11 @@ public class ProductoRepositorioMock implements IProductoRepositorio {
         Producto producto = new Producto(codigo, nombre, categoria, subcategoria, precio);
         listaDeProductos.add(producto);
     }
+
+//    public void agregarProducto(int codigo, String nombre, EnumCategoria categoria, float precio) {
+//        Producto producto = new Producto(codigo, nombre, categoria, precio);
+//        listaDeProductos.add(producto);
+//    }
 
 //    private void agregarProductoTecnologia(int codigo, String nombre, IEnumSubcategoria subcategoria,
 //                                           float precio, String marca, String modelo)

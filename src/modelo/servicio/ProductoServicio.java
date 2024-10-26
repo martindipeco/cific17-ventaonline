@@ -16,8 +16,6 @@ public class ProductoServicio {
         this.productoRepositorio = productoRepositorio;
     }
 
-
-
     public List<Producto> listarProductos()
     {
         return productoRepositorio.getListaDeProductos();
@@ -81,7 +79,7 @@ public class ProductoServicio {
             //Si nombre viene vacio, NO aplico el filtro
             if(!nombre.isEmpty())
             {
-                stream = stream.filter(p -> p.getNombre().contains(nombre));
+                stream = stream.filter(p -> p.getNombre().toLowerCase().contains(nombre.toLowerCase()));
             }
             //Si categoria viene null, NO aplico el filtro
             if(categoria != null)
