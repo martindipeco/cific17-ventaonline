@@ -92,6 +92,8 @@ public class Pedido {
         return precioFinal;
     }
 
+    public void setNumPedido(Long numPedido) {this.numPedido = numPedido;}
+
     @Override
     public String toString() {
 

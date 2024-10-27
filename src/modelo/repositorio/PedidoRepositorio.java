@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class PedidoRepositorio implements IPedidoRepositorio{
+
     @Override
     public List<Pedido> getListaPedidos() {
         List<Pedido> pedidos = new ArrayList<>();
@@ -45,16 +46,150 @@ public class PedidoRepositorio implements IPedidoRepositorio{
     }
 
     @Override
-    public void agregarPedido(Pedido pedido) {
+    public void agregarPedido(Pedido pedido)
+    {
+        String insertPedidoQuery = "INSERT INTO pedidos (usuario_mail, precio_final, costo_envio, descuento, " +
+                "fecha_pedido, entregado, fecha_entregado) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String insertItemQuery = "INSERT INTO pedidos_productos (num_pedido, codigo_producto, cantidad) VALUES (?, ?, ?)";
 
+        try(Connection conn = DatabaseUtil.getConnection())
+        {
+            conn.setAutoCommit(false);  // Begin transaction
+            // Insert into pedidos table
+            try (PreparedStatement pedidoStmt = conn.prepareStatement(insertPedidoQuery, Statement.RETURN_GENERATED_KEYS))
+            {
+                pedidoStmt.setString(1, pedido.getCarrito().getUsuario().getMail());
+                pedidoStmt.setFloat(2, pedido.getPrecioFinal());
+                pedidoStmt.setFloat(3, 0f);
+                pedidoStmt.setFloat(4, 0f);
+                pedidoStmt.setTimestamp(5, Timestamp.valueOf(pedido.getFechaPedido()));
+                pedidoStmt.setBoolean(6, pedido.isEntregado());
+                pedidoStmt.setTimestamp(7, pedido.getFechaEntregado() != null ?
+                        Timestamp.valueOf(pedido.getFechaEntregado()) : null);
+
+                pedidoStmt.executeUpdate();
+
+                // Retrieve generated numPedido ID
+                ResultSet generatedKeys = pedidoStmt.getGeneratedKeys();
+
+                if (generatedKeys.next()) {
+                    pedido.setNumPedido(generatedKeys.getLong(1)); // Set numPedido in Pedido instance
+                } else {
+                    throw new SQLException("Failed to retrieve the generated num_pedido ID.");
+                }
+                // Insert each ItemCompra into pedidos_productos table
+                try (PreparedStatement itemStmt = conn.prepareStatement(insertItemQuery)) {
+                    for (ItemCompra item : pedido.getCarrito().getListaItems()) {
+                        itemStmt.setLong(1, pedido.getNumPedido());
+                        itemStmt.setInt(2, item.getProducto().getCodigoProducto());
+                        itemStmt.setInt(3, item.getCantidad());
+                        itemStmt.addBatch(); //to improve performance
+                    }
+                    itemStmt.executeBatch(); // Execute all insertions for items
+                }
+                conn.commit();  // Commit transaction if all inserts succeeded
+            }
+            catch (SQLException e)
+            {
+                try {
+                    conn.rollback(); // Rollback transaction on error
+                } catch (SQLException rollbackEx) {
+                    rollbackEx.printStackTrace();
+                }
+                e.printStackTrace();
+            }
+            finally {
+                try {
+                    conn.setAutoCommit(true); // Reset to default auto-commit mode
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
+    public List<Pedido> getPedidosDeUsuario (Usuario usuario)
+    {
+        List<Pedido> pedidos = new ArrayList<>();
+
+        String pedidoQuery = "SELECT * FROM pedidos WHERE usuario_mail = ?";
+
+        try (Connection conn = DatabaseUtil.getConnection();
+                PreparedStatement pedidoStmt = conn.prepareStatement(pedidoQuery))
+        {
+            pedidoStmt.setString(1, usuario.getMail());
+            ResultSet rs = pedidoStmt.executeQuery();
+
+            while (rs.next())
+            {
+                Long numPedido = rs.getLong("num_pedido");
+                Float precioFinal = rs.getFloat("precio_final");
+                float costoEnvio = rs.getFloat("costo_envio");
+                float descuento = rs.getFloat("descuento");
+                LocalDateTime fechaPedido = rs.getTimestamp("fecha_pedido").toLocalDateTime();
+                boolean entregado = rs.getBoolean("entregado");
+                LocalDateTime fechaEntregado = rs.getTimestamp("fecha_entregado") != null
+                        ? rs.getTimestamp("fecha_entregado").toLocalDateTime()
+                        : null;
+
+                // Retrieve Carrito (User and Items)
+                Carrito carrito = getCarritoForPedido(numPedido, usuario);
+
+                // Construct Pedido and add to list
+                Pedido pedido = new Pedido(numPedido, carrito, precioFinal, fechaPedido, entregado, fechaEntregado);
+                pedidos.add(pedido);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return pedidos;
+    }
+
+
+
+    //HELPER METHOD
     private Carrito getCarritoForPedido(Long numPedido) {
         Usuario usuario = getUsuarioForPedido(numPedido);
         List<ItemCompra> items = getItemsForPedido(numPedido);
         return new Carrito(usuario, items);
     }
 
+    private Carrito getCarritoForPedido(Long numPedido, Usuario usuario) {
+        List<ItemCompra> items = new ArrayList<>();
+        String itemQuery = "SELECT pp.cantidad, p.* FROM pedidos_productos pp INNER JOIN productos p ON " +
+                "pp.codigo_producto = p.codigo_producto WHERE pp.num_pedido = ?";
+
+        try (Connection conn = DatabaseUtil.getConnection();
+                PreparedStatement itemStmt = conn.prepareStatement(itemQuery)) {
+            itemStmt.setLong(1, numPedido);
+            ResultSet rs = itemStmt.executeQuery();
+
+            while (rs.next()) {
+                int cantidad = rs.getInt("cantidad");
+                int codigoProducto = rs.getInt("codigo_producto");
+                String nombre = rs.getString("nombre");
+                EnumCategoria categoria = EnumCategoria.valueOf(rs.getString("categoria"));
+                //IEnumSubcategoria subcategoria = IEnumSubcategoria.valueOf(rs.getString("subcategoria"));
+                float precio = rs.getFloat("precio");
+                float descuento = rs.getFloat("descuento");
+                float precioFinal = rs.getFloat("precioFinal");
+                int stock = rs.getInt("stock");
+
+                Producto producto = new Producto(codigoProducto, nombre, categoria, precio);
+                ItemCompra item = new ItemCompra(producto, cantidad);
+                items.add(item);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new Carrito(usuario, items);
+    }
+
+    //HELPER METHOD
     private Usuario getUsuarioForPedido(Long numPedido) {
         String userQuery = "SELECT u.* FROM usuarios u INNER JOIN pedidos p ON u.mail = p.usuario_mail WHERE p.num_pedido = ?";
         try (Connection conn = DatabaseUtil.getConnection();

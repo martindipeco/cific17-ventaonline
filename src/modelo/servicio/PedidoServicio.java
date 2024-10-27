@@ -1,6 +1,7 @@
 package modelo.servicio;
 
 import modelo.dominio.Pedido;
+import modelo.dominio.Usuario;
 import modelo.repositorio.IPedidoRepositorio;
 
 import java.time.format.DateTimeFormatter;
@@ -35,6 +36,11 @@ public class PedidoServicio {
                 ". Fecha: " + pedido.getFechaPedido().format(DateTimeFormatter.ISO_DATE) +
                 ". Cliente: " + pedido.getCarrito().getUsuario());
         pedido.getCarrito().mostrarCarrito();
+    }
+
+    public List<Pedido> muestraPedidosDeUsuario(Usuario usuario)
+    {
+        return pedidoRepositorio.getPedidosDeUsuario(usuario);
     }
 
     public void listarPedidos()
