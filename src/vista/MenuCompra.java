@@ -515,12 +515,8 @@ public class MenuCompra extends JDialog {
             }
             else
             {
-                JOptionPane.showMessageDialog(this, "Procesando su compra");
                 //instancio pedido a partir de carrito actual
                 controlador.getPedidoServicio().agregarPedido(new Pedido(controlador.getCarritoSesion()));
-                //muestro el pedido, el último en la lista x q acaba de agregarse
-                JOptionPane.showMessageDialog(this, controlador.getPedidoServicio().getListaPedidos().get(
-                        controlador.getPedidoServicio().getListaPedidos().size()-1));
                 //reiniciamos el carrito
                 controlador.setCarritoSesion(new Carrito(controlador.getUsuarioSesion()));
                 limpiarTablaCarrito();

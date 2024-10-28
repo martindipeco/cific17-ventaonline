@@ -51,12 +51,15 @@ public class PedidoRepositorio implements IPedidoRepositorio{
         String insertPedidoQuery = "INSERT INTO pedidos (usuario_mail, precio_final, costo_envio, descuento, " +
                 "fecha_pedido, entregado, fecha_entregado) VALUES (?, ?, ?, ?, ?, ?, ?)";
         String insertItemQuery = "INSERT INTO pedidos_productos (num_pedido, codigo_producto, cantidad) VALUES (?, ?, ?)";
+        String updateStockQuery = "UPDATE productos SET stock = stock - ? WHERE codigo_producto = ?";
 
         try(Connection conn = DatabaseUtil.getConnection())
         {
             conn.setAutoCommit(false);  // Begin transaction
+
             // Insert into pedidos table
-            try (PreparedStatement pedidoStmt = conn.prepareStatement(insertPedidoQuery, Statement.RETURN_GENERATED_KEYS))
+            try (PreparedStatement pedidoStmt = conn.prepareStatement(insertPedidoQuery, Statement.RETURN_GENERATED_KEYS);
+                 PreparedStatement stockStmt = conn.prepareStatement(updateStockQuery))
             {
                 pedidoStmt.setString(1, pedido.getCarrito().getUsuario().getMail());
                 pedidoStmt.setFloat(2, pedido.getPrecioFinal());
@@ -77,15 +80,23 @@ public class PedidoRepositorio implements IPedidoRepositorio{
                 } else {
                     throw new SQLException("Failed to retrieve the generated num_pedido ID.");
                 }
+
                 // Insert each ItemCompra into pedidos_productos table
                 try (PreparedStatement itemStmt = conn.prepareStatement(insertItemQuery)) {
                     for (ItemCompra item : pedido.getCarrito().getListaItems()) {
+                        // Insert into pedidos_productos
                         itemStmt.setLong(1, pedido.getNumPedido());
                         itemStmt.setInt(2, item.getProducto().getCodigoProducto());
                         itemStmt.setInt(3, item.getCantidad());
                         itemStmt.addBatch(); //to improve performance
+
+                        // Update stock for each item
+                        stockStmt.setInt(1, item.getCantidad());
+                        stockStmt.setInt(2, item.getProducto().getCodigoProducto());
+                        stockStmt.addBatch();
                     }
                     itemStmt.executeBatch(); // Execute all insertions for items
+                    stockStmt.executeBatch(); // Execute all stock updates
                 }
                 conn.commit();  // Commit transaction if all inserts succeeded
             }
@@ -115,7 +126,8 @@ public class PedidoRepositorio implements IPedidoRepositorio{
     {
         List<Pedido> pedidos = new ArrayList<>();
 
-        String pedidoQuery = "SELECT * FROM pedidos WHERE usuario_mail = ?";
+        String pedidoQuery = "SELECT * FROM pedidos WHERE usuario_mail = ? ORDER BY num_pedido DESC";
+        //si quisiera obtener solo el último pedido, agrego "LIMIT 1" al final
 
         try (Connection conn = DatabaseUtil.getConnection();
                 PreparedStatement pedidoStmt = conn.prepareStatement(pedidoQuery))
@@ -158,6 +170,7 @@ public class PedidoRepositorio implements IPedidoRepositorio{
         return new Carrito(usuario, items);
     }
 
+    //HELPER METHOD
     private Carrito getCarritoForPedido(Long numPedido, Usuario usuario) {
         List<ItemCompra> items = new ArrayList<>();
         String itemQuery = "SELECT pp.cantidad, p.* FROM pedidos_productos pp INNER JOIN productos p ON " +
@@ -208,7 +221,8 @@ public class PedidoRepositorio implements IPedidoRepositorio{
 
     private List<ItemCompra> getItemsForPedido(Long numPedido) {
         List<ItemCompra> items = new ArrayList<>();
-        String productQuery = "SELECT pr.* FROM productos pr INNER JOIN pedidos_productos pp ON pr.codigo_producto = pp.codigo_producto WHERE pp.num_pedido = ?";
+        String productQuery = "SELECT pr.* FROM productos pr INNER JOIN pedidos_productos pp ON pr.codigo_producto " +
+                "= pp.codigo_producto WHERE pp.num_pedido = ?";
 
         try (Connection conn = DatabaseUtil.getConnection();
                 PreparedStatement productStmt = conn.prepareStatement(productQuery)) {

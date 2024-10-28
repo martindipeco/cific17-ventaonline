@@ -1,5 +1,6 @@
 package modelo.servicio;
 
+import modelo.dominio.Carrito;
 import modelo.dominio.Pedido;
 import modelo.dominio.Usuario;
 import modelo.repositorio.IPedidoRepositorio;

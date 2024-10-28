@@ -1,5 +1,6 @@
 package modelo.repositorio;
 
+import modelo.dominio.Carrito;
 import modelo.dominio.Pedido;
 import modelo.dominio.Usuario;
 
@@ -25,4 +26,5 @@ public class PedidoRepositorioMock implements IPedidoRepositorio{
     public List<Pedido> getPedidosDeUsuario(Usuario usuario) {
         return null;
     }
+
 }
