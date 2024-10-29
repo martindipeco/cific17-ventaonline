@@ -1,5 +1,6 @@
 package modelo.utils;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -15,12 +16,16 @@ public class DatabaseUtil {
             // Load the MySQL JDBC driver
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "MySQL Driver not found: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException("MySQL Driver not found", e);
         }
     }
 
     public static Connection getConnection() throws SQLException {
         if (PASSWORD == null) {
+            JOptionPane.showMessageDialog(null, "Environment variable DB_PASS not set.",
+                    "Configuration Error", JOptionPane.ERROR_MESSAGE);
             throw new IllegalStateException("Environment variable DB_PASS not set.");
         }
         return DriverManager.getConnection(URL, USER, PASSWORD);

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="venta-online:jar7" />
+      <artifact name="venta-online:jar8" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
@@ -11,11 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1049ba3f-a749-4e8e-af05-9e76a415735c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelo/repositorio/IPedidoRepositorio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/repositorio/IPedidoRepositorio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelo/repositorio/PedidoRepositorio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/repositorio/PedidoRepositorio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelo/repositorio/PedidoRepositorioMock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/repositorio/PedidoRepositorioMock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/modelo/servicio/PedidoServicio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/servicio/PedidoServicio.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/vista/MenuCompra.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/vista/MenuCompra.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modelo/utils/DatabaseUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/modelo/utils/DatabaseUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +46,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/W10-PC/Downloads/mysql-connector-j-8.2.0.jar&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;
