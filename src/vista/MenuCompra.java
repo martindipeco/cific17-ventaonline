@@ -470,7 +470,7 @@ public class MenuCompra extends JDialog {
                     //capturar cantidad (columna 4) en carrito
                     int cantidadEnCarrito = Integer.parseInt(tableCarrito.getValueAt(selectedRow, 4).toString());
 
-                    //quitar el producto del carrito. el método se encarga también de actualizar stock en repo
+                    //quitar el producto del carrito, y reponer stock de bd
                     controlador.getCarritoServicio().quitarProducto(controlador.getCarritoSesion(), producto);
 
                     actualizarStockTablaProductos(producto);

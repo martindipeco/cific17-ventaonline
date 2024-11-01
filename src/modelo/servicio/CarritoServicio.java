@@ -39,6 +39,7 @@ public class CarritoServicio {
             carrito.getListaItems().add(new ItemCompra(producto, cantidad));
         }
 
+
         producto.setStock(producto.getStock()-cantidad);
         carrito.setMontoCarrito(carrito.getMontoCarrito()+(cantidad* producto.getPrecioFinal()));
     }
@@ -66,7 +67,6 @@ public class CarritoServicio {
         {
             carrito.getListaItems().add(new ItemCompra(producto, 1));
         }
-
         producto.setStock(producto.getStock()-1);
         carrito.setMontoCarrito(carrito.getMontoCarrito()+(1 * producto.getPrecioFinal()));
     }
@@ -120,8 +120,8 @@ public class CarritoServicio {
             int cantidadAEliminar = itemCompra.getCantidad();
             carrito.getListaItems().remove(itemCompra);
 
-            // Adjust the stock of the product
-            producto.setStock(producto.getStock() + cantidadAEliminar);
+            // Linea eliminada, porque producìa bug x falta de sincronización base datos con modelo tabla
+            //producto.setStock(producto.getStock() + cantidadAEliminar);
 
             // Adjust the total amount of the cart
             carrito.setMontoCarrito(carrito.getMontoCarrito() - (cantidadAEliminar * producto.getPrecioFinal()));
@@ -172,20 +172,6 @@ public class CarritoServicio {
             System.out.println("El producto no está en el carrito");
         }
     }
-
-//    public void quitarProducto(Carrito carrito, ItemCompra itemCompra)
-//    {
-//        itemCompra.getProducto().setStock(itemCompra.getProducto().getStock() + itemCompra.getCantidad());
-//        carrito.getListaItems().remove(itemCompra);
-//    }
-//
-//    public void quitarProducto(Carrito carrito, List<ItemCompra> items)
-//    {
-//        for(ItemCompra itemCompra : items)
-//        {
-//            quitarProducto(carrito, itemCompra);
-//        }
-//    }
 
     public void mostrarCarrito(Carrito carrito)
     {
