@@ -1,7 +1,5 @@
 package vista;
 
-import controlador.Controlador;
-
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -63,7 +61,6 @@ public class MenuPrincipal extends JDialog {
     }
 
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
 

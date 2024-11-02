@@ -24,7 +24,6 @@ public class MenuUsuarioNuevo extends JDialog {
         pack(); //adjusts size to content
         getRootPane().setDefaultButton(buttonOK);
 
-
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
@@ -75,7 +74,7 @@ public class MenuUsuarioNuevo extends JDialog {
         }
         else
         {
-            //pedimos el resto de los datos
+            //tomamos el resto de los datos
             String passNuevoUsuario = new String(passwordFieldPassNuevo.getPassword());
             if(!controlador.getValidadorServicio().esValidoPass(passNuevoUsuario))
             {

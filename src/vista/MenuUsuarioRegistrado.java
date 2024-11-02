@@ -81,7 +81,7 @@ public class MenuUsuarioRegistrado extends JDialog {
             controlador.setUsuarioSesion(controlador.getUsuarioServicio().logUsuario(mailUsuario, passEncriptado));
             if (controlador.getUsuarioSesion()==null)
             {
-                //si no existe, informar , restar una posibilidad y preguntar si desea crear nuevo usuario
+                //si no existe, informar , restar una posibilidad
                 contador--;
                 JOptionPane.showMessageDialog(this, "Mail o contraseña incorrectos, " +
                         "le quedan " + contador + " posibilidades");
@@ -91,7 +91,6 @@ public class MenuUsuarioRegistrado extends JDialog {
                 {
                     JOptionPane.showMessageDialog(this, "Ingresando como invitado");
                     controlador.setUsuarioSesion(null);
-                    //usuarioListo = true;
                 }
 
             }
