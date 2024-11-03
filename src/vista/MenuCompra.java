@@ -70,7 +70,7 @@ public class MenuCompra extends JDialog {
             }
             @Override
             public void windowLostFocus(WindowEvent e) {
-                // Action to perform when dialog loses focus
+                // do nothing when dialog loses focus
             }
         });
         buttonOK.addActionListener(new ActionListener() {
@@ -92,6 +92,7 @@ public class MenuCompra extends JDialog {
             }
         });
 
+        //selector de tabla por categoria de combo box
         comboBoxCategoria.addActionListener(e -> {
             EnumCategoria categoriaSeleccionada = (EnumCategoria) comboBoxCategoria.getSelectedItem();
             if (categoriaSeleccionada != null) {
@@ -167,7 +168,7 @@ public class MenuCompra extends JDialog {
         }
     }
 
-    // Method to create table header
+    // Methods to create Productos and Carrito table headers
     private void iniciarTablaProductos() {
 
         // Create column names
@@ -198,18 +199,19 @@ public class MenuCompra extends JDialog {
         tableCarrito.setModel(tableModelCarrito);
     }
 
-    private void agregarATablaProductos(Producto producto)
-    {
-        Object[] rowData = {
-                producto.getCodigoProducto(),
-                producto.getNombre(),
-                producto.getCategoria(),
-                producto.getPrecio(),
-                producto.getStock()
-        };
-        tableModelProductos.addRow(rowData);
-    }
+//    private void agregarATablaProductos(Producto producto)
+//    {
+//        Object[] rowData = {
+//                producto.getCodigoProducto(),
+//                producto.getNombre(),
+//                producto.getCategoria(),
+//                producto.getPrecio(),
+//                producto.getStock()
+//        };
+//        tableModelProductos.addRow(rowData);
+//    }
 
+    //Usado por Botón BUSCAR
     private void agregarATablaProductos(List<Producto> productos)
     {
         int limit =  Math.min(productos.size(), 10);// Limit to 10 or fewer if there are less products
@@ -228,6 +230,7 @@ public class MenuCompra extends JDialog {
         }
     }
 
+    //Usado en la carga inicial
     private void agregarTodosTablaProductos()
     {
         // Create an instance of ProductoRepositorio to get the products
