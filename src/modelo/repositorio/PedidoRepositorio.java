@@ -126,7 +126,7 @@ public class PedidoRepositorio implements IPedidoRepositorio{
     {
         List<Pedido> pedidos = new ArrayList<>();
 
-        String pedidoQuery = "SELECT * FROM pedidos WHERE usuario_mail = ? ORDER BY num_pedido DESC";
+        String pedidoQuery = "SELECT * FROM pedidos WHERE usuario_mail = ? ORDER BY num_pedido DESC LIMIT 5";
         //si quisiera obtener solo el último pedido, agrego "LIMIT 1" al final
 
         try (Connection conn = DatabaseUtil.getConnection();
@@ -160,8 +160,6 @@ public class PedidoRepositorio implements IPedidoRepositorio{
         }
         return pedidos;
     }
-
-
 
     //HELPER METHOD
     private Carrito getCarritoForPedido(Long numPedido) {

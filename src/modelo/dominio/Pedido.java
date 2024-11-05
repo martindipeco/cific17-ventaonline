@@ -101,7 +101,7 @@ public class Pedido {
                 ". \nCliente: " + carrito.getUsuario() +
                 ". \nFecha: " + fechaPedido.format(DateTimeFormatter.ISO_DATE) +
                 ". \nProductos: " + carrito.getListaItems() +
-                ". \nMonto: " + precioFinal +
+                ". \nMonto: " + carrito.getMontoCarrito() +
                 ". \nEntregado: " + entregado +"\n";
     }
 }

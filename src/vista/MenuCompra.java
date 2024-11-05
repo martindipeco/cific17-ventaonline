@@ -517,7 +517,7 @@ public class MenuCompra extends JDialog {
     private void onVerPedidos()
     {
         String verPedidos = controlador.getPedidoServicio().muestraPedidosDeUsuario(controlador.getUsuarioSesion()).toString();
-        JOptionPane.showMessageDialog(this, verPedidos);
+        JOptionPane.showMessageDialog(this, verPedidos, "Ultimos 5 pedidos", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void onOK() {

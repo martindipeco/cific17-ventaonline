@@ -25,6 +25,11 @@ public class Carrito {
     {
         this.usuario = usuario;
         this.listaItems = listaItems;
+        float montoItems = 0f;
+        for (ItemCompra item : listaItems) {
+            montoItems += item.getCantidad() * item.getProducto().getPrecio();
+        }
+        this.montoCarrito = montoItems;
     }
 
     public Usuario getUsuario() {
