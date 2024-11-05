@@ -8,6 +8,7 @@ import modelo.dominio.Producto;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -38,7 +39,22 @@ public class MenuCompra extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-        setLocationRelativeTo(null);  // Centers the dialog on the screen
+        //setLocationRelativeTo(null);  // Centers the dialog on the screen
+
+        // Get the screen size dynamically
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenWidth = screenSize.width;
+        int screenHeight = screenSize.height;
+
+        // Set dialog size to half the screen dimensions
+        int dialogWidth = screenWidth / 2;
+        int dialogHeight = screenHeight / 2;
+        setSize(dialogWidth, dialogHeight);
+
+        // Calculate and set the dialog position to center it
+        int x = (screenWidth - dialogWidth) / 2;
+        int y = (screenHeight - dialogHeight) / 2;
+        setLocation(x, y);
 
         // Populate the comboBoxCategoria with EnumCategoria enum values
         comboBoxCategoria.addItem(null);
