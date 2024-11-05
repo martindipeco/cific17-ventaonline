@@ -98,10 +98,10 @@ public class Pedido {
     public String toString() {
 
         return "Pedido num: " + numPedido +
-                ". Cliente: " + carrito.getUsuario() +
-                ". Fecha: " + fechaPedido.format(DateTimeFormatter.ISO_DATE) +
-                ". Productos: " + carrito.getListaItems() +
-                ". Monto: " + precioFinal +
-                ". Entregado: " + entregado;
+                ". \nCliente: " + carrito.getUsuario() +
+                ". \nFecha: " + fechaPedido.format(DateTimeFormatter.ISO_DATE) +
+                ". \nProductos: " + carrito.getListaItems() +
+                ". \nMonto: " + precioFinal +
+                ". \nEntregado: " + entregado +"\n";
     }
 }
