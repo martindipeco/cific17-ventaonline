@@ -10,4 +10,5 @@ public interface IPedidoRepositorio {
     List<Pedido> getListaPedidos();
     public void agregarPedido(Pedido pedido);
     public List<Pedido> getPedidosDeUsuario (Usuario usuario);
+    public Pedido getUltimoPedidoDeUsuario (Usuario usuario);
 }

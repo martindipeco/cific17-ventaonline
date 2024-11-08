@@ -27,4 +27,7 @@ public class PedidoRepositorioMock implements IPedidoRepositorio{
         return null;
     }
 
+    @Override
+    public Pedido getUltimoPedidoDeUsuario(Usuario usuario) { return null;}
+
 }

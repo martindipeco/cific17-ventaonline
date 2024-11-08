@@ -44,6 +44,11 @@ public class PedidoServicio {
         return pedidoRepositorio.getPedidosDeUsuario(usuario);
     }
 
+    public Pedido muestraUltimoPedido(Usuario usuario)
+    {
+        return pedidoRepositorio.getUltimoPedidoDeUsuario(usuario);
+    }
+
     public void listarPedidos()
     {
         for(Pedido pedido : pedidoRepositorio.getListaPedidos())

@@ -1,6 +1,7 @@
 ### IntelliJ IDEA ###
 out/
 *.html
+*.pdf
 javadoc/
 !**/src/main/**/out/
 !**/src/test/**/out/

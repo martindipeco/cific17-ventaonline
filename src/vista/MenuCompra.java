@@ -13,8 +13,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 
 public class MenuCompra extends JDialog {
     private Controlador controlador = Controlador.getInstanciaUnicaControlador();
@@ -32,6 +41,7 @@ public class MenuCompra extends JDialog {
     private JTable tableCarrito;
     private JSpinner spinnerMinimo;
     private JSpinner spinnerMaximo;
+    private JButton buttonImprimirFactura;
     private DefaultTableModel tableModelProductos = new DefaultTableModel();
     private DefaultTableModel tableModelCarrito = new DefaultTableModel();
 
@@ -130,6 +140,12 @@ public class MenuCompra extends JDialog {
             }
         });
 
+        buttonImprimirFactura.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onImprimirFactura();
+            }
+        });
         buttonVerPedidos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -513,6 +529,48 @@ public class MenuCompra extends JDialog {
         tableCarrito.clearSelection();
     }
 
+    private void onImprimirFactura()
+    {
+        Pedido pedidoMasReciente = controlador.getPedidoServicio().muestraUltimoPedido(controlador.getUsuarioSesion());
+        exportarAPDF(pedidoMasReciente);
+    }
+
+    private void exportarAPDF (Pedido pedido) {
+        try (PDDocument document = new PDDocument()) {
+        PDPage page = new PDPage(PDRectangle.A5);
+        document.addPage(page);
+
+        PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+        //text
+        contentStream.beginText();
+        contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.TIMES_ROMAN), 14);
+        contentStream.newLineAtOffset(20, page.getMediaBox().getHeight() - 52);
+        // Split text by line breaks and write each line separately
+        for (String line : pedido.toString().split("\n")) {
+            contentStream.showText(line);
+            contentStream.newLineAtOffset(0, -15); // Move down by 15 points (adjust as needed)
+        }
+        //contentStream.showText(pedido.toString());
+        contentStream.endText();
+
+        contentStream.close();
+
+        String pdfFileName = "factura_" + pedido.getNumPedido() + ".pdf";
+        document.save(pdfFileName);
+
+        // Attempt to open the file after saving
+        File pdfFile = new File(pdfFileName);
+        if (Desktop.isDesktopSupported()) {
+            Desktop.getDesktop().open(pdfFile);
+        } else {
+            System.out.println("Desktop not supported. Cannot open PDF automatically.");
+        }
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private void onVerPedidos()
     {

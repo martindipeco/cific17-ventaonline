@@ -127,7 +127,6 @@ public class PedidoRepositorio implements IPedidoRepositorio{
         List<Pedido> pedidos = new ArrayList<>();
 
         String pedidoQuery = "SELECT * FROM pedidos WHERE usuario_mail = ? ORDER BY num_pedido DESC LIMIT 5";
-        //si quisiera obtener solo el último pedido, agrego "LIMIT 1" al final
 
         try (Connection conn = DatabaseUtil.getConnection();
                 PreparedStatement pedidoStmt = conn.prepareStatement(pedidoQuery))
@@ -159,6 +158,43 @@ public class PedidoRepositorio implements IPedidoRepositorio{
             e.printStackTrace();
         }
         return pedidos;
+    }
+
+    public Pedido getUltimoPedidoDeUsuario (Usuario usuario)
+    {
+        Pedido pedido = null;
+
+        String pedidoQuery = "SELECT * FROM pedidos WHERE usuario_mail = ? ORDER BY num_pedido DESC LIMIT 1";
+
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement pedidoStmt = conn.prepareStatement(pedidoQuery))
+        {
+            pedidoStmt.setString(1, usuario.getMail());
+            ResultSet rs = pedidoStmt.executeQuery();
+
+            if (rs.next())
+            {
+                Long numPedido = rs.getLong("num_pedido");
+                Float precioFinal = rs.getFloat("precio_final");
+                float costoEnvio = rs.getFloat("costo_envio");
+                float descuento = rs.getFloat("descuento");
+                LocalDateTime fechaPedido = rs.getTimestamp("fecha_pedido").toLocalDateTime();
+                boolean entregado = rs.getBoolean("entregado");
+                LocalDateTime fechaEntregado = rs.getTimestamp("fecha_entregado") != null
+                        ? rs.getTimestamp("fecha_entregado").toLocalDateTime()
+                        : null;
+
+                // Retrieve Carrito (User and Items)
+                Carrito carrito = getCarritoForPedido(numPedido, usuario);
+
+                // Construct Pedido and add to list
+                pedido = new Pedido(numPedido, carrito, precioFinal, fechaPedido, entregado, fechaEntregado);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return pedido;
     }
 
     //HELPER METHOD
