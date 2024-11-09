@@ -537,14 +537,14 @@ public class MenuCompra extends JDialog {
 
     private void exportarAPDF (Pedido pedido) {
         try (PDDocument document = new PDDocument()) {
-        PDPage page = new PDPage(PDRectangle.A5);
+        PDPage page = new PDPage(PDRectangle.A4);
         document.addPage(page);
 
         PDPageContentStream contentStream = new PDPageContentStream(document, page);
 
         //text
         contentStream.beginText();
-        contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.TIMES_ROMAN), 14);
+        contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA), 14);
         contentStream.newLineAtOffset(20, page.getMediaBox().getHeight() - 52);
         // Split text by line breaks and write each line separately
         for (String line : pedido.toString().split("\n")) {
