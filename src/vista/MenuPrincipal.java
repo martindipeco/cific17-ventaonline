@@ -2,6 +2,7 @@ package vista;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.net.URL;
 
 public class MenuPrincipal extends JDialog {
     private JPanel contentPane;
@@ -16,6 +17,9 @@ public class MenuPrincipal extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         setLocationRelativeTo(null);
+
+        // Set the custom icon from a URL
+        setCustomIconFromURL();
 
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -83,6 +87,17 @@ public class MenuPrincipal extends JDialog {
         MenuCompra menuCompra = new MenuCompra();
         menuCompra.setVisible(true);
         this.setVisible(false);
+    }
+
+    private void setCustomIconFromURL() {
+        try {
+            // Provide the URL of the image
+            URL iconURL = new URL("https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgymuTKREEiWvDejTp4tlycIUDzdM8Yg7JgcQ_RcjajsFWV1bT3zB74JkBDZYiTA18d_aMWYmdVNzw6N2NofzOhuWkFW-JqfRyclGK1lluCjMqWLGuY9yviYWTlByU0zKu-gqCb9s226Ss/s1600/uocra.jpg");
+            ImageIcon customIcon = new ImageIcon(iconURL);
+            setIconImage(customIcon.getImage());
+        } catch (Exception e) {
+            System.err.println("Failed to load icon from URL: " + e.getMessage());
+        }
     }
 
     public static void main(String[] args) {
