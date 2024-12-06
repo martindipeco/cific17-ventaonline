@@ -2,7 +2,7 @@
 ## Descripción
 Carrito de Compras es una aplicación de gestión de ventas desarrollada en Java 17 con interfaz gráfica Swing y base de datos MySQL. La aplicación ofrece una experiencia completa de compra "en línea" con las siguientes características principales:
 
-[Link a video - demo parte 1 (12 min)](https://youtube.com/live/9LjV5dSLbIM?feature=share) 
+[Link a video - demo parte 1 (12 min)](https://youtube.com/live/9LjV5dSLbIM?feature=share)   
 [Link a video - demo parte 2 (5 min)](https://youtube.com/live/wI8q06fJl98?feature=share)
 
 - Menú de inicio de sesión con opciones de:
